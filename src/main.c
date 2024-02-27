@@ -1,12 +1,4 @@
-#include <gtk/gtk.h>
-#include <regex.h>
-#include <ctype.h>
-
-typedef struct sign_in_form {
-    GtkWindow *window;
-    GtkEntry  *username;
-    GtkEntry  *password;
-}   sign_in_form;
+#include "uchat.h"
 
 /*
 
@@ -26,8 +18,6 @@ static bool check_password_strength(const char *password) {
    }
    return nupper && nlower && ndigit && nspecial;
 }
-
-*/
 
 static void sign_in_button_click(GtkWidget *button, gpointer data) {
     GtkWidget *dialog, *username_label, *password_label, *content_area;
@@ -110,6 +100,31 @@ static void app_activate(GtkApplication *app) {
     g_signal_connect(G_OBJECT(sign_in_button), "clicked", G_CALLBACK(sign_in_button_click), sf);
 
     gtk_window_present(GTK_WINDOW(window));
+}
+
+*/
+
+static void app_activate(GtkApplication *app) {
+    GtkBuilder *builder = gtk_builder_new_from_file("ui/login_form.xml");
+
+    if(builder != NULL) {
+        GObject *window = gtk_builder_get_object(builder, "window");
+        GtkCssProvider *provider = gtk_css_provider_new();
+        gtk_css_provider_load_from_path(provider, "css/style.css");
+        gtk_style_context_add_provider_for_display(gdk_display_get_default(), GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+
+        if(window == NULL) {
+            fprintf(stderr, "FAILED to get object from builder\n");
+        }
+        else {
+            gtk_application_add_window(app, GTK_WINDOW(window));
+            gtk_window_present(GTK_WINDOW(window));
+            g_signal_connect(window, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
+        }
+    }
+    else {
+        fprintf(stderr, "FAILED to create GtkBulder object\n");
+    }
 }
 
 int main(int argc, char *argv[]) {
