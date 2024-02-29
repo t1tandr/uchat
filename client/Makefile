@@ -1,6 +1,6 @@
 CC = clang
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic `pkg-config --cflags gtk4`
-LDFLAGS = `pkg-config --libs gtk4`
+LDFLAGS = `pkg-config --libs gtk4 gmodule-export-2.0` 
 INCLUDES = -I$(INC_DIR)
 
 SRC_DIR = src

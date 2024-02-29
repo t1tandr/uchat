@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-    <requires lib="gtk+" version="4.0"/>
+    <requires lib="gtk" version="4.0"/>
     <object class="GtkWindow" id="window">
         <property name="title">UChat</property>
         <property name="visible">true</property>
@@ -35,8 +35,8 @@
                             </object>
                         </child>
                         <child>
-                            <object class="GtkEntry">
-                                <property name="placeholder_text">Enter your login</property>
+                            <object class="GtkEntry" id="username-entry">
+                                <property name="placeholder-text">Enter your login</property>
                             </object>
                         </child>
                         <child>
@@ -46,16 +46,18 @@
                             </object>
                         </child>
                         <child>
-                            <object class="GtkEntry">
+                            <object class="GtkEntry" id="password-entry">
                                 <property name="placeholder-text">Enter your password</property>
                                 <property name="visibility">false</property>
-                                <property name="secondary-icon-name">face-monkey</property>
+                                <property name="secondary-icon-name">show</property>
                                 <property name="secondary-icon-activatable">true</property>
+                                <signal name="icon-press" handler="password_entry_icon_press_cb"/>
                             </object>
                         </child>
                         <child>
                             <object class="GtkButton">
                                 <property name="label">Sign in</property>
+                                <signal name="clicked" handler="login_button_click_cb"/>
                             </object>
                         </child>
                     </object>
