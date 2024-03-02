@@ -1,0 +1,10 @@
+[Icon Theme]
+Name=Uchat
+Comment=Icon theme for Ucode-Connect-C-Track-Uchat
+Inherits=default
+Directories=48x48/actions
+
+[48x48/actions]
+Context=Actions
+Size=48
+Type=Fixed

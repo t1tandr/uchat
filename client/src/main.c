@@ -1,5 +1,4 @@
 #include "uchat.h"
-#include <gobject/gsignal.h>
 
 static void connect_css(const char* filename) {
     GtkCssProvider *provider = gtk_css_provider_new();
@@ -7,9 +6,19 @@ static void connect_css(const char* filename) {
     gtk_style_context_add_provider_for_display(gdk_display_get_default(), GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 }
 
-void password_entry_icon_press_cb(GtkEntry* self, gpointer user_data) {
-    if(user_data != NULL) {
-        gtk_entry_set_visibility(self, !gtk_entry_get_visibility(self));
+static void add_icon_theme(const char* path) {
+    GtkIconTheme *theme = gtk_icon_theme_get_for_display(gdk_display_get_default());
+    gtk_icon_theme_add_search_path(theme, path);
+}
+
+void password_entry_icon_press_cb(GtkEntry* self) {
+    if(gtk_entry_get_visibility(self)) {
+        gtk_entry_set_visibility(self, FALSE);
+        gtk_entry_set_icon_from_icon_name(self, GTK_ENTRY_ICON_SECONDARY, "password-visibility-on");
+    }
+    else {
+        gtk_entry_set_visibility(self, TRUE);
+        gtk_entry_set_icon_from_icon_name(self, GTK_ENTRY_ICON_SECONDARY, "password-visibility-off");
     }
 }
 
@@ -58,14 +67,16 @@ static void app_activate_cb(GtkApplication *app) {
     GtkBuilder *builder = gtk_builder_new();
     
     gtk_builder_set_current_object(builder, G_OBJECT(builder));
-    gtk_builder_add_from_file(builder, "ui/login_form.xml", &err);
+    gtk_builder_add_from_file(builder, "ui/login.ui", &err);
 
     if(err != NULL) {
         fprintf(stderr, "ERROR: %s\n", err->message);
     }
     else {
         GtkWindow *window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
+
         connect_css("css/style.css");
+        add_icon_theme("./icons");
 
         gtk_application_add_window(app, window);
         gtk_window_present(window);
@@ -74,12 +85,17 @@ static void app_activate_cb(GtkApplication *app) {
 }
 
 int main(int argc, char *argv[]) {
-    GtkApplication *app = gtk_application_new("ua.ucode-connect.uchat", G_APPLICATION_FLAGS_NONE);
+    GtkApplication *app = NULL;
+    int status = 0;
 
-    gtk_icon_theme_append_search_path(gtk_icon_theme_get_default(), "./icons");
+    app = gtk_application_new("ua.ucode-connect.uchat", G_APPLICATION_FLAGS_NONE);
 
     g_signal_connect(app, "activate", G_CALLBACK(app_activate_cb), NULL);
 
-    return g_application_run(G_APPLICATION(app), argc, argv);
+    status = g_application_run(G_APPLICATION(app), argc, argv);
+
+    g_object_unref(app);
+
+    return status;
 }
 

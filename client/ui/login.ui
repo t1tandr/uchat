@@ -49,7 +49,7 @@
                             <object class="GtkEntry" id="password-entry">
                                 <property name="placeholder-text">Enter your password</property>
                                 <property name="visibility">false</property>
-                                <property name="secondary-icon-name">show</property>
+                                <property name="secondary-icon-name">password-visibility-on</property>
                                 <property name="secondary-icon-activatable">true</property>
                                 <signal name="icon-press" handler="password_entry_icon_press_cb"/>
                             </object>
@@ -59,19 +59,6 @@
                                 <property name="label">Sign in</property>
                                 <property name="name">login</property>
                                 <signal name="clicked" handler="login_button_click_cb"/>
-                            </object>
-                        </child>
-                    </object>
-                </child>
-                <child>
-                    <object class="GtkBox">
-                        <property name="orientation">vertical</property>
-                        <property name="vexpand">true</property>
-                        <child>
-                            <object class="GtkLabel">
-                                <property name="label">Hello, World!</property>
-                                <property name="halign">center</property>
-                                <property name="valign">center</property>
                             </object>
                         </child>
                     </object>
