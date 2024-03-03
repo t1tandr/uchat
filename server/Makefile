@@ -12,30 +12,39 @@ OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 LIB_DIR = libmx
 LIB = $(LIB_DIR)/libmx.a
 
+LIB_JSON_DIR = cJSON
+LIB_JSON = $(LIB_JSON_DIR)/libcjson.a
+
 NAME = uchat-server
 
 .PHONY: all clean uninstall reinstall
 
-all: $(LIB) $(NAME)
+all: $(LIB) $(LIB_JSON) $(NAME)
 
 $(LIB):
 	make -sC $(LIB_DIR)
 
+$(LIB_JSON):
+	make -sC $(LIB_JSON_DIR)
+	make -sC $(LIB_JSON_DIR) install
+
 $(NAME): $(OBJ_DIR) $(OBJ)
-	$(CC) $(CCFLAGS) $(OBJ) -L $(LIB_DIR) -lmx -o $@
+	$(CC) $(CCFLAGS) $(OBJ) -L $(LIB_DIR) -lmx -L $(LIB_JSON_DIR) -lcjson -o $@
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC) $(LIB)
-	$(CC) $(CCFLAGS) -I $(LIB_DIR)/$(INC_DIR) -I $(INC_DIR) -c $< -o $@
+	$(CC) $(CCFLAGS) -I $(LIB_DIR)/$(INC_DIR) -I $(INC_DIR) -I $(LIB_JSON_DIR) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ_DIR)
 	make -sC $(LIB_DIR) clean
+	make -sC $(LIB_JSON_DIR) clean
 
 uninstall: clean
 	rm -rf $(NAME)
 	make -sC $(LIB_DIR) uninstall
+	make -sC $(LIB_JSON_DIR) clean
 
 reinstall: uninstall $(NAME)

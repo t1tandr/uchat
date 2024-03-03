@@ -1,14 +1,5 @@
 #include "server.h"
 
-#include <errno.h>
-
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
-#include <pthread.h>
-
-
 void *handle_request(void *arg) {
     int sock_fd = *(int*)arg;
 
