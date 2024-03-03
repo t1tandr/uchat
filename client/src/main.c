@@ -1,5 +1,10 @@
 #include "uchat.h"
 
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <sys/types.h>
+#include <arpa/inet.h>
+
 static void connect_css(const char* filename) {
     GtkCssProvider *provider = gtk_css_provider_new();
     gtk_css_provider_load_from_path(provider, filename);
@@ -62,7 +67,7 @@ void login_button_click_cb(GtkWidget *button, gpointer data) {
     gtk_window_present(GTK_WINDOW(dialog));
 }
 
-static void app_activate_cb(GtkApplication *app) {
+void app_activate_cb(GtkApplication *app) {
     GError* err = NULL;
     GtkBuilder *builder = gtk_builder_new();
     
@@ -75,7 +80,7 @@ static void app_activate_cb(GtkApplication *app) {
     else {
         GtkWindow *window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
 
-        connect_css("css/style.css");
+        connect_css("./css/style.css");
         add_icon_theme("./icons");
 
         gtk_application_add_window(app, window);
@@ -84,13 +89,40 @@ static void app_activate_cb(GtkApplication *app) {
     }
 }
 
+void connect_to_server(const char* ip, int port) {
+    int sockfd = 0;
+    struct sockaddr_in server_addr;
+
+    if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        perror("socket");
+        exit(EXIT_FAILURE);
+    }
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = inet_addr(ip);
+    server_addr.sin_port = htons(port);
+
+    if(connect(sockfd, (struct sockaddr *)&server_addr, sizeof(struct sockaddr)) < 0) {
+        perror("connect");
+        exit(EXIT_FAILURE);
+    }
+
+    send(sockfd, "pisyun", sizeof("pisyun"), 0);
+}
+
 int main(int argc, char *argv[]) {
+    if(argc != 3) {
+        fprintf(stderr, "usage: ./uchat <ip-addr> <port>\n");
+        return EXIT_FAILURE;
+    }
+    connect_to_server(argv[1], atoi(argv[2]));
+    
     GtkApplication *app = NULL;
     int status = 0;
 
-    app = gtk_application_new("ua.ucode-connect.uchat", G_APPLICATION_FLAGS_NONE);
+    app = gtk_application_new("ua.ucode-connect.uchat", G_APPLICATION_HANDLES_OPEN);
 
-    g_signal_connect(app, "activate", G_CALLBACK(app_activate_cb), NULL);
+    g_signal_connect(app, "open", G_CALLBACK(app_activate_cb), NULL);
 
     status = g_application_run(G_APPLICATION(app), argc, argv);
 
