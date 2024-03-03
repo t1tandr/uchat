@@ -6,7 +6,12 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-void handle_request(int sock_fd) {
+#include <pthread.h>
+
+
+void *handle_request(void *arg) {
+    int sock_fd = *(int*)arg;
+
     while (1) {
         char buffer[1024];
         int n;
@@ -21,6 +26,7 @@ void handle_request(int sock_fd) {
         mx_printstr(buffer);
     }
     close(sock_fd);
+    return NULL;
 }
 
 int main(int argc, char *argv[]) {
@@ -63,7 +69,9 @@ int main(int argc, char *argv[]) {
             exit(EXIT_FAILURE);
         }
 
-        handle_request(new_sock);
+        pthread_t thread_id;
+        pthread_create(&thread_id, NULL, handle_request, (void *) &new_sock);
+        pthread_detach(thread_id);
     }
 
     close(sock_fd);
