@@ -99,3 +99,13 @@ int main(int argc, char *argv[]) {
     return status;
 }
 
+/*
+<child>
+                    <object class="GtkImage" id="image">
+                        <property name="visible">True</property>
+                        <property name="file">ui/logo.jpg</property>
+                        <property name="pixel-size">240</property>
+                    </object>
+                </child>
+    */
+
