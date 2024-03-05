@@ -1,5 +1,51 @@
 #include "server.h"
 
+#include <signal.h>
+
+void start_daemon_process() {
+	pid_t pid = fork();
+	
+	if(pid < 0) {
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if(pid > 0) {
+		exit(EXIT_SUCCESS);
+	}
+
+	if(setsid() < 0) {
+		perror("setsid");
+		exit(EXIT_FAILURE);
+	}
+
+    signal(SIGCHLD, SIG_IGN);
+    signal(SIGHUP,  SIG_IGN);
+
+    pid = fork();
+
+	if(pid < 0) {
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if(pid > 0) {
+        printf("[SERVER] started PID=%d\n", pid);
+		exit(EXIT_SUCCESS);
+	}
+
+	umask(0);
+	if(chdir("/") < 0) {
+		perror("chdir");
+		exit(EXIT_FAILURE);
+	}
+
+	// struct rlimit lim;
+	// getrlimit(RLIMIT_NOFILE, &lim);
+
+	for(int fd = sysconf(_SC_OPEN_MAX); fd > 0; fd--) {
+		close(fd);
+	}
+}
+
 void *handle_request(void *arg) {
     int sock_fd = *(int*)arg;
 
@@ -14,18 +60,20 @@ void *handle_request(void *arg) {
         }
 
         buffer[n] = '\0';
-        mx_printstr(buffer);
+        send(sock_fd, buffer, n, 0);
     }
     close(sock_fd);
     return NULL;
 }
 
 int main(int argc, char *argv[]) {
+    start_daemon_process();
+
     int sock_fd, port;
     struct sockaddr_in serv_addr;
 
     if (argc < 2) {
-        mx_printerr("usage: <port_number>");
+        mx_printerr("usage: uchat-server <port-number>");
         exit(EXIT_FAILURE);
     }
 
@@ -50,7 +98,6 @@ int main(int argc, char *argv[]) {
         mx_printerr("listen failed");
         exit(EXIT_FAILURE);
     }
-
 
     while (1) {
         int new_sock = accept(sock_fd, NULL, NULL);
