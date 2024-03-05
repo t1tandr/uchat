@@ -1,25 +1,5 @@
 #include "server.h"
 
-void *handle_request(void *arg) {
-    int sock_fd = *(int*)arg;
-
-    while (1) {
-        char buffer[1024];
-        int n;
-
-        n = recv(sock_fd, buffer, 1024, 0);
-
-        if (n == 0) {
-            break;
-        }
-
-        buffer[n] = '\0';
-        mx_printstr(buffer);
-    }
-    close(sock_fd);
-    return NULL;
-}
-
 int main(int argc, char *argv[]) {
     int sock_fd, port;
     struct sockaddr_in serv_addr;
