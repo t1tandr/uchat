@@ -13,6 +13,7 @@ void *handle_request(void *arg) {
     // write(1, &length, sizeof(length));
 
     int sock_fd = *(int*)arg;
+    sqlite3 *db = database_connect(); // Maybe switch to connection pool
 
     while (1) {
         int length, n;
@@ -43,9 +44,10 @@ void *handle_request(void *arg) {
         res_str[received_bytes] = '\0';
 
         cJSON *req_json = cJSON_Parse(res_str); 
-        handle_routes(req_json);
+        handle_routes(req_json, db);
     }
 
+    sqlite3_close(db);
     close(sock_fd);
     return NULL;
 }

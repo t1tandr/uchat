@@ -36,7 +36,7 @@ $(LIB_SQLITE):
 	make -sC $(LIB_SQLITE_DIR)
 
 $(NAME): $(OBJ_DIR) $(OBJ)
-	$(CC) $(CCFLAGS) $(OBJ) -L $(LIB_DIR) -lmx -L $(LIB_JSON_DIR) -lcjson -L $(LIB_SQLITE_DIR) -lsqlite3 -o $@
+	$(CC) $(CCFLAGS) $(OBJ) -L $(LIB_DIR) -lmx -L $(LIB_JSON_DIR) -lcjson -L $(LIB_SQLITE_DIR) -lsqlite3 -lpthread -o $@
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
