@@ -1,31 +1,35 @@
 #include "server.h"
 
+// bool validate_json_structure(cJSON *req, int sock_fd) {
+//     cJSON *err_res = cJSON_CreateObject();
+//     cJSON_AddNumberToObject(err_res, "status", 400);
+//     cJSON_AddStringToObject(err_res, "error", "Invalid json");
+//     char *err_json_str = cJSON_Print(err_res);
+
+
+//     if (!cJSON_IsObject(req)
+//         || !cJSON_HasObjectItem(req, "method")
+//         || !cJSON_HasObjectItem(req, "route")) {
+//         send(sock_fd, err_json_str, strlen(err_json_str), 0);
+//         return false;
+//     }
+
+//     return true;
+// }
+
 void *handle_request(void *arg) {
-    // int sock_fd = *(int*)arg;
-    // int length, n;
-
-    // n = recv(sock_fd, &length, sizeof(length), 0);
-
-    // if (!n) {
-    //     mx_printstr("do smth");
-    // }
-
-    // write(1, &length, sizeof(length));
-
     int sock_fd = *(int*)arg;
     sqlite3 *db = database_connect(); // Maybe switch to connection pool
 
     while (1) {
         int length, n;
-        char buff[BUFF_SIZE];
 
-        n = recv(sock_fd, buff, BUFF_SIZE, 0);
+        n = recv(sock_fd, &length, sizeof(length), 0);
 
         if (n < 0) {
-            mx_printstr("do smth");
+            error_handler(sock_fd, "Error receiving data", 400);
+            continue;
         }
-
-        length = atoi(buff);
 
         int received_bytes = 0;
         char *res_str = malloc(length + 1);
@@ -34,8 +38,8 @@ void *handle_request(void *arg) {
             n = recv(sock_fd, res_str + received_bytes, length - received_bytes, 0);
 
             if (n < 0) {
-                mx_printstr("do smth");
-                break;
+                error_handler(sock_fd, "Error receiving data", 400);
+                continue; // how to continue outer loop without goto ??
             }
 
             received_bytes += n;
@@ -43,8 +47,17 @@ void *handle_request(void *arg) {
 
         res_str[received_bytes] = '\0';
 
-        cJSON *req_json = cJSON_Parse(res_str); 
-        handle_routes(req_json, db);
+        cJSON *req_json = cJSON_Parse(res_str);
+        
+        if (!cJSON_IsObject(req_json)) {
+            error_handler(sock_fd, "Invalid json", 400);
+            continue;
+        }
+        
+        handle_routes(req_json, db, sock_fd);
+
+        cJSON_Delete(req_json);
+        free(res_str);
     }
 
     sqlite3_close(db);

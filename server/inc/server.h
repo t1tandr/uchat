@@ -20,15 +20,16 @@
 // Controllers
 
 // User
-void create_user_controller(cJSON *data, sqlite3 *db);
+void create_user_controller(cJSON *data, sqlite3 *db, int sock_fd);
 
 
 // Utils
 void *handle_request(void *arg);
-void handle_routes(cJSON *req, sqlite3 *db);
+void handle_routes(cJSON *req, sqlite3 *db, int sock_fd);
 int start_server_socket(int port);
 void accept_clients(int sock_fd);
 void init_database();
 sqlite3 *database_connect();
+void error_handler(int sock_fd, char* message, int status);
 
 bool is_file_exists(char *filename);

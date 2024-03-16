@@ -6,7 +6,7 @@ sqlite3 *database_connect() {
 
     rc = sqlite3_open("uchat.db", &db);
 
-    if( rc ) {
+    if (rc) {
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         exit(EXIT_FAILURE);
     } else {
