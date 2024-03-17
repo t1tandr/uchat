@@ -1,65 +1,67 @@
 #include "server.h"
 
-void create_user_controller(cJSON *data, sqlite3 *db, int sock_fd) {
-    if (!cJSON_HasObjectItem(data, "username") || !cJSON_HasObjectItem(data, "password")) {
-        error_handler(sock_fd, "Invalid json", 400);
-        return;
-    }
+void get_users_controller(sqlite3 *db, int sock_fd) {
+    cJSON *users = get_users_service(db, sock_fd);
 
-    sqlite3_stmt *stmt;
-    int rc;
-    char *sql, *error_message;
-
-    char *username = cJSON_GetObjectItemCaseSensitive(data, "username")->valuestring;
-    char *password = cJSON_GetObjectItemCaseSensitive(data, "password")->valuestring; // IMPLEMENT PASSWORD HASHING
-    
-    sql = sqlite3_mprintf(
-        "INSERT INTO users (username, password)"
-        "VALUES(%Q, %Q);",
-        username,
-        password
-    );
-   
-    rc = sqlite3_exec(db, sql, NULL, 0, &error_message);
-    sqlite3_free(sql);
-
-    if (rc != SQLITE_OK){
-        error_handler(sock_fd, error_message, 422);
-        sqlite3_free(error_message);
-        return;
-    }
-
-    sql = sqlite3_mprintf(
-        "SELECT * FROM users WHERE username=%Q",
-        username
-    );
-
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
-        error_handler(sock_fd, (char *) sqlite3_errmsg(db), 422);
-        sqlite3_free(sql);
-        return;
-    }
-
-    if (sqlite3_step(stmt) != SQLITE_ROW) {
-        error_handler(sock_fd, "Invalid input data", 422);
-        return;
-    }
+    if (users == NULL) return;
 
     cJSON *res = cJSON_CreateObject();
-    cJSON_AddNumberToObject(res, "status", 201);
+    cJSON_AddNumberToObject(res, "status", 200);
 
-    cJSON *res_data = cJSON_CreateObject();
-    cJSON_AddNumberToObject(res_data, "id", sqlite3_column_int(stmt, 0));
-    cJSON_AddStringToObject(res_data, "username", (const char *) sqlite3_column_text(stmt, 1));
-    
-    cJSON_AddItemToObject(res, "data", res_data);
+    cJSON_AddItemToObject(res, "data", users);
 
     char *res_str = cJSON_Print(res);
     send(sock_fd, res_str, strlen(res_str), 0);
 
-    sqlite3_finalize(stmt);
     cJSON_Delete(res);
     cJSON_free(res_str);
-    sqlite3_free(sql);
+}
+
+void get_user_controller(int user_id, sqlite3 *db, int sock_fd) {
+    cJSON *user = get_user_by_id_service(user_id, db, sock_fd);
+
+    if (user == NULL) return;
+
+    cJSON *res = cJSON_CreateObject();
+    cJSON_AddNumberToObject(res, "status", 200);
+
+    cJSON_DeleteItemFromObject(user, "password");
+    cJSON_AddItemToObject(res, "data", user);
+
+    char *res_str = cJSON_Print(res);
+    send(sock_fd, res_str, strlen(res_str), 0);
+
+    cJSON_Delete(res);
+    cJSON_free(res_str);
+}
+
+void create_user_controller(cJSON *req, sqlite3 *db, int sock_fd) {
+    cJSON *data = cJSON_GetObjectItemCaseSensitive(req, "data");
+
+    if (data == NULL
+        || !cJSON_HasObjectItem(data, "username")
+        || !cJSON_HasObjectItem(data, "password")) {
+        error_handler(sock_fd, "Invalid json", 400);
+        return;
+    }
+
+    char *username = cJSON_GetObjectItemCaseSensitive(data, "username")->valuestring;
+    char *password = cJSON_GetObjectItemCaseSensitive(data, "password")->valuestring; // IMPLEMENT PASSWORD HASHING
+
+    cJSON *user = create_user_service(username, password, db, sock_fd);
+
+    if (!user) return;
+
+    cJSON *res = cJSON_CreateObject();
+    cJSON_AddNumberToObject(res, "status", 201);
+    
+    cJSON_DeleteItemFromObject(user, "password");
+    cJSON_AddItemToObject(res, "data", user);
+
+    char *res_str = cJSON_Print(res);
+    send(sock_fd, res_str, strlen(res_str), 0);
+
+    cJSON_Delete(res);
+    cJSON_free(res_str);
 }
 

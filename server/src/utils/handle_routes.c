@@ -9,16 +9,15 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
     char *route = cJSON_GetObjectItemCaseSensitive(req, "route")->valuestring;
     char *method = cJSON_GetObjectItemCaseSensitive(req, "method")->valuestring;
 
-    if (strcmp(route, "/user") == 0) {
+    if (strncmp(route, "/user", strlen("/user")) == 0) {
+        int id;
+
         if (strcmp(method, "POST") == 0) {
-            cJSON *data = cJSON_GetObjectItemCaseSensitive(req, "data");
-
-            if (data == NULL) {
-                error_handler(sock_fd, "Invalid json", 400);
-                return;
-            }
-
-            create_user_controller(data, db, sock_fd);
+            create_user_controller(req, db, sock_fd);
+        } else if (strcmp(method, "GET") == 0 && sscanf(route, "/user/%d", &id) == 1) {
+            get_user_controller(id, db, sock_fd);
+        } else if (strcmp(method, "GET") == 0) {
+            get_users_controller(db, sock_fd);
         }
     }
 }

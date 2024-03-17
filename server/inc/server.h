@@ -19,9 +19,18 @@
 
 // Controllers
 
-// User
-void create_user_controller(cJSON *data, sqlite3 *db, int sock_fd);
+// - User
+void create_user_controller(cJSON *req, sqlite3 *db, int sock_fd);
+void get_users_controller(sqlite3 *db, int sock_fd);
+void get_user_controller(int user_id, sqlite3 *db, int sock_fd);
 
+// Services
+
+// - User
+cJSON *get_users_service(sqlite3 *db, int sock_fd);
+cJSON *get_user_by_id_service(int user_id, sqlite3 *db, int sock_fd);
+cJSON *get_user_by_username_service(char* username, sqlite3 *db, int sock_fd);
+cJSON *create_user_service(char *username, char* password, sqlite3 *db, int sock_fd);
 
 // Utils
 void *handle_request(void *arg);
