@@ -23,6 +23,8 @@
 void create_user_controller(cJSON *req, sqlite3 *db, int sock_fd);
 void get_users_controller(sqlite3 *db, int sock_fd);
 void get_user_controller(int user_id, sqlite3 *db, int sock_fd);
+void update_user_controller(int user_id, cJSON *req, sqlite3 *db, int sock_fd);
+void delete_user_controller(int user_id, sqlite3 *db, int sock_fd);
 
 // Services
 
@@ -30,7 +32,9 @@ void get_user_controller(int user_id, sqlite3 *db, int sock_fd);
 cJSON *get_users_service(sqlite3 *db, int sock_fd);
 cJSON *get_user_by_id_service(int user_id, sqlite3 *db, int sock_fd);
 cJSON *get_user_by_username_service(char* username, sqlite3 *db, int sock_fd);
-cJSON *create_user_service(char *username, char* password, sqlite3 *db, int sock_fd);
+cJSON *create_user_service(cJSON *data, sqlite3 *db, int sock_fd);
+cJSON *update_user_by_id_service(int user_id, cJSON *data, sqlite3 *db, int sock_fd);
+cJSON *delete_user_by_id_service(int user_id, sqlite3 *db, int sock_fd);
 
 // Utils
 void *handle_request(void *arg);
@@ -40,5 +44,6 @@ void accept_clients(int sock_fd);
 void init_database();
 sqlite3 *database_connect();
 void error_handler(int sock_fd, char* message, int status);
+void send_response(int sock_fd, cJSON *data, int status);
 
 bool is_file_exists(char *filename);

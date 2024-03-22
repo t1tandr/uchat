@@ -13,6 +13,8 @@ void init_database() {
         "CREATE TABLE users ("
         "id INTEGER PRIMARY KEY NOT NULL,"
         "username VARCHAR(30) NOT NULL UNIQUE,"
+        "name VARCHAR(30) NOT NULL,"
+        "bio VARCHAR(200),"
         "password TEXT NOT NULL);";
 
     rc = sqlite3_exec(db, sql, NULL, 0, &zErrMsg);
