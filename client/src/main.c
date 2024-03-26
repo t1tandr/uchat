@@ -1,9 +1,5 @@
 #include "uchat.h"
 
-#include <string.h>
-
-int serv_sock;
-
 static void connect_css(const char* filename) {
     GtkCssProvider *provider = gtk_css_provider_new();
 
@@ -34,30 +30,42 @@ const char* entry_get_text(GtkEntry* entry) {
     return gtk_entry_buffer_get_text(entry_buf);
 }
 
-void login_button_click_cb(GtkWidget *button, gpointer user_data) {
-    if(button != NULL) {
-        GtkBuilder *builder = NULL;
-        cJSON *data = NULL;
-        const char *username = NULL;
-        const char *password = NULL;
+void login_button_click_cb(GtkWidget *button, gpointer data) {
+    GtkWidget *dialog, *username_label, *password_label, *content_area;
+    char username_buf[1024] = { 0 };
+    char password_buf[1024] = { 0 };
+    GtkBuilder *builder = GTK_BUILDER(data);
 
-        builder = GTK_BUILDER(user_data);
+    gtk_button_set_label(GTK_BUTTON(button), "Sign in");
 
-        username = entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "password-entry")));
-        password = entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "username-entry")));
+    dialog = gtk_dialog_new_with_buttons("Login", GTK_WINDOW(gtk_builder_get_object(builder, "window")), GTK_DIALOG_DESTROY_WITH_PARENT, "OK", GTK_RESPONSE_OK, NULL);
+    gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+    gtk_window_set_default_size(GTK_WINDOW(dialog), 300, 200);
 
-        data = cJSON_CreateObject();
+    content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    gtk_widget_set_valign(content_area, GTK_ALIGN_CENTER);
+    gtk_widget_set_halign(content_area, GTK_ALIGN_CENTER);
 
-        cJSON_AddStringToObject(data, "username", username);
-        cJSON_AddStringToObject(data, "password", password);
+    entry_get_formated_text(username_buf, "USERNAME: %s", GTK_ENTRY(gtk_builder_get_object(builder, "username-entry")));
+    entry_get_formated_text(password_buf, "PASSWORD: %s", GTK_ENTRY(gtk_builder_get_object(builder, "password-entry")));
 
-        char* response = send_request(serv_sock, create_request(METHOD_POST, "user", data));
+    username_label = gtk_label_new(username_buf);
+    gtk_widget_set_valign(username_label, GTK_ALIGN_CENTER);
+    gtk_widget_set_halign(username_label, GTK_ALIGN_START);
 
-        printf("[CLIENT] - received message:\n%s\n", response);
-    }
+    gtk_box_append(GTK_BOX(content_area), username_label);
+
+    password_label = gtk_label_new(password_buf);
+    gtk_widget_set_valign(password_label, GTK_ALIGN_CENTER);
+    gtk_widget_set_halign(password_label, GTK_ALIGN_START);
+
+    gtk_box_append(GTK_BOX(content_area), password_label);
+
+    gtk_window_set_child(GTK_WINDOW(dialog), content_area);
+    gtk_window_present(GTK_WINDOW(dialog));
 }
 
-void app_activate_cb(GtkApplication *app) {
+static void app_activate_cb(GtkApplication *app) {
     GError* err = NULL;
     GtkBuilder *builder = NULL;
     
@@ -71,8 +79,8 @@ void app_activate_cb(GtkApplication *app) {
     else {
         GtkWindow *window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
 
-        connect_css("resources/css/style.css");
-        add_icon_theme("resources/icons");
+        connect_css("css/style.css");
+        add_icon_theme("./icons");
 
         gtk_application_add_window(app, window);
         gtk_window_present(window);
@@ -82,17 +90,10 @@ void app_activate_cb(GtkApplication *app) {
 }
 
 int main(int argc, char *argv[]) {
-    if(argc != 3) {
-        fprintf(stderr, "usage: uchat <server-ip> <server-port>\n");
-        return EXIT_FAILURE;
-    }
-
     GtkApplication *app = NULL;
     int status = 0;
 
-    serv_sock = connect_to_server(argv[1], argv[2]);
-
-    app = gtk_application_new("ua.ucode-connect.uchat", G_APPLICATION_HANDLES_OPEN);
+    app = gtk_application_new("ua.ucode-connect.uchat", G_APPLICATION_FLAGS_NONE);
 
     g_signal_connect(app, "open", G_CALLBACK(app_activate_cb), NULL);
 
