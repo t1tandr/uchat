@@ -63,6 +63,7 @@ void *handle_request(void *arg) {
         send(sock_fd, buffer, n, 0);
     }
     close(sock_fd);
+    
     return NULL;
 }
 

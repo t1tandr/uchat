@@ -1,43 +1,53 @@
 CC = clang
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic `pkg-config --cflags gtk4`
-LDFLAGS = `pkg-config --libs gtk4 gmodule-export-2.0` 
-INCLUDES = -I$(INC_DIR)
+LDFLAGS = `pkg-config --libs gtk4 gmodule-export-2.0` -L $(LIBMX_DIR) -l:$(LIBMX) -L $(LIB_JSON_DIR) -l:$(LIB_JSON)
+INCLUDES = -I $(LIBMX_DIR)/$(INC_DIR) -I $(INC_DIR) -I $(LIB_JSON_DIR)
 
+INC_DIR = inc
 SRC_DIR = src
 OBJ_DIR = obj
-INC_DIR = inc
 
+INC = $(wildcard $(INC_DIR)/*.h)
 SRC = $(wildcard $(SRC_DIR)/*.c)
 OBJ = $(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(SRC:%.c=%.o))
 
-LIB_DIR = libmx
-LIB = libmx.a
+LIBS_DIR = ../libs
+
+LIBMX_DIR = $(LIBS_DIR)/libmx
+LIBMX = libmx.a
+
+LIB_JSON_DIR = $(LIBS_DIR)/cJSON
+LIB_JSON = libcjson.a
 
 TARGET = uchat
 
 .PHONY: all clean uninstall reinstall
 
-all: $(LIB) $(TARGET)
+all: $(LIBMX) $(LIB_JSON) $(TARGET)
 
-$(LIB):
-	make -C $(LIB_DIR)
+$(LIBMX):
+	make -sC $(LIBMX_DIR)
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(INCLUDES) $^ $(LDFLAGS) -o $@
+$(LIB_JSON):
+	make -sC $(LIB_JSON_DIR)
 
-$(OBJ): $(SRC)
-	mkdir $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $^
-	mv *.o $(OBJ_DIR)
+$(TARGET): $(OBJ_DIR) $(OBJ)
+	$(CC) $(CCFLAGS) $(OBJ) $(LDFLAGS) -o $@
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC) $(LIB)
+	$(CC) $(CCFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ_DIR)
-	make -C $(LIB_DIR) clean
+	make -sC $(LIBMX_DIR) clean
+	make -sC $(LIB_JSON_DIR) clean
 
-uninstall:
-	rm -f $(TARGET)
-	make -C $(LIB_DIR) uninstall
+uninstall: clean
+	rm -rf $(TARGET)
+	make -sC $(LIBMX_DIR) uninstall
+	make -sC $(LIB_JSON_DIR) clean
 
-reinstall: clean uninstall
-	make -C $(LIB_DIR) reinstall
-	make all
+reinstall: uninstall all
