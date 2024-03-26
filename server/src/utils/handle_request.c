@@ -1,22 +1,5 @@
 #include "server.h"
 
-// bool validate_json_structure(cJSON *req, int sock_fd) {
-//     cJSON *err_res = cJSON_CreateObject();
-//     cJSON_AddNumberToObject(err_res, "status", 400);
-//     cJSON_AddStringToObject(err_res, "error", "Invalid json");
-//     char *err_json_str = cJSON_Print(err_res);
-
-
-//     if (!cJSON_IsObject(req)
-//         || !cJSON_HasObjectItem(req, "method")
-//         || !cJSON_HasObjectItem(req, "route")) {
-//         send(sock_fd, err_json_str, strlen(err_json_str), 0);
-//         return false;
-//     }
-
-//     return true;
-// }
-
 void *handle_request(void *arg) {
     int sock_fd = *(int*)arg;
     sqlite3 *db = database_connect(); // Maybe switch to connection pool
