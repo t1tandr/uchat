@@ -15,7 +15,13 @@ void init_database() {
         "username VARCHAR(30) NOT NULL UNIQUE,"
         "name VARCHAR(30) NOT NULL,"
         "bio VARCHAR(200),"
-        "password TEXT NOT NULL);";
+        "password TEXT NOT NULL,"
+        "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"
+        "CREATE TABLE sessions ("
+        "id TEXT PRIMARY KEY NOT NULL,"
+        "user_id INTEGER NOT NULL,"
+        "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
+        "expires_at TIMESTAMP NOT NULL);";
 
     rc = sqlite3_exec(db, sql, NULL, 0, &error_message);
    

@@ -29,6 +29,9 @@ void get_user_controller(int user_id, sqlite3 *db, int sock_fd);
 void update_user_controller(int user_id, cJSON *req, sqlite3 *db, int sock_fd);
 void delete_user_controller(int user_id, sqlite3 *db, int sock_fd);
 
+// - Login
+void login_controller(cJSON *req, sqlite3 *db, int sock_fd);
+
 // Services
 
 // - User
@@ -39,6 +42,9 @@ cJSON *create_user_service(cJSON *data, sqlite3 *db, int sock_fd);
 cJSON *update_user_by_id_service(int user_id, cJSON *data, sqlite3 *db, int sock_fd);
 cJSON *delete_user_by_id_service(int user_id, sqlite3 *db, int sock_fd);
 
+// - Login
+cJSON *login_service(cJSON *data, sqlite3 *db, int sock_fd);
+
 // Utils
 void *handle_request(void *arg);
 void handle_routes(cJSON *req, sqlite3 *db, int sock_fd);
@@ -48,5 +54,6 @@ void init_database();
 sqlite3 *database_connect();
 void error_handler(int sock_fd, char* message, int status);
 void send_response(int sock_fd, cJSON *data, int status);
+void start_daemon_process();
 
 bool is_file_exists(char *filename);
