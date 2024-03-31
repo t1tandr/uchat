@@ -1,4 +1,5 @@
 #include "server.h"
+#include <string.h>
 
 void init_database() {
     if (is_file_exists("uchat.db")) return;
@@ -16,12 +17,15 @@ void init_database() {
         "name VARCHAR(30) NOT NULL,"
         "bio VARCHAR(200),"
         "password TEXT NOT NULL,"
-        "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"
+        "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+        ");"
         "CREATE TABLE sessions ("
         "id TEXT PRIMARY KEY NOT NULL,"
         "user_id INTEGER NOT NULL,"
         "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
-        "expires_at TIMESTAMP NOT NULL);";
+        "expires_at TIMESTAMP NOT NULL,"
+        "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+        ");";
 
     rc = sqlite3_exec(db, sql, NULL, 0, &error_message);
    

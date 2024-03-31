@@ -53,3 +53,17 @@ cJSON *login_service(cJSON *data, sqlite3 *db, int sock_fd) {
     return session_data;  
 }
 
+bool session_exists(char *session_id, sqlite3 *db) {
+    sqlite3_stmt *stmt;
+    char *sql;
+
+    sql = sqlite3_mprintf(
+        "SELECT * FROM sessions WHERE id = %Q;",
+        session_id
+    );
+
+    sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+
+    return sqlite3_step(stmt) == SQLITE_ROW;
+}
+

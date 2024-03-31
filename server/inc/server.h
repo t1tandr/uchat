@@ -32,6 +32,9 @@ void delete_user_controller(int user_id, sqlite3 *db, int sock_fd);
 // - Login
 void login_controller(cJSON *req, sqlite3 *db, int sock_fd);
 
+// - Logout
+void logout_controller(cJSON *req, sqlite3 *db, int sock_fd);
+
 // Services
 
 // - User
@@ -44,6 +47,10 @@ cJSON *delete_user_by_id_service(int user_id, sqlite3 *db, int sock_fd);
 
 // - Login
 cJSON *login_service(cJSON *data, sqlite3 *db, int sock_fd);
+bool session_exists(char *session_id, sqlite3 *db);
+
+// - Logout
+int logout_service(cJSON *data, sqlite3 *db, int sock_fd);
 
 // Utils
 void *handle_request(void *arg);

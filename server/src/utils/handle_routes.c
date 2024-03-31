@@ -27,6 +27,10 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
         if (strcmp(method, "POST") == 0) {
             login_controller(req, db, sock_fd);
         }
+    } else if (strncmp(route, "/logout", strlen("/logout")) == 0) {
+        if (strcmp(method, "POST") == 0) {
+            logout_controller(req, db, sock_fd);
+        }
     } else {
         error_handler(sock_fd, "Unknown endpoint", 404);
     }
