@@ -1,7 +1,9 @@
 #include "server.h"
 
 void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
-    if (!cJSON_HasObjectItem(req, "method") || !cJSON_HasObjectItem(req, "route")) {
+    if (!cJSON_HasObjectItem(req, "method")
+        || !cJSON_HasObjectItem(req, "route")
+        || !cJSON_HasObjectItem(req, "headers")) {
         error_handler(sock_fd, "Invalid json", 400);
         return;
     }
@@ -21,7 +23,7 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
         } else if (strcmp(method, "PUT") == 0 && sscanf(route, "/users/%d", &id) == 1) {
             update_user_controller(id, req, db, sock_fd);
         } else if (strcmp(method, "DELETE") == 0 && sscanf(route, "/users/%d", &id) == 1) {
-            delete_user_controller(id, db, sock_fd);
+            delete_user_controller(id, req, db, sock_fd);
         }
     } else if (strncmp(route, "/login", strlen("/login")) == 0) {
         if (strcmp(method, "POST") == 0) {

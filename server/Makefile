@@ -8,7 +8,7 @@ OBJ_DIR = obj
 INC_DIR = inc
 
 INC = $(wildcard $(INC_DIR)/*.h)
-SRC = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/**/*.c)
+SRC = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/**/*.c $(SRC_DIR)/**/**/*.c)
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 LIBS_DIR = ../libs

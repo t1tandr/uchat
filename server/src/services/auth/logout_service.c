@@ -1,7 +1,4 @@
 #include "server.h"
-#include <bcrypt.h>
-#include <uuid/uuid.h>
-
 
 int logout_service(cJSON *data, sqlite3 *db, int sock_fd) {
     int rc;
@@ -9,7 +6,7 @@ int logout_service(cJSON *data, sqlite3 *db, int sock_fd) {
 
     char *session_id = cJSON_GetObjectItem(data, "session_id")->valuestring;
 
-    if (!session_exists(session_id, db)) {
+    if (!session_exists(session_id, -1, db)) {
         error_handler(sock_fd, "Session doesn't exist", 422);
         return -1;
     }

@@ -17,6 +17,8 @@
 
 #include <cJSON.h>
 #include "sqlite3.h"
+#include <bcrypt.h>
+#include <uuid/uuid.h>
 
 #define BUFF_SIZE 1024
 
@@ -27,7 +29,7 @@ void create_user_controller(cJSON *req, sqlite3 *db, int sock_fd);
 void get_users_controller(sqlite3 *db, int sock_fd);
 void get_user_controller(int user_id, sqlite3 *db, int sock_fd);
 void update_user_controller(int user_id, cJSON *req, sqlite3 *db, int sock_fd);
-void delete_user_controller(int user_id, sqlite3 *db, int sock_fd);
+void delete_user_controller(int user_id, cJSON *req, sqlite3 *db, int sock_fd);
 
 // - Login
 void login_controller(cJSON *req, sqlite3 *db, int sock_fd);
@@ -42,12 +44,12 @@ cJSON *get_users_service(sqlite3 *db, int sock_fd);
 cJSON *get_user_by_id_service(int user_id, sqlite3 *db, int sock_fd);
 cJSON *get_user_by_username_service(char* username, sqlite3 *db, int sock_fd);
 cJSON *create_user_service(cJSON *data, sqlite3 *db, int sock_fd);
-cJSON *update_user_by_id_service(int user_id, cJSON *data, sqlite3 *db, int sock_fd);
-cJSON *delete_user_by_id_service(int user_id, sqlite3 *db, int sock_fd);
+cJSON *update_user_by_id_service(int user_id, cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *delete_user_by_id_service(int user_id, cJSON *headers, sqlite3 *db, int sock_fd);
 
 // - Login
 cJSON *login_service(cJSON *data, sqlite3 *db, int sock_fd);
-bool session_exists(char *session_id, sqlite3 *db);
+bool session_exists(char *session_id, int user_id, sqlite3 *db);
 
 // - Logout
 int logout_service(cJSON *data, sqlite3 *db, int sock_fd);
@@ -64,3 +66,4 @@ void send_response(int sock_fd, cJSON *data, int status);
 void start_daemon_process();
 
 bool is_file_exists(char *filename);
+cJSON *stmt_to_user_json(sqlite3_stmt *stmt);

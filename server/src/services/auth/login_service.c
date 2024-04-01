@@ -1,7 +1,4 @@
 #include "server.h"
-#include <bcrypt.h>
-#include <uuid/uuid.h>
-
 
 cJSON *login_service(cJSON *data, sqlite3 *db, int sock_fd) {
     int rc;
@@ -51,19 +48,5 @@ cJSON *login_service(cJSON *data, sqlite3 *db, int sock_fd) {
     cJSON_AddNumberToObject(session_data, "user_id", user_id);
 
     return session_data;  
-}
-
-bool session_exists(char *session_id, sqlite3 *db) {
-    sqlite3_stmt *stmt;
-    char *sql;
-
-    sql = sqlite3_mprintf(
-        "SELECT * FROM sessions WHERE id = %Q;",
-        session_id
-    );
-
-    sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
-
-    return sqlite3_step(stmt) == SQLITE_ROW;
 }
 
