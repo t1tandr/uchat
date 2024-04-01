@@ -1,6 +1,6 @@
 CC = clang
 CCFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
-LDFLAGS = -L $(LIBMX_DIR) -l:$(LIBMX) -L $(LIB_JSON_DIR) -l:$(LIB_JSON) -L $(LIB_SQLITE_DIR) -lsqlite3 -L $(LIB_BCRYPT_DIR) -l:bcrypt.a -lpthread
+LDFLAGS = -L $(LIBMX_DIR) -l:$(LIBMX) -L $(LIB_JSON_DIR) -l:$(LIB_JSON) -L $(LIB_SQLITE_DIR) -lsqlite3 -L $(LIB_BCRYPT_DIR) -l:bcrypt.a -lpthread -luuid
 INCLUDES = -I $(LIBMX_DIR)/$(INC_DIR) -I $(INC_DIR) -I $(LIB_JSON_DIR) -I $(LIB_SQLITE_DIR)/inc -I $(LIB_BCRYPT_DIR)
 
 SRC_DIR = src
@@ -8,7 +8,7 @@ OBJ_DIR = obj
 INC_DIR = inc
 
 INC = $(wildcard $(INC_DIR)/*.h)
-SRC = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/**/*.c)
+SRC = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/**/*.c $(SRC_DIR)/**/**/*.c)
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 LIBS_DIR = ../libs

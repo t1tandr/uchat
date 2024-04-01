@@ -4,7 +4,9 @@ void send_response(int sock_fd, cJSON *data, int status) {
     cJSON *res = cJSON_CreateObject();
     cJSON_AddNumberToObject(res, "status", status);
 
-    cJSON_AddItemToObject(res, "data", data);
+    if (data != NULL) {
+        cJSON_AddItemToObject(res, "data", data);
+    }
 
     char *res_str = cJSON_Print(res);
     send(sock_fd, res_str, strlen(res_str), 0);

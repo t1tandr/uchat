@@ -1,0 +1,36 @@
+#include "server.h"
+
+cJSON *delete_user_by_id_service(int user_id, cJSON *headers, sqlite3 *db, int sock_fd) {
+    char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
+    if (!session_exists(session_id, user_id, db)) {
+        error_handler(sock_fd, "Unauthorized", 401);
+        return NULL;
+    }
+
+    sqlite3_stmt *stmt;
+    char *sql;
+
+    sql = sqlite3_mprintf(
+        "DELETE FROM users WHERE id = %d RETURNING *;",
+        user_id
+    );
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
+        error_handler(sock_fd, (char *) sqlite3_errmsg(db), 422);
+        sqlite3_free(sql);
+        return NULL;
+    }
+
+    if (sqlite3_step(stmt) != SQLITE_ROW) {
+        error_handler(sock_fd, "Invalid input data", 422);
+        return NULL;
+    }
+
+    cJSON *user = stmt_to_user_json(stmt);
+    
+    sqlite3_finalize(stmt);
+    sqlite3_free(sql);
+
+    return user;
+}
+
