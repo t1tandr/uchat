@@ -37,6 +37,12 @@ void login_controller(cJSON *req, sqlite3 *db, int sock_fd);
 // - Logout
 void logout_controller(cJSON *req, sqlite3 *db, int sock_fd);
 
+// - Chat
+void create_chat_controller(cJSON *req, sqlite3 *db, int sock_fd);
+void get_chats_controller(cJSON *req, sqlite3 *db, int sock_fd);
+void update_chat_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd);
+void delete_chat_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd);
+
 // - Message
 void create_message_controller(cJSON *req, sqlite3 *db, int sock_fd);
 
@@ -55,6 +61,12 @@ cJSON *login_service(cJSON *data, sqlite3 *db, int sock_fd);
 
 // - Logout
 int logout_service(cJSON *data, sqlite3 *db, int sock_fd);
+
+// - Chat
+cJSON *create_chat_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *get_chats_service(cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *update_chat_by_id_service(int chat_id, cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *delete_chat_by_id_service(int chat_id, cJSON *headers, sqlite3 *db, int sock_fd);
 
 // - Message
 cJSON *create_message_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
@@ -78,6 +90,7 @@ cJSON *get_session(char *session_id, sqlite3 *db);
 bool is_file_exists(char *filename);
 cJSON *stmt_to_user_json(sqlite3_stmt *stmt);
 cJSON *stmt_to_message_json(sqlite3_stmt *stmt);
+cJSON *stmt_to_chat_json(sqlite3_stmt *stmt);
 bool is_user_chat_member(int user_id, cJSON *chat_members);
 
 void send_response_message_all(int sock_fd, sqlite3 *db, cJSON *message, int status);

@@ -57,6 +57,18 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
         if (strcmp(method, "POST") == 0) {
             logout_controller(req, db, sock_fd);
         }
+    } else if (strncmp(route, "/chats", strlen("/chats")) == 0) {
+        int id;
+
+        if (strcmp(method, "POST") == 0) {
+            create_chat_controller(req, db, sock_fd);
+        } else if (strcmp(method, "GET") == 0) {
+            get_chats_controller(req, db, sock_fd);
+        } else if (strcmp(method, "PUT") == 0 && sscanf(route, "/chats/%d", &id) == 1) {
+            update_chat_controller(id, req, db, sock_fd);
+        } else if (strcmp(method, "DELETE") == 0 && sscanf(route, "/chats/%d", &id) == 1) {
+            delete_chat_controller(id, req, db, sock_fd);
+        }
     } else if (strncmp(route, "/message", strlen("/message")) == 0) {
         if (strcmp(method, "POST") == 0) {
             create_message_controller(req, db, sock_fd);
