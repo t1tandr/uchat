@@ -1,7 +1,52 @@
-button#login {
+#signup {
+    background-color: rgb(81, 83, 85);
+}
+
+#login {
     background-color: blueviolet;
 }
 
-button#login:hover {
-    background-color: rgb(81, 22, 136);
+#signup:hover {
+    color: #fff;
+    background-color: blueviolet;
+}
+
+#login:hover {
+    color: #fff;
+    background-color: rgb(100, 32, 163);
+}
+
+/* .flipped {
+    transform: rotateY(180deg);
+}
+
+#sign-up-form {
+    transform: rotateY(180deg);
+} */
+
+#form {
+    color: #000;
+    /* backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%); */
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    border: 1px solid rgba(50, 51, 53, 0.3);
+    transition: transform 5s;
+}
+
+#wrapper {
+    background-image: url("../img/background.png");
+}
+
+entry {
+    background-color: rgb(206, 210, 214);
+    border: 1px solid rgb(95, 98, 102);
+}
+
+.wrong-password {
+    color: red;
+}
+
+#password-requirements > * {
+    color: green;
 }

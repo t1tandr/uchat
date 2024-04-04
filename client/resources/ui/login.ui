@@ -4,73 +4,205 @@
     <object class="GtkWindow" id="window">
         <property name="title">UChat</property>
         <property name="visible">true</property>
-        <property name="default_width">1920</property>
-        <property name="default_height">1280</property>
+        <property name="default-width">1920</property>
+        <property name="default-height">1280</property>
         <child>
-            <object class="GtkBox">
+            <object class="GtkBox" id="wrapper">
+                <property name="orientation">vertical</property>
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
                 <property name="visible">true</property>
-                <property name="orientation">horizontal</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="spacing">20</property>
+                <property name="name">wrapper</property>              
                 <child>
-                    <object class="GtkBox">
-                        <property name="visible">true</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">10</property>
+                    <object class="GtkBox" id="form">
+                        <property name="name">form</property>
+                        <property name="orientation">horizontal</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="spacing">20</property>
+                        <property name="height-request">420</property>
+                        <property name="width-request">300</property>
                         <child>
-                            <object class="GtkLabel">
-                                <property name="visible">true</property>
-                                <property name="label">Welcome to UChat!</property>
-                                <property name="halign">center</property>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkSeparator">
-                                <property name="visible">true</property>
-                                <property name="orientation">horizontal</property>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkLabel">
-                                <property name="visible">true</property>
-                                <property name="label">Login</property>
-                                <property name="halign">start</property>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkEntry" id="username-entry">
-                                <property name="visible">true</property>
-                                <property name="placeholder-text">Enter your login</property>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkLabel">
-                                <property name="visible">true</property>
-                                <property name="label">Password</property>
-                                <property name="halign">start</property>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkEntry" id="password-entry">
-                                <property name="visible">true</property>
-                                <property name="placeholder-text">Enter your password</property>
-                                <property name="visibility">false</property>
-                                <property name="secondary-icon-name">password-visibility-on</property>
-                                <property name="secondary-icon-activatable">true</property>
-                                <signal name="icon-press" handler="password_entry_icon_press_cb"/>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkButton">
-                                <property name="visible">true</property>
-                                <property name="label">Sign in</property>
-                                <property name="name">login</property>
-                                <signal name="clicked" handler="login_button_click_cb"/>
+                            <object class="GtkBox" id="sign-in">
+                                <property name="name">sign-in</property>
+                                <property name="orientation">vertical</property>
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                                <property name="spacing">10</property>
+                                <property name="margin-top">20</property>
+                                <property name="margin-bottom">20</property>
+                                <property name="margin-start">40</property>
+                                <property name="margin-end">40</property>
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="label">Welcome to MonkeyChat!</property>
+                                        <property name="halign">center</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkSeparator">
+                                        <property name="orientation">horizontal</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="label">Login</property>
+                                        <property name="halign">start</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkEntry" id="username-entry">
+                                        <property name="placeholder-text">Enter your login</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="label">Password</property>
+                                        <property name="halign">start</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkPasswordEntry" id="password-entry">
+                                        <property name="placeholder-text">Enter your password</property>
+                                        <property name="show-peek-icon">true</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="label">Sign in</property>
+                                        <property name="name">login</property>
+                                        <signal name="clicked" handler="login_button_click_cb"/>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="margin-top">20</property>
+                                        <property name="label">Don't have an account?</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="label">Sign up</property>
+                                        <property name="name">signup</property>
+                                        <signal name="clicked" handler="sign_up_button_click_cb"/>
+                                    </object>
+                                </child>
                             </object>
                         </child>
                     </object>
                 </child>
+            </object>
+        </child>
+    </object>
+
+    <object class="GtkBox" id="sign-up">
+        <property name="name">sign-up</property>
+        <property name="orientation">vertical</property>
+        <property name="hexpand">true</property>
+        <property name="vexpand">true</property>
+        <property name="spacing">10</property>
+        <property name="margin-top">20</property>
+        <property name="margin-bottom">20</property>
+        <property name="margin-start">40</property>
+        <property name="margin-end">40</property>
+        <child>
+            <object class="GtkLabel">
+                <property name="label">MonkeyChat!</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkSeparator">
+                <property name="orientation">horizontal</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkEntry">
+                <property name="placeholder-text">Username</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkPasswordEntry">
+                <property name="placeholder-text">Password</property>
+                <property name="show-peek-icon">true</property>
+                <signal name="changed" handler="password_entry_changed_cb"/>
+            </object>
+        </child>
+        <child>
+            <object class="GtkBox" id="password-requirements">
+                <property name="orientation">vertical</property>
+                <property name="visible">false</property>
+                <child>
+                    <object class="GtkLabel" id="password-length">
+                        <property name="label">✔ Contains at least 8 characters</property>
+                        <property name="halign">start</property>
+                        <property name="css-classes"></property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkLabel" id="password-digit">
+                        <property name="label">✔ Contains a digit</property>
+                        <property name="halign">start</property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkLabel" id="password-lower">
+                        <property name="label">✔ Contains a lowercase letter</property>
+                        <property name="halign">start</property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkLabel" id="password-upper">
+                        <property name="label">✔ Contains an uppercase letter</property>
+                        <property name="halign">start</property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkLabel" id="password-special">
+                        <property name="label">✔ Contains a special symbol</property>
+                        <property name="halign">start</property>
+                    </object>
+                </child>
+            </object>
+        </child>
+        <child>
+            <object class="GtkFrame">
+                <property name="label">Gender</property>
+                <child>
+                    <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">10</property>
+                        <child>
+                            <object class="GtkCheckButton" id="gender-check-male">
+                                <property name="label">Male</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkCheckButton" id="gender-check-female">
+                                <property name="label">Female</property>
+                                <property name="group">gender-check-male</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+        <child>
+            <object class="GtkButton">
+                <property name="label">Register</property>
+                <property name="name">login</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkLabel">
+                <property name="margin-top">20</property>
+                <property name="label">Already have an account?</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkButton">
+                <property name="label">Login</property>
+                <property name="name">signup</property>
+                <signal name="clicked" handler="sign_in_back_button_click_cb"/>
             </object>
         </child>
     </object>

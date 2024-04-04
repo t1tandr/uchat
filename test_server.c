@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#include <string.h>
+
 #include <stdio.h>
 
 int main(void) {
@@ -57,6 +59,7 @@ int main(void) {
             if(nbytes != -1) {
                 msg[nbytes] = '\0';
                 printf("%s\n", msg);
+                send(client_sock, "{ \"status\": 200 }", strlen("{ \"status\": 200 }"), 0);
             }
         }
     }
