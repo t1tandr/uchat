@@ -31,5 +31,10 @@ cJSON* send_request(int sockfd, cJSON* request);
 
 bool widget_has_css_class(GtkWidget* self, const char* class);
 
+void app_activate_cb(GtkApplication* app);
+
+void connect_css(const char* path);
+void add_icon_theme(const char* path);
+
 #endif
 

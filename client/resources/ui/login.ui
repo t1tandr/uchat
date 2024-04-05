@@ -69,7 +69,7 @@
                                 </child>
                                 <child>
                                     <object class="GtkButton">
-                                        <property name="label">Sign in</property>
+                                        <property name="label">Login</property>
                                         <property name="name">login</property>
                                         <signal name="clicked" handler="login_button_click_cb"/>
                                     </object>
@@ -128,38 +128,41 @@
             </object>
         </child>
         <child>
-            <object class="GtkBox" id="password-requirements">
-                <property name="orientation">vertical</property>
-                <property name="visible">false</property>
+            <object class="GtkRevealer" id="revealer">
+                <property name="transition-type">slide-down</property>
                 <child>
-                    <object class="GtkLabel" id="password-length">
-                        <property name="label">✔ Contains at least 8 characters</property>
-                        <property name="halign">start</property>
-                        <property name="css-classes"></property>
-                    </object>
-                </child>
-                <child>
-                    <object class="GtkLabel" id="password-digit">
-                        <property name="label">✔ Contains a digit</property>
-                        <property name="halign">start</property>
-                    </object>
-                </child>
-                <child>
-                    <object class="GtkLabel" id="password-lower">
-                        <property name="label">✔ Contains a lowercase letter</property>
-                        <property name="halign">start</property>
-                    </object>
-                </child>
-                <child>
-                    <object class="GtkLabel" id="password-upper">
-                        <property name="label">✔ Contains an uppercase letter</property>
-                        <property name="halign">start</property>
-                    </object>
-                </child>
-                <child>
-                    <object class="GtkLabel" id="password-special">
-                        <property name="label">✔ Contains a special symbol</property>
-                        <property name="halign">start</property>
+                    <object class="GtkBox" id="password-requirements">
+                        <property name="orientation">vertical</property>
+                        <child>
+                            <object class="GtkLabel" id="password-length">
+                                <property name="label">✔ Contains at least 8 characters</property>
+                                <property name="halign">start</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel" id="password-digit">
+                                <property name="label">✔ Contains a digit</property>
+                                <property name="halign">start</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel" id="password-lower">
+                                <property name="label">✔ Contains a lowercase letter</property>
+                                <property name="halign">start</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel" id="password-upper">
+                                <property name="label">✔ Contains an uppercase letter</property>
+                                <property name="halign">start</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel" id="password-special">
+                                <property name="label">✔ Contains a special symbol</property>
+                                <property name="halign">start</property>
+                            </object>
+                        </child>
                     </object>
                 </child>
             </object>
@@ -200,9 +203,9 @@
         </child>
         <child>
             <object class="GtkButton">
-                <property name="label">Login</property>
+                <property name="label">Sign in</property>
                 <property name="name">signup</property>
-                <signal name="clicked" handler="sign_in_back_button_click_cb"/>
+                <signal name="clicked" handler="sign_in_button_click_cb"/>
             </object>
         </child>
     </object>
