@@ -1,12 +1,19 @@
 #include "uchat.h"
 
-void sign_in_button_click_cb(GtkButton* self, gpointer user_data) {
+void sign_button_click_cb(GtkButton* self, gpointer user_data) {
     GtkBuilder* builder = GTK_BUILDER(user_data);
-    GtkBox* wrapper = GTK_BOX(gtk_builder_get_object(builder, "form"));
-    GtkBox* sign_in_form = GTK_BOX(gtk_builder_get_object(builder, "sign-in"));
-    GtkBox* sign_up_form = GTK_BOX(gtk_builder_get_object(builder, "sign-up"));
+    GtkWidget* wrapper = GTK_WIDGET(gtk_builder_get_object(builder, "form"));
+    GtkWidget* prev = gtk_widget_get_first_child(wrapper);
+    GtkWidget* next = NULL;
 
-    gtk_box_remove(wrapper, GTK_WIDGET(sign_up_form));
-    gtk_box_append(wrapper, GTK_WIDGET(sign_in_form));
+    if(strcmp(gtk_buildable_get_buildable_id(GTK_BUILDABLE(prev)), "sign-in") == 0) {
+        next = GTK_WIDGET(gtk_builder_get_object(builder, "sign-up"));
+    }
+    else {
+        next = GTK_WIDGET(gtk_builder_get_object(builder, "sign-in"));
+    }
+
+    gtk_box_remove(GTK_BOX(wrapper), prev);
+    gtk_box_append(GTK_BOX(wrapper), next);
 }
 

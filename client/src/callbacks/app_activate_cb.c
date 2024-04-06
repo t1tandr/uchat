@@ -12,7 +12,7 @@ void app_activate_cb(GtkApplication *app) {
         handle_error(mx_strjoin("uchat: failed to start application: ", err->message));
     }
     else {
-        GtkWindow* window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
+        GtkWindow* window = GTK_WINDOW(gtk_builder_get_object(builder, "main-window"));
 
         connect_css("resources/css/style.css");
         add_icon_theme("resources/icons");

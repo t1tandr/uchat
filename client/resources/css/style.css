@@ -34,7 +34,7 @@
     transition: transform 5s;
 }
 
-#wrapper {
+#login-page {
     background-image: url("../img/background.png");
 }
 
@@ -47,6 +47,6 @@ entry {
     color: red;
 }
 
-#password-requirements > * {
-    color: green;
+.error-label {
+    color: red;
 }

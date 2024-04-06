@@ -1,7 +1,7 @@
 #include "uchat.h"
 
 cJSON* send_request(int sockfd, cJSON *request) {
-    char *request_str = cJSON_Print(request);
+    char* request_str = cJSON_Print(request);
     char  response_str[1024];
     int   nbytes = 0;
 
