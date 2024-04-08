@@ -5,14 +5,15 @@
         <property name="title">UChat</property>
         <property name="visible">true</property>
         <property name="default-width">1920</property>
-        <property name="default-height">1280</property>
+        <property name="default-height">1080</property>
+        <property name="resizable">false</property>
         <child>
             <object class="GtkBox" id="login-page">
                 <property name="orientation">vertical</property>
                 <property name="hexpand">true</property>
                 <property name="vexpand">true</property>
                 <property name="visible">true</property>
-                <property name="name">login-page</property>              
+                <property name="name">login-page</property>          
                 <child>
                     <object class="GtkBox" id="form">
                         <property name="name">form</property>
@@ -199,28 +200,6 @@
                         </child>
                     </object>
                 </child>
-                <!-- <child>
-                    <object class="GtkFrame">
-                        <property name="label">Gender</property>
-                        <child>
-                            <object class="GtkBox">
-                                <property name="orientation">horizontal</property>
-                                <property name="spacing">10</property>
-                                <child>
-                                    <object class="GtkCheckButton" id="gender-check-male">
-                                        <property name="label">Male</property>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkCheckButton" id="gender-check-female">
-                                        <property name="label">Female</property>
-                                        <property name="group">gender-check-male</property>
-                                    </object>
-                                </child>
-                            </object>
-                        </child>
-                    </object>
-                </child> -->
                 <child>
                     <object class="GtkPasswordEntry" id="register-password-confirm-entry">
                         <property name="placeholder-text">Confirm password</property>
@@ -274,88 +253,216 @@
     <object class="GtkBox" id="home-page">
         <property name="orientation">horizontal</property>
         <child>
-            <object class="GtkBox" id="sidebar">
-                <property name="orientation">vertical</property>
-                <property name="width-request">760</property>
-                <property name="vexpand">true</property>
-                <property name="hexpand">true</property>
+            <object class="GtkOverlay">   
                 <child>
-                    <object class="GtkBox" id="header">
-                        <property name="orientation">horizontal</property>
-                        <property name="spacing">40</property>
-                        <property name="margin-top">10</property>
-                        <property name="margin-bottom">10</property>
-                        <property name="margin-start">20</property>
-                        <property name="margin-end">20</property>
-                        <property name="name">header</property>
+                    <object class="GtkBox" id="sidebar">
+                        <property name="orientation">vertical</property>
+                        <property name="width-request">760</property>
+                        <property name="vexpand">true</property>
+                        <property name="hexpand">true</property>
                         <child>
-                            <object class="GtkImage">
-                                <property name="file">resources/img/logo.png</property>
-                                <property name="width-request">50</property>
-                                <property name="height-request">50</property>
+                            <object class="GtkBox" id="header">
+                                <property name="orientation">horizontal</property>
+                                <property name="spacing">40</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="margin-start">20</property>
+                                <property name="margin-end">20</property>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon-name">go-home</property>
+                                        <signal name="clicked" handler="menu_button_click_cb"/>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkSearchEntry" id="contact-search">
+                                        <property name="hexpand">true</property>
+                                        <signal name="search-changed" handler="contact_search_changed_cb"/>
+                                    </object>
+                                </child>
                             </object>
                         </child>
                         <child>
-                            <object class="GtkSearchEntry">
-                                <property name="vexpand">false</property>
+                            <object class="GtkScrolledWindow">
+                                <property name="vexpand">true</property>s
+                                <property name="hscrollbar-policy">never</property>
+                                <child>
+                                    <object class="GtkListBox" id="contacts-list">
+                                        <property name="show-separators">true</property>
+                                        <signal name="realize" handler="contacts_list_realize_cb"/>
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="label">neffarrty</property>
+                                                <property name="height-request">160</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="label">batushka</property>
+                                                <property name="height-request">160</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="label">prov</property>
+                                                <property name="height-request">160</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="label">t1tandr</property>
+                                                <property name="height-request">160</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="label">nikitoooooooooss</property>
+                                                <property name="height-request">160</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="label">shaktiktilar</property>
+                                                <property name="height-request">160</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="label">maxorr4ic</property>
+                                                <property name="height-request">160</property>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child type="overlay">
+                    <object class="GtkBox" id="sidebar-box">
+                        <property name="halign">start</property>
+                        <property name="valign">start</property>
+                        <property name="width-request">380</property>
+                        <property name="visible">false</property>
+                        <property name="name">revealer</property>
+                        <child>
+                            <object class="GtkCenterBox">
+                                <property name="orientation">vertical</property>
+                                <property name="margin-top">20</property>
+                                <property name="margin-bottom">20</property>
+                                <property name="margin-start">20</property>
+                                <property name="margin-end">20</property>
                                 <property name="hexpand">true</property>
+                                <child type="start">
+                                    <object class="GtkBox">
+                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">10</property>
+                                        <child>
+                                            <object class="GtkCenterBox">
+                                                <child type="start">
+                                                    <object class="GtkLabel">
+                                                        <property name="label">Profile</property>
+                                                        <property name="valign">center</property>
+                                                    </object>
+                                                </child>
+                                                <child type="end">
+                                                    <object class="GtkButton">
+                                                        <property name="icon-name">go-previous</property>
+                                                        <signal name="clicked" handler="menu_back_button_click_cb"/>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkSeparator">
+                                                <property name="orientation">horizontal</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="orientation">horizontal</property>
+                                                <property name="hexpand">false</property>
+                                                <property name="margin-top">20</property>
+                                                <child>
+                                                    <object class="GtkBox">
+                                                        <property name="css-classes">avatar</property>
+                                                        <property name="overflow">hidden</property>
+                                                        <property name="width-request">100</property>
+                                                        <property name="height-request">100</property>
+                                                        <child>
+                                                            <object class="GtkPicture">
+                                                                <property name="file">/com/example/application/resources/img/monkey.jpg</property>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkListBox" id="menu-options">
+                                                <property name="margin-top">20</property>
+                                                <property name="name">menu-options</property>
+                                                <child>
+                                                    <object class="GtkBox">
+                                                        <property name="orientation">horizontal</property>
+                                                        <property name="spacing">10</property>
+                                                        <child>
+                                                            <object class="GtkImage">
+                                                                <property name="icon-name">contact</property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="label">Contacts</property>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkBox">
+                                                        <property name="orientation">horizontal</property>
+                                                        <property name="spacing">10</property>
+                                                        <child>
+                                                            <object class="GtkImage">
+                                                                <property name="icon-name">settings</property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="label">Settings</property>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkBox">
+                                                        <property name="orientation">horizontal</property>
+                                                        <property name="spacing">10</property>
+                                                        <child>
+                                                            <object class="GtkImage">
+                                                                <property name="icon-name">sign-out</property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="label">Sign out</property>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                                <child type="end">
+                                    <object class="GtkLabel">
+                                        <property name="label">MonkeyChat! © 2024 Ogurci Team</property>
+                                    </object>
+                                </child>
                             </object>
                         </child>
                     </object>
-                </child>
-                <child>
-                    <object class="GtkScrolledWindow">
-                        <property name="vexpand">true</property>s
-                        <property name="hscrollbar-policy">never</property>
-                        <child>
-                            <object class="GtkListBox">
-                                <property name="show-separators">true</property>
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">neffarrty</property>
-                                        <property name="height-request">160</property>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">batushka</property>
-                                        <property name="height-request">160</property>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">prov</property>
-                                        <property name="height-request">160</property>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">t1tandr</property>
-                                        <property name="height-request">160</property>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">nikitoooooooooss</property>
-                                        <property name="height-request">160</property>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">shaktiktilar</property>
-                                        <property name="height-request">160</property>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">maxorr4ic</property>
-                                        <property name="height-request">160</property>
-                                    </object>
-                                </child>
-                            </object>
-                        </child>
-                    </object>
-                </child>
+                </child> 
             </object>
         </child>
         <child>
@@ -383,201 +490,6 @@
                                         <child>
                                             <object class="GtkLabel">
                                                 <property name="label">hello</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">start</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">hi!</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">end</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">how are u</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">start</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">i'm fine, son of the bitch</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">end</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">ok, fuck, you</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">start</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">your mother is sexy</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">end</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">shut up, faggot</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">end</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">bullshit</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">start</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">he-he</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">end</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">cry baby</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">start</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">fuck you!</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">end</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">i wish you well, in HELL</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">start</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">fuck off, fucking nerd</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">end</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">cry</property>
                                                 <property name="margin-top">10</property>
                                                 <property name="margin-bottom">10</property>
                                                 <property name="margin-start">15</property>

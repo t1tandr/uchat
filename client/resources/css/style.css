@@ -16,18 +16,8 @@
     background-color: rgb(100, 32, 163);
 }
 
-/* .flipped {
-    transform: rotateY(180deg);
-}
-
-#sign-up-form {
-    transform: rotateY(180deg);
-} */
-
 #form {
     color: #000;
-    /* backdrop-filter: blur(10px) saturate(130%);
-    -webkit-backdrop-filter: blur(10px) saturate(130%); */
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 12px;
     border: 1px solid rgba(50, 51, 53, 0.3);
@@ -41,12 +31,38 @@
 entry {
     background-color: rgb(206, 210, 214);
     border: 1px solid rgb(95, 98, 102);
-}
-
-.wrong-password {
-    color: red;
+    color: black;
 }
 
 .error-label {
     color: red;
+}
+
+#revealer {
+    background-color: rgb(100, 96, 96);
+    animation: reveal 0.5s forwards;
+}
+
+@keyframes reveal {
+    0% {
+        transform: translateX(-380px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.avatar {
+    background-color: white;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+}
+
+#menu-options row {
+    background-color: rgb(100, 96, 96);
+}
+
+#menu-options row:hover {
+    color: rgb(70, 68, 68);
 }
