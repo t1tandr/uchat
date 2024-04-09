@@ -1,3 +1,8 @@
+@import url("colors.css");
+/* .termite {
+    background-color: @bg-color;
+} */
+
 #signup {
     background-color: rgb(81, 83, 85);
 }
@@ -13,7 +18,7 @@
 
 #login:hover {
     color: #fff;
-    background-color: rgb(100, 32, 163);
+    background-color: @bg-color;
 }
 
 #form {
@@ -89,19 +94,11 @@ entry {
 }
 
 #quit:hover{
-    background-color: rgb(211,211,211);
-    color: black;
-    border-radius: 50px;
-    font-size: 40px;
-    font-family: 'Times New Roman', Times, serif;
+    background-color: @hover-bg-white-button;
 }
 
 #settings:hover{
-    background-color: rgb(211,211,211);
-    color: black;
-    border-radius: 50px;
-    font-size: 40px;
-    font-family: 'Times New Roman', Times, serif;
+    background-color: @hover-bg-white-button;
 }
 
 #avatar{
@@ -136,7 +133,7 @@ entry {
 }
 
 #home-page {
-    background-color: rgb(46, 17, 83);
+    background-color: @bg-color;
 }
 
 #ListInHomePage{
@@ -150,4 +147,17 @@ entry {
 #ListInHomePageRow:hover{
     background-color: rgb(217, 217, 217);
     color: black;
+}
+#testAvatar{
+    background-color: @bg-color;
+}
+
+/* list properties */
+.usernameChatList{
+    font-size: 22px;
+    color: @text-black-color;
+}
+.semiboldChatList{
+    font-size: 18px;
+    color: @text-semibold-color;
 }
