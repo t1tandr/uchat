@@ -520,6 +520,7 @@
                                                 <property name="name">menu-options</property>
                                                 <child>
                                                     <object class="GtkBox">
+                                                        <property name="css-classes">menu-option-item</property>
                                                         <property name="orientation">horizontal</property>
                                                         <property name="spacing">10</property>
                                                         <child>
@@ -538,6 +539,7 @@
                                                     <object class="GtkBox">
                                                         <property name="orientation">horizontal</property>
                                                         <property name="spacing">10</property>
+                                                        <property name="css-classes">menu-option-item</property>
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">settings</property>
@@ -554,6 +556,7 @@
                                                     <object class="GtkBox">
                                                         <property name="orientation">horizontal</property>
                                                         <property name="spacing">10</property>
+                                                        <property name="css-classes">menu-option-item</property>
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">sign-out</property>

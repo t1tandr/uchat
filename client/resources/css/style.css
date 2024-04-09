@@ -44,7 +44,7 @@ entry {
 }
 
 #revealer {
-    background-color: rgb(100, 96, 96);
+    background-color: rgb(54, 51, 51);
     animation: reveal 0.5s forwards;
 }
 
@@ -65,12 +65,12 @@ entry {
 }
 
 #menu-options row {
-    background-color: rgb(100, 96, 96);
+    background-color: rgb(54, 51, 51);
 }
 
-#menu-options row:hover {
+/* #menu-options row:hover {
     color: rgb(70, 68, 68);
-}
+} */
 
 #BoxForImage{
     background-color: rgb(255, 255, 255);
@@ -160,4 +160,18 @@ entry {
 .semiboldChatList{
     font-size: 18px;
     color: @text-semibold-color;
+}
+.menu-option-item{
+    /* background-color: @bg-color; */
+    padding: 15px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    font-weight: 400;
+    text-align: center;
+    color: white;
+    background-color: rgb(66, 64, 64);
+}
+.menu-option-item:hover{
+    background-color: rgb(95, 91, 91);
+    color: white;
 }
