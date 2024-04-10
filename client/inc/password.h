@@ -13,7 +13,6 @@ enum {
     PWD_NUM
 };
 
-
 enum {
     BUILDER_ID,
     CORRECT_LABEL,

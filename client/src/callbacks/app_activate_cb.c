@@ -1,26 +1,39 @@
 #include "uchat.h"
 
-void app_activate_cb(GtkApplication *app) {
-    GtkBuilder* builder = NULL;
+static GtkBuilder* setup_builder(const char* files[]) {
+    GtkBuilder* builder = gtk_builder_new();
     GError* err = NULL;
-    
-    builder = gtk_builder_new();
+
     gtk_builder_set_current_object(builder, G_OBJECT(builder));
-    gtk_builder_add_from_file(builder, "resources/ui/login.ui", &err);
 
-    if(err != NULL) {
-        handle_error(mx_strjoin("uchat: failed to start application: ", err->message));
+    for(int i = 0; files[i] != NULL; i++) {
+        gtk_builder_add_from_file(builder, files[i], &err);
+
+        if(err != NULL) {
+            handle_error(mx_strjoin("uchat: failed to start application: ", err->message));
+        }
     }
-    else {
-        GtkWindow* window = GTK_WINDOW(gtk_builder_get_object(builder, "main-window"));
 
-        connect_css("resources/css/style.css");
-        add_icon_theme("resources/icons");
+    return builder;
+}
 
-        gtk_application_add_window(app, window);
-        gtk_window_present(window);
+void app_activate_cb(GtkApplication *app) {
+    const char* files[] = {
+        "resources/ui/login.ui",
+        "resources/ui/register.ui",
+        "resources/ui/homepage.ui",
+        NULL 
+    };
+    
+    GtkBuilder* builder = setup_builder(files);
+    GtkWindow* window = GTK_WINDOW(gtk_builder_get_object(builder, "main-window"));
 
-        g_signal_connect(window, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
-    }
+    add_css_stylesheet("resources/css/style.css");
+    add_icon_theme("resources/icons");
+
+    gtk_application_add_window(app, window);
+    gtk_window_present(window);
+
+    g_signal_connect(window, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
 }
 

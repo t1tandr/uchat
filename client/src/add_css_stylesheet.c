@@ -1,6 +1,6 @@
 #include "uchat.h"
 
-void connect_css(const char* path) {
+void add_css_stylesheet(const char* path) {
     GtkCssProvider* provider = gtk_css_provider_new();
 
     gtk_css_provider_load_from_path(provider, path);

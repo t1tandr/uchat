@@ -1,11 +1,10 @@
 #include "uchat.h"
 
 static gboolean filter_func(GtkListBoxRow* row, gpointer user_data) {
-    GtkLabel* label = GTK_LABEL(gtk_list_box_row_get_child(row));
-    GtkEditable* entry = GTK_EDITABLE(user_data);
-    const char* text = gtk_editable_get_text(entry);
+    UchatContactBox* msg = UCHAT_CONTACT_BOX(gtk_list_box_row_get_child(row));
+    const char* text = gtk_editable_get_text(GTK_EDITABLE(user_data));
 
-    return strncmp(gtk_label_get_label(label), text, strlen(text)) == 0;
+    return strncmp(uchat_contact_box_get_author(msg), text, strlen(text)) == 0;
 }
 
 void contacts_list_realize_cb(GtkListBox* self, gpointer user_data) {
