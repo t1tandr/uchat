@@ -11,18 +11,7 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
     }
 
     // TEMP, think of a better solution
-    cJSON *headers = cJSON_GetObjectItemCaseSensitive(req, "headers");
-
-    if (cJSON_HasObjectItem(headers, "Authorization")) {
-        char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
-        cJSON *session = get_session(session_id, db);
-
-        if (session != NULL && !is_client_saved(session_id, sock_fd)) {
-            int user_id = cJSON_GetObjectItem(session, "user_id")->valueint;
-            
-            add_client_connection(session_id, user_id, sock_fd);
-        }
-    }
+    client_connection_handler(req, db, sock_fd);
 
     t_list *temp = clients;
     while (temp != NULL) {
@@ -69,6 +58,19 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
         } else if (strcmp(method, "DELETE") == 0 && sscanf(route, "/chats/%d", &id) == 1) {
             delete_chat_controller(id, req, db, sock_fd);
         }
+    } else if (strncmp(route, "/chat-members", strlen("/chat-members")) == 0) {
+        int id;
+
+        if (strcmp(method, "POST") == 0) {
+            create_chat_member_controller(req, db, sock_fd);
+        } else if (strcmp(method, "GET") == 0 && sscanf(route, "/chat-members/%d", &id) == 1) {
+            get_chat_members_controller(id, req, db, sock_fd);
+        }
+        // else if (strcmp(method, "PUT") == 0 && sscanf(route, "/chats/%d", &id) == 1) {
+        //     update_chat_controller(id, req, db, sock_fd);
+        // } else if (strcmp(method, "DELETE") == 0 && sscanf(route, "/chats/%d", &id) == 1) {
+        //     delete_chat_controller(id, req, db, sock_fd);
+        // }
     } else if (strncmp(route, "/message", strlen("/message")) == 0) {
         if (strcmp(method, "POST") == 0) {
             create_message_controller(req, db, sock_fd);

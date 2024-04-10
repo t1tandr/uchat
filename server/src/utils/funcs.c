@@ -42,6 +42,17 @@ cJSON *stmt_to_chat_json(sqlite3_stmt *stmt) {
     return chat;
 }
 
+cJSON *stmt_to_chat_member_json(sqlite3_stmt *stmt) {
+    cJSON *chat_member = cJSON_CreateObject();
+
+    cJSON_AddNumberToObject(chat_member, "id", sqlite3_column_int(stmt, 0));
+    cJSON_AddNumberToObject(chat_member, "chat_id", sqlite3_column_int(stmt, 1));
+    cJSON_AddNumberToObject(chat_member, "user_id", sqlite3_column_int(stmt, 2));
+    cJSON_AddStringToObject(chat_member, "role", (const char *) sqlite3_column_text(stmt, 3));
+
+    return chat_member;
+}
+
 bool is_user_chat_member(int user_id, cJSON *chat_members) {
     for (int i = 0; i < cJSON_GetArraySize(chat_members); i++) {
         cJSON *chat_member = cJSON_GetArrayItem(chat_members, i);

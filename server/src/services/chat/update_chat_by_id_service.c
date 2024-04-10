@@ -11,7 +11,7 @@ cJSON *update_chat_by_id_service(int chat_id, cJSON *data, cJSON *headers, sqlit
 
     int user_id = cJSON_GetObjectItemCaseSensitive(session, "user_id")->valueint;
 
-    cJSON *chat_members = get_chat_members_service(chat_id, db, sock_fd);
+    cJSON *chat_members = get_chat_members_service(chat_id, headers, db, sock_fd);
 
     if (!is_user_chat_member(user_id, chat_members)) {
         error_handler(sock_fd, "Unauthorized", 401);

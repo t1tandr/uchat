@@ -37,6 +37,7 @@ void init_database() {
         "id INTEGER PRIMARY KEY NOT NULL,"
         "chat_id INTEGER NOT NULL,"
         "user_id INTEGER NOT NULL,"
+        "role VARCHAR(30) NOT NULL CHECK(role IN ('USER', 'ADMIN')) DEFAULT USER,"
         "FOREIGN KEY (chat_id) REFERENCES chats(id) ON DELETE CASCADE,"
         "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
         ");"

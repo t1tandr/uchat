@@ -2,6 +2,21 @@
 
 extern t_list *clients;
 
+void client_connection_handler(cJSON *req, sqlite3 *db, int sock_fd) {
+    cJSON *headers = cJSON_GetObjectItemCaseSensitive(req, "headers");
+
+    if (cJSON_HasObjectItem(headers, "Authorization")) {
+        char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
+        cJSON *session = get_session(session_id, db);
+
+        if (session != NULL && !is_client_saved(session_id, sock_fd)) {
+            int user_id = cJSON_GetObjectItem(session, "user_id")->valueint;
+            
+            add_client_connection(session_id, user_id, sock_fd);
+        }
+    }
+}
+
 void add_client_connection(char *session_id, int user_id, int sock_fd) {
     connection *conn = (connection *) malloc(sizeof(conn));
     conn->sock_fd = sock_fd;

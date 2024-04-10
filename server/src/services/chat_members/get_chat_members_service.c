@@ -1,6 +1,14 @@
 #include "server.h"
 
-cJSON *get_chat_members_service(int chat_id, sqlite3 *db, int sock_fd) {
+cJSON *get_chat_members_service(int chat_id, cJSON *headers, sqlite3 *db, int sock_fd) {
+    char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
+    cJSON *session = get_session(session_id, db);
+
+    if (session == NULL) {
+        error_handler(sock_fd, "Unauthorized", 401);
+        return NULL;
+    }
+
     sqlite3_stmt *stmt;
     char *sql;
 
@@ -18,10 +26,7 @@ cJSON *get_chat_members_service(int chat_id, sqlite3 *db, int sock_fd) {
     cJSON *chat_members = cJSON_CreateArray();
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
-        cJSON *chat_member = cJSON_CreateObject();
-        cJSON_AddNumberToObject(chat_member, "id", sqlite3_column_int(stmt, 0));
-        cJSON_AddNumberToObject(chat_member, "chat_id", sqlite3_column_int(stmt, 1));
-        cJSON_AddNumberToObject(chat_member, "user_id", sqlite3_column_int(stmt, 2));
+        cJSON *chat_member = stmt_to_chat_member_json(stmt);
 
         cJSON_AddItemToArray(chat_members, chat_member);
     }

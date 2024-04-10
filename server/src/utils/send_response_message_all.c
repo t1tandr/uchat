@@ -2,7 +2,7 @@
 
 extern t_list *clients;
 
-void send_response_message_all(int sock_fd, sqlite3 *db, cJSON *message, int status) {
+void send_response_message_all(cJSON *headers, cJSON *message, int status, int sock_fd, sqlite3 *db) {
     cJSON *res = cJSON_CreateObject();
     cJSON_AddNumberToObject(res, "status", status);
 
@@ -13,7 +13,7 @@ void send_response_message_all(int sock_fd, sqlite3 *db, cJSON *message, int sta
     char *res_str = cJSON_Print(res);
 
     int chat_id = cJSON_GetObjectItem(message, "chat_id")->valueint;
-    cJSON *chat_members = get_chat_members_service(chat_id, db, sock_fd);
+    cJSON *chat_members = get_chat_members_service(chat_id, headers, db, sock_fd);
 
     for (int i = 0; i < cJSON_GetArraySize(chat_members); i++) {
         cJSON *chat_member = cJSON_GetArrayItem(chat_members, i);
