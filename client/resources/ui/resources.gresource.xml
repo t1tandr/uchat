@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+    <gresource prefix="/ua/ucode-connect/uchat">
+        <file>text_message.ui</file>
+    </gresource>
+</gresources>

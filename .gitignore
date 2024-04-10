@@ -10,4 +10,5 @@
 !*.css
 !*.png
 !*.theme
+!*.xml
 !LICENSE
