@@ -1,7 +1,68 @@
-button#login {
+#signup {
+    background-color: rgb(81, 83, 85);
+}
+
+#login {
     background-color: blueviolet;
 }
 
-button#login:hover {
-    background-color: rgb(81, 22, 136);
+#signup:hover {
+    color: #fff;
+    background-color: blueviolet;
+}
+
+#login:hover {
+    color: #fff;
+    background-color: rgb(100, 32, 163);
+}
+
+#form {
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    border: 1px solid rgba(50, 51, 53, 0.3);
+    transition: transform 5s;
+}
+
+#login-page {
+    background-image: url("../img/background.png");
+}
+
+entry {
+    background-color: rgb(206, 210, 214);
+    border: 1px solid rgb(95, 98, 102);
+    color: black;
+}
+
+.error-label {
+    color: red;
+}
+
+#revealer {
+    background-color: rgb(100, 96, 96);
+    animation: reveal 0.5s forwards;
+}
+
+@keyframes reveal {
+    0% {
+        transform: translateX(-380px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.avatar {
+    background-color: white;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+}
+
+#menu-options row {
+    background-color: rgb(100, 96, 96);
+}
+
+#menu-options row:hover {
+    color: rgb(70, 68, 68);
 }

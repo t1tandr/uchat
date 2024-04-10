@@ -8,7 +8,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 INC = $(wildcard $(INC_DIR)/*.h)
-SRC = $(wildcard $(SRC_DIR)/*.c)
+SRC = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/**/*.c)
 OBJ = $(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(SRC:%.c=%.o))
 
 LIBS_DIR = ../libs
@@ -38,6 +38,7 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC) $(LIB)
+	mkdir -p $(@D)
 	$(CC) $(CCFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
