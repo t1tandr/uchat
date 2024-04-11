@@ -175,3 +175,22 @@ entry {
     background-color: rgb(95, 91, 91);
     color: white;
 }
+
+#BoxForColor{
+    background-color: rgb(46, 17, 83);
+    border-radius: 50%;
+}
+
+#Change{
+    border-radius: 20px;
+    background-color: rgb(46, 17, 83);
+    color:rgb(245, 245, 245);
+    border:2px solid rgb(245, 245, 245);
+}
+#Change:hover{
+    background-color: rgb(211,211,211);
+}
+
+#Avatar{
+    border-radius: 50%;
+}

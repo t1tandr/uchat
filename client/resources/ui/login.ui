@@ -615,6 +615,16 @@
                                 </object>
                                 </child>
                                 <child>
+                                    <object class="GtkBox" id="BoxForImage">
+                                        <property name="height-request">336</property>
+                                        <property name="margin-start">480</property>
+                                        <property name="margin-top">130</property>
+                                        <property name="width-request">336</property>
+                                        <property name="name">BoxForImage</property>
+                                        <property name="overflow">hidden</property>
+                                    </object>
+                                </child>
+                                <child>
                                     <object class="GtkLabel">
                                     <property name="label">Welcome,Monkey228!</property>
                                     <property name="height-request">326</property>
@@ -626,14 +636,17 @@
                                 </object>
                                 </child>
                                 <child>
-                                <object class="GtkBox">
-                                    <property name="height-request">326</property>
-                                    <property name="margin-start">485</property>
-                                    <property name="margin-top">135</property>
-                                    <property name="width-request">326</property>
-                                    <property name="name">BoxForImage</property>
-                            </object>
-                        </child>
+                                    <object class="GtkPicture" id="AvatarInHomePage">
+                                        <property name="height-request">326</property>
+                                        <property name="margin-start">485</property>
+                                        <property name="margin-top">135</property>
+                                        <property name="width-request">326</property>
+                                        <property name="keep-aspect-ratio">FALSE</property>
+                                        <property name="paintable">../img/default_avatar.png</property>
+                                        <property name="overflow">hidden</property>
+                                        <property name="name">Avatar</property>
+                                    </object>
+                                </child>
                         <child>
                         <object class="GtkBox">
                             <property name="height-request">1080</property>
@@ -696,15 +709,26 @@
             </object>
 
 
-    <object class="GtkBox" id="settings">
-        <property name="width-request">1156</property>
-        <property name="visible">true</property>
+<object class="GtkBox" id="settings">
+        <property name="orientation">vertical</property>
+        <property name="width-request">1160</property>
+        <property name="hexpand">true</property>
         <property name="name">settings-menu</property>   
         <child>
           <object class="GtkFixed">
             <child>
+                <object class="GtkBox" id="BoxForImageinSettings">
+                    <property name="height-request">136</property>
+                    <property name="margin-start">30</property>
+                    <property name="margin-top">150</property>
+                    <property name="width-request">136</property>
+                    <property name="name">BoxForImage</property>
+                    <property name="overflow">hidden</property>
+                </object>
+            </child>
+            <child>
                 <object class="GtkLabel">
-                    <property name="margin-start">80</property>
+                    <property name="margin-start">30</property>
                     <property name="margin-top">50</property>
                     <property name="height-request">75</property>
                     <property name="width-request">230</property>
@@ -713,28 +737,67 @@
                 </object>
             </child>
             <child>
-                <object class="GtkButton">
-                    <property name="margin-start">30</property>
-                    <property name="margin-top">62</property>
-                    <property name="height-request">50</property>
-                    <property name="width-request">50</property>
-                    <property name="name">SettingsButtonReturn</property>
-                    <signal name="clicked" handler="return_from_settings_button_click_cb"/>
-                    <child>
-                        <object class="GtkImage">
-                            <property name="height-request">50</property>
-                            <property name="width-request">50</property>
-                            <property name="file">resources/img/return.png</property>
-                        </object>
-                    </child>
-                </object>
-            </child>
-            <child>
                 <object class="GtkBox">
                     <property name="height-request">1080</property>
                     <property name="margin-start">1</property>
                     <property name="width-request">3</property>
                     <property name="name">BoxForLine</property>
+                </object>
+            </child>
+            <!-- <child>
+                <object class="GtkBox">
+                        <property name="margin-start">30</property>
+                        <property name="margin-top">262</property>
+                        <child>
+                            <object class="GtkColorChooserWidget" id="ColorChooser">
+                                <property name="show-editor">TRUE</property>
+                                <signal name="color-activated" handler="change_box_color"/>
+                            </object>
+                        </child>
+                    </object>
+            </child> -->
+            <child>
+                <object class="GtkButton">
+                    <property name="height-request">30</property>
+                    <property name="label">Change color</property>
+                    <property name="margin-start">190</property>
+                    <property name="margin-top">173</property>
+                    <property name="width-request">200</property>
+                    <property name="name">Change</property>
+                    <signal name="clicked" handler="open_but"/>
+                </object>
+            </child>
+            <child>
+                <object class="GtkButton">
+                    <property name="height-request">30</property>
+                    <property name="label">Change avatar</property>
+                    <property name="margin-start">190</property>
+                    <property name="margin-top">236</property>
+                    <property name="width-request">200</property>
+                    <property name="name">Change</property>
+                </object>
+            </child>
+            <child>
+                <object class="GtkPicture">
+                    <property name="height-request">126</property>
+                    <property name="margin-start">35</property>
+                    <property name="margin-top">155</property>
+                    <property name="width-request">126</property>
+                    <property name="keep-aspect-ratio">FALSE</property>
+                    <property name="paintable">../img/default_avatar.png</property>
+                    <property name="overflow">hidden</property>
+                    <property name="name">Avatar</property>
+                </object>
+            </child>
+            <child>
+                <object class="GtkButton">
+                    <property name="height-request">50</property>
+                    <property name="label">Back</property>
+                    <property name="margin-start">50</property>
+                    <property name="margin-top">850</property>
+                    <property name="width-request">120</property>
+                    <property name="name">Change</property>
+                    <signal name="clicked" handler="return_from_settings_button_click_cb"/>
                 </object>
             </child>
         </object>
