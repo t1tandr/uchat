@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
     <requires lib="gtk" version="4.0"/>
-        <object class="GtkBox" id="sign-up">
+        <object class="GtkBox" id="register">
         <property name="orientation">vertical</property>
         <property name="hexpand">true</property>
         <property name="vexpand">true</property>
@@ -136,7 +136,7 @@
                     <object class="GtkButton">
                         <property name="label">Sign in</property>
                         <property name="name">signup</property>
-                        <signal name="clicked" handler="sign_button_click_cb"/>
+                        <signal name="clicked" handler="switch_form_button_click_cb"/>
                     </object>
                 </child>
             </object>

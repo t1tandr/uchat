@@ -56,9 +56,6 @@
                         <child type="end">
                             <object class="GtkCenterBox">
                                 <property name="orientation">vertical</property>
-                                <!-- <style>
-                                    <class name="usernameChatList"/>
-                                </style> -->
                                 <child type="start">
                                     <object class="GtkLabel" id="time">
                                         <property name="label">time</property>

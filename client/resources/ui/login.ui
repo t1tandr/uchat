@@ -24,7 +24,7 @@
                         <property name="height-request">420</property>
                         <property name="width-request">300</property>
                         <child>
-                            <object class="GtkBox" id="sign-in">
+                            <object class="GtkBox" id="login">
                                 <property name="orientation">vertical</property>
                                 <property name="hexpand">true</property>
                                 <property name="vexpand">true</property>
@@ -97,7 +97,7 @@
                                             <object class="GtkButton">
                                                 <property name="label">Sign up</property>
                                                 <property name="name">signup</property>
-                                                <signal name="clicked" handler="sign_button_click_cb"/>
+                                                <signal name="clicked" handler="switch_form_button_click_cb"/>
                                             </object>
                                         </child>
                                     </object>

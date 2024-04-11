@@ -21,14 +21,18 @@
 #form {
     color: #000;
     background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 12px;
+    border-radius: 3px;
     border: 1px solid rgba(50, 51, 53, 0.3);
-    transition: transform 5s;
+    box-shadow: 5px 5px 5px black;
 }
 
-#login-page {
-    background-image: url("../img/background.png");
+#form entry {
+    border-radius: 3px;
 }
+
+/* #login-page {
+    background-image: url("../img/background.png");
+} */
 
 entry {
     background-color: rgb(206, 210, 214);
