@@ -1,3 +1,5 @@
+@import url("colors.css");
+
 #signup {
     background-color: rgb(81, 83, 85);
 }
@@ -65,4 +67,12 @@ entry {
 
 #menu-options row:hover {
     color: rgb(70, 68, 68);
+}
+
+#name {
+    background-color:rgb(70, 68, 68);
+}
+
+#name1 {
+    background-color:rgb(185, 42, 42);
 }
