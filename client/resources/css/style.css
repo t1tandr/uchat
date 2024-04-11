@@ -2,10 +2,12 @@
 
 #signup {
     background-color: rgb(81, 83, 85);
+    border-radius: 3px;
 }
 
 #login {
     background-color: blueviolet;
+    border-radius: 3px;
 }
 
 #signup:hover {
@@ -18,7 +20,7 @@
     background-color: rgb(100, 32, 163);
 }
 
-#form {
+.form-wrapper {
     color: #000;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 3px;
@@ -26,13 +28,9 @@
     box-shadow: 5px 5px 5px black;
 }
 
-#form entry {
+.form-wrapper entry {
     border-radius: 3px;
 }
-
-/* #login-page {
-    background-image: url("../img/background.png");
-} */
 
 entry {
     background-color: rgb(206, 210, 214);
@@ -77,6 +75,10 @@ entry {
     background-color:rgb(70, 68, 68);
 }
 
-#name1 {
-    background-color:rgb(185, 42, 42);
+.description {
+    font-size: 20px;
+}
+
+.description-label {
+    font-size: 32px;
 }
