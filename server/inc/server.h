@@ -16,9 +16,10 @@
 #include <pthread.h>
 
 #include <cJSON.h>
-#include "sqlite3.h"
+#include <sqlite3.h>
 #include <bcrypt.h>
 #include <uuid/uuid.h>
+#include <glib.h>
 
 #define BUFF_SIZE 1024
 
@@ -46,9 +47,14 @@ void delete_chat_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd);
 // - Chat Members
 void create_chat_member_controller(cJSON *req, sqlite3 *db, int sock_fd);
 void get_chat_members_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd);
+void update_chat_member_controller(cJSON *req, sqlite3 *db, int sock_fd);
+void delete_chat_member_controller(cJSON *req, sqlite3 *db, int sock_fd);
 
 // - Message
 void create_message_controller(cJSON *req, sqlite3 *db, int sock_fd);
+void get_messages_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd);
+void update_message_controller(int message_id, cJSON *req, sqlite3 *db, int sock_fd);
+void delete_message_controller(int message_id, cJSON *req, sqlite3 *db, int sock_fd);
 
 // Services
 
@@ -74,11 +80,16 @@ cJSON *delete_chat_by_id_service(int chat_id, cJSON *headers, sqlite3 *db, int s
 
 // - Message
 cJSON *create_message_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *get_messages_service(int chat_id, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *get_message_by_id_service(int message_id, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *update_message_service(int message_id, cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *delete_message_by_id_service(int message_id, cJSON *headers, sqlite3 *db, int sock_fd);
 
 // - ChatMember
 cJSON *get_chat_members_service(int chat_id, cJSON *headers, sqlite3 *db, int sock_fd);
 cJSON *create_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
 cJSON *update_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *delete_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
 
 // Utils
 void *handle_request(void *arg);
@@ -89,9 +100,11 @@ void init_database();
 sqlite3 *database_connect();
 void error_handler(int sock_fd, char* message, int status);
 void send_response(int sock_fd, cJSON *data, int status);
+void send_response_users_by_id(GHashTable *user_ids, cJSON *data, int status);
 void start_daemon_process();
 bool session_exists(char *session_id, int user_id, sqlite3 *db);
 cJSON *get_session(char *session_id, sqlite3 *db);
+GHashTable *chat_members_to_user_ids_set(cJSON *chat_members);
 
 bool is_file_exists(char *filename);
 cJSON *stmt_to_user_json(sqlite3_stmt *stmt);
@@ -103,7 +116,7 @@ bool is_user_chat_member(int user_id, cJSON *chat_members);
 void send_response_message_all(cJSON *headers, cJSON *message, int status, int sock_fd, sqlite3 *db);
 void add_client_connection(char *session_id, int user_id, int sock_fd);
 void remove_client_connection(char *session_id);
-bool is_client_saved(char *session_id, int sock_fd);
+bool is_client_saved(char *session_id);
 void client_connection_handler(cJSON *req, sqlite3 *db, int sock_fd);
 
 typedef struct {
@@ -111,3 +124,8 @@ typedef struct {
     char *session_id;
     int user_id;
 } connection;
+
+typedef struct {
+    int sock_fd;
+    int user_id;
+} connection_data;

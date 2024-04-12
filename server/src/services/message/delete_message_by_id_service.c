@@ -1,6 +1,6 @@
 #include "server.h"
 
-cJSON *create_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd) {
+cJSON *delete_message_by_id_service(int message_id, cJSON *headers, sqlite3 *db, int sock_fd) {
     char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
     cJSON *session = get_session(session_id, db);
 
@@ -10,18 +10,25 @@ cJSON *create_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int 
     }
 
     int user_id = cJSON_GetObjectItem(session, "user_id")->valueint;
-    int chat_id = cJSON_GetObjectItem(data, "chat_id")->valueint;
-    int add_user_id = cJSON_GetObjectItem(data, "user_id")->valueint;
 
-    cJSON *chat_members = get_chat_members_service(chat_id, headers, db, sock_fd);
+    cJSON *message = get_message_by_id_service(message_id, headers, db, sock_fd);
+    if (message == NULL) {
+        return NULL;
+    }
 
-    if (!is_user_chat_member(user_id, chat_members) && !(cJSON_GetArraySize(chat_members) == 0 && user_id == add_user_id)) {
+    if (user_id != cJSON_GetObjectItem(message, "user_id")->valueint) {
         error_handler(sock_fd, "Unauthorized", 401);
         return NULL;
     }
 
-    if (is_user_chat_member(add_user_id, chat_members)) {
-        error_handler(sock_fd, "User is already in chat", 400);
+    int chat_id = cJSON_GetObjectItem(message, "chat_id")->valueint;
+    cJSON *chat_members = get_chat_members_service(chat_id, headers, db, sock_fd);
+    if (chat_members == NULL) {
+        return NULL;
+    }
+
+    if (!is_user_chat_member(user_id, chat_members)) {
+        error_handler(sock_fd, "User is not in chat", 400);
         return NULL;
     }
 
@@ -29,9 +36,8 @@ cJSON *create_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int 
     char *sql;
 
     sql = sqlite3_mprintf(
-        "INSERT INTO chat_members (chat_id, user_id) VALUES (%d, %d) RETURNING *;",
-        chat_id,
-        add_user_id
+        "DELETE FROM messages WHERE id=%d RETURNING *;",
+        message_id
     );
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
@@ -45,11 +51,11 @@ cJSON *create_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int 
         return NULL;
     }
 
-    cJSON *chat_member = stmt_to_chat_member_json(stmt);
+    cJSON *deleted_message = stmt_to_message_json(stmt);
     
     sqlite3_finalize(stmt);
     sqlite3_free(sql);
 
-    return chat_member;
+    return deleted_message;
 }
 

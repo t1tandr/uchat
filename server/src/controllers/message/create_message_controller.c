@@ -17,6 +17,20 @@ void create_message_controller(cJSON *req, sqlite3 *db, int sock_fd) {
 
     if (!message) return;
 
-    send_response_message_all(headers, message, 201, sock_fd, db);
+    cJSON *chat_members = get_chat_members_service(
+        cJSON_GetObjectItem(message, "chat_id")->valueint,
+        headers,
+        db,
+        sock_fd
+    );
+    
+    if (!chat_members) return;
+
+    GHashTable *user_ids = chat_members_to_user_ids_set(chat_members);
+
+    cJSON_Delete(chat_members);
+
+    send_response_users_by_id(user_ids, message, 201);
+    // send_response_message_all(headers, message, 201, sock_fd, db);
 }
 

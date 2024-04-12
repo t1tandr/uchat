@@ -66,3 +66,16 @@ bool is_user_chat_member(int user_id, cJSON *chat_members) {
     return false;
 }
 
+GHashTable *chat_members_to_user_ids_set(cJSON *chat_members) {
+    GHashTable *user_ids = g_hash_table_new(g_str_hash, g_str_equal);;
+
+    for (int i = 0; i < cJSON_GetArraySize(chat_members); i++) {
+        cJSON *chat_member = cJSON_GetArrayItem(chat_members, i);
+        int chat_member_id = cJSON_GetObjectItem(chat_member, "user_id")->valueint;
+
+        g_hash_table_add(user_ids, (void *) mx_itoa(chat_member_id));
+    }
+
+    return user_ids;
+}
+

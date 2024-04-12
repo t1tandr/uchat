@@ -1,6 +1,6 @@
 #include "server.h"
 
-extern t_list *clients;
+extern GHashTable *clients;
 
 void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
     if (!cJSON_HasObjectItem(req, "method")
@@ -13,11 +13,14 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
     // TEMP, think of a better solution
     client_connection_handler(req, db, sock_fd);
 
-    t_list *temp = clients;
-    while (temp != NULL) {
-        connection *conn = (connection *) temp->data;
-        printf("%d %s\n", conn->sock_fd, conn->session_id);
-        temp = temp->next;
+    GHashTableIter iter;
+    gpointer key, value;
+
+    g_hash_table_iter_init (&iter, clients);
+    while (g_hash_table_iter_next (&iter, &key, &value)) {
+        connection_data *conn = (connection_data *) value;
+
+        printf("%d %s\n", conn->sock_fd, (char *) key);
     }
     // --------------------------------
 
@@ -71,9 +74,17 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
         // } else if (strcmp(method, "DELETE") == 0 && sscanf(route, "/chats/%d", &id) == 1) {
         //     delete_chat_controller(id, req, db, sock_fd);
         // }
-    } else if (strncmp(route, "/message", strlen("/message")) == 0) {
+    } else if (strncmp(route, "/messages", strlen("/messages")) == 0) {
+        int id;
+
         if (strcmp(method, "POST") == 0) {
             create_message_controller(req, db, sock_fd);
+        } else if (strcmp(method, "GET") == 0 && sscanf(route, "/messages/%d", &id) == 1) {
+            get_messages_controller(id, req, db, sock_fd);
+        } else if (strcmp(method, "PUT") == 0 && sscanf(route, "/messages/%d", &id) == 1) {
+            update_message_controller(id, req, db, sock_fd);
+        } else if (strcmp(method, "DELETE") == 0 && sscanf(route, "/messages/%d", &id) == 1) {
+            delete_message_controller(id, req, db, sock_fd);
         }
     } else {
         error_handler(sock_fd, "Unknown endpoint", 404);
