@@ -29,21 +29,6 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
     }
 }
 
-/*
-
-void password_entry_icon_press_cb(GtkEntry* self) {
-    if(gtk_entry_get_visibility(self)) {
-        gtk_entry_set_visibility(self, FALSE);
-        gtk_entry_set_icon_from_icon_name(self, GTK_ENTRY_ICON_SECONDARY, "password-visibility-on");
-    }
-    else {
-        gtk_entry_set_visibility(self, TRUE);
-        gtk_entry_set_icon_from_icon_name(self, GTK_ENTRY_ICON_SECONDARY, "password-visibility-off");
-    }
-}
-
-*/
-
 int main(int argc, char *argv[]) {
     if(argc != 3) {
         handle_error(USAGE_ERROR);

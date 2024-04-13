@@ -118,13 +118,6 @@
                         <property name="height-request">420</property>
                         <property name="width-request">620</property>
                         <property name="name">name</property>
-                        <!-- <child>
-                            <object class="GtkVideo">
-                                <property name="hexpand">true</property>
-                                <property name="vexpand">true</property>
-                                <signal name="realize" handler="preview_video_realize_cb"/>
-                            </object>
-                        </child> -->
                         <child>
                             <object class="GtkLabel">
                                 <property name="label">MonkeyChat!</property>
@@ -145,6 +138,8 @@
                                 <property name="margin-bottom">20</property>
                                 <property name="margin-start">10</property>
                                 <property name="margin-end">10</property>
+                                <property name="wrap-mode">word</property>
+                                <property name="cursor-visible">false</property>
                                 <style>
                                     <class name="description"/>
                                 </style>
@@ -317,14 +312,7 @@
         </child> 
     </object>
     <object class="GtkTextBuffer" id="buffer">
-        <property name="text">
-Lorem ipsum dolor sit amet, consectetur 
-adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
-magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
-deserunt mollit anim id est laborum.
+        <property name="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </property>
     </object>
 </interface>

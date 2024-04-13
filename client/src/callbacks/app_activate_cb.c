@@ -24,17 +24,17 @@ void app_activate_cb(GtkApplication *app) {
         NULL 
     };
     GtkBuilder* builder = setup_builder(files);
-    GtkWindow* window = gtk_application_window_new(app);
+    GtkWidget* window = GTK_WIDGET(gtk_application_window_new(app));
     
-    gtk_window_set_title(window, "MonkeyChat!");
-    gtk_window_set_default_size(window, 1920, 1080);
-    gtk_window_set_resizable(window, FALSE);
-    gtk_window_set_child(window, GTK_WIDGET(gtk_builder_get_object(builder, "login-page")));
+    gtk_window_set_title(GTK_WINDOW(window), "MonkeyChat!");
+    gtk_window_set_default_size(GTK_WINDOW(window), 1920, 1080);
+    gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
+    gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(builder, "login-page")));
 
     add_css_stylesheet("resources/css/style.css");
     add_icon_theme("resources/icons");
 
-    gtk_window_present(window);
+    gtk_window_present(GTK_WINDOW(window));
 
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
 }
