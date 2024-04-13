@@ -1,21 +1,51 @@
 #include "uchat.h"
 
 cJSON* send_request(int sockfd, cJSON *request) {
-    char* request_str = cJSON_Print(request);
-    char  response_str[1024];
-    int   nbytes = 0;
+    char* req_str = NULL;
+    char* res_str = NULL;
+    int nbytes = 0;
+    int req_length = 0;
+    int res_length = 0;
+    cJSON* res_json = NULL;
 
-    memset(response_str, '\0', sizeof(response_str));
+    req_str = cJSON_PrintUnformatted(request);
+    if(req_str == NULL) {
+        return NULL;
+    }
 
-    nbytes = send(sockfd, request_str, strlen(request_str), 0);
+    req_length = strlen(req_str);
+
+    nbytes = send(sockfd, &req_length, sizeof(req_length), 0);
     
-    free(request_str);
-    if(nbytes > 0) {
-        nbytes = recv(sockfd, response_str, sizeof(response_str) - 1, 0);
+    if(nbytes != -1) {
+        nbytes = send(sockfd, req_str, req_length, 0);
 
-        if(nbytes > 0) {
-            response_str[nbytes] = '\0';
-            return cJSON_Parse(response_str);
+        if(nbytes != -1) {
+            nbytes = recv(sockfd, &res_length, sizeof(res_length), 0);
+            printf("length: %d\n", res_length);
+
+            if (nbytes < 0) {
+                return NULL;;
+            }
+
+            int received_bytes = 0;
+            res_str = (char *)malloc(res_length + 1);
+
+            while(received_bytes < res_length) {
+                nbytes = recv(sockfd, res_str + received_bytes, res_length - received_bytes, 0);
+
+                if (nbytes < 0) {
+                    return NULL;
+                }
+                received_bytes += nbytes;
+            }
+            res_str[received_bytes] = '\0';
+            res_json = cJSON_Parse(res_str);
+
+            free(req_str);
+            free(res_str);
+
+            return res_json;
         }
     }
 

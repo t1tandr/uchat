@@ -54,27 +54,46 @@
                                                         <property name="orientation">horizontal</property>
                                                     </object>
                                                 </child>
-                                                <child>
+                                                <!-- <child>
                                                     <object class="GtkLabel" id="login-label">
                                                         <property name="label">Login</property>
                                                         <property name="halign">start</property>
                                                     </object>
-                                                </child>
+                                                </child> -->
                                                 <child>
                                                     <object class="GtkEntry" id="username-entry">
                                                         <property name="placeholder-text">Enter your login</property>
+                                                        <property name="max-length">32</property>
                                                     </object>
                                                 </child>
-                                                <child>
+                                                <!-- <child>
                                                     <object class="GtkLabel">
                                                         <property name="label">Password</property>
                                                         <property name="halign">start</property>
                                                     </object>
-                                                </child>
+                                                </child> -->
                                                 <child>
                                                     <object class="GtkPasswordEntry" id="password-entry">
                                                         <property name="placeholder-text">Enter your password</property>
                                                         <property name="show-peek-icon">true</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkRevealer" id="login-error-revealer">
+                                                        <property name="transition-type">slide-down</property>
+                                                        <child>
+                                                            <object class="GtkBox">
+                                                                <child>
+                                                                    <object class="GtkLabel">
+                                                                        <property name="label">Wrong username or password!</property>
+                                                                        <property name="halign">start</property>
+                                                                        <style>
+                                                                            <class name="error-label"/>
+                                                                        </style>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </child>
                                                     </object>
                                                 </child>
                                                 <child>
