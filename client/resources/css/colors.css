@@ -1,0 +1,5 @@
+@define-color bg-color rgb(46, 17, 83);
+@define-color text-black-color rgb(0, 0, 0) ;
+@define-color text-transparent-color rgb(38, 63, 81);
+@define-color text-semibold-color rgb(86, 86, 86);
+@define-color hover-bg-white-button rgb(211,211,211);

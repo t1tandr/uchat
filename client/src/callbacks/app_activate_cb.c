@@ -1,26 +1,41 @@
 #include "uchat.h"
 
-void app_activate_cb(GtkApplication *app) {
-    GtkBuilder* builder = NULL;
+static GtkBuilder* setup_builder(const char* files[]) {
+    GtkBuilder* builder = gtk_builder_new();
     GError* err = NULL;
-    
-    builder = gtk_builder_new();
+
     gtk_builder_set_current_object(builder, G_OBJECT(builder));
-    gtk_builder_add_from_file(builder, "resources/ui/login.ui", &err);
 
-    if(err != NULL) {
-        handle_error(mx_strjoin("uchat: failed to start application: ", err->message));
+    for(int i = 0; files[i] != NULL; i++) {
+        gtk_builder_add_from_file(builder, files[i], &err);
+
+        if(err != NULL) {
+            handle_error(mx_strjoin("uchat: failed to start application: ", err->message));
+        }
     }
-    else {
-        GtkWindow* window = GTK_WINDOW(gtk_builder_get_object(builder, "main-window"));
 
-        connect_css("resources/css/style.css");
-        add_icon_theme("resources/icons");
+    return builder;
+}
 
-        gtk_application_add_window(app, window);
-        gtk_window_present(window);
+void app_activate_cb(GtkApplication *app) {
+    const char* files[] = {
+        "resources/ui/login.ui",
+        "resources/ui/homepage.ui",
+        NULL 
+    };
+    GtkBuilder* builder = setup_builder(files);
+    GtkWidget* window = GTK_WIDGET(gtk_application_window_new(app));
+    
+    gtk_window_set_title(GTK_WINDOW(window), "MonkeyChat!");
+    gtk_window_set_default_size(GTK_WINDOW(window), 1920, 1080);
+    gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
+    gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(builder, "login-page")));
 
-        g_signal_connect(window, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
-    }
+    add_css_stylesheet("resources/css/style.css");
+    add_icon_theme("resources/icons");
+
+    gtk_window_present(GTK_WINDOW(window));
+
+    g_signal_connect(window, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
 }
 

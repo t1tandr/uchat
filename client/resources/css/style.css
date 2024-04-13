@@ -1,9 +1,13 @@
+@import url("colors.css");
+
 #signup {
     background-color: rgb(81, 83, 85);
+    border-radius: 3px;
 }
 
 #login {
     background-color: blueviolet;
+    border-radius: 3px;
 }
 
 #signup:hover {
@@ -16,16 +20,16 @@
     background-color: rgb(100, 32, 163);
 }
 
-#form {
+.form-wrapper {
     color: #000;
     background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 12px;
+    border-radius: 3px;
     border: 1px solid rgba(50, 51, 53, 0.3);
-    transition: transform 5s;
+    box-shadow: 5px 5px 5px black;
 }
 
-#login-page {
-    background-image: url("../img/background.png");
+.form-wrapper entry {
+    border-radius: 3px;
 }
 
 entry {
@@ -65,4 +69,16 @@ entry {
 
 #menu-options row:hover {
     color: rgb(70, 68, 68);
+}
+
+#name {
+    background-color:rgb(70, 68, 68);
+}
+
+.description {
+    font-size: 20px;
+}
+
+.description-label {
+    font-size: 32px;
 }

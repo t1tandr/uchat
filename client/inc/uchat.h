@@ -14,6 +14,7 @@
 
 #include "libmx.h"
 #include "password.h"
+#include "uchat_chat_box.h"
 
 #define METHOD_GET      "GET"
 #define METHOD_POST     "POST"
@@ -33,7 +34,7 @@ bool widget_has_css_class(GtkWidget* self, const char* class);
 
 void app_activate_cb(GtkApplication* app);
 
-void connect_css(const char* path);
+void add_css_stylesheet(const char* path);
 void add_icon_theme(const char* path);
 
 #endif

@@ -20,29 +20,27 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
     response = send_request(servsock, create_request(METHOD_POST, "/login", data));
 
     if(response != NULL && cJSON_HasObjectItem(response, "status")) {
-        if(cJSON_GetObjectItemCaseSensitive(response, "status")->valueint == 200) {
-            printf("[CLIENT]: received message:\n%s\n", cJSON_Print(response));
+        GtkRevealer* revealer = GTK_REVEALER(gtk_builder_get_object(builder, "login-error-revealer"));
+        int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+
+        if(status == 200) {
+            gtk_revealer_set_reveal_child(revealer, FALSE);
+
+            GtkWidget* homepage = GTK_WIDGET(gtk_builder_get_object(builder, "homepage"));
+            GtkWidget* login_page = GTK_WIDGET(gtk_builder_get_object(builder, "login-page"));
+            GtkWidget* window = GTK_WIDGET(gtk_widget_get_parent(login_page));
+
+            gtk_widget_unparent(login_page);
+            gtk_widget_set_parent(homepage, window);
+        }
+        else {
+            gtk_revealer_set_reveal_child(revealer, TRUE);
         }
     }
     else {
-        handle_error("uchat: invalid response JSON");
+        handle_error("[ERROR]: Receiving response from server");
     }
 }
-
-/*
-
-void password_entry_icon_press_cb(GtkEntry* self) {
-    if(gtk_entry_get_visibility(self)) {
-        gtk_entry_set_visibility(self, FALSE);
-        gtk_entry_set_icon_from_icon_name(self, GTK_ENTRY_ICON_SECONDARY, "password-visibility-on");
-    }
-    else {
-        gtk_entry_set_visibility(self, TRUE);
-        gtk_entry_set_icon_from_icon_name(self, GTK_ENTRY_ICON_SECONDARY, "password-visibility-off");
-    }
-}
-
-*/
 
 int main(int argc, char *argv[]) {
     if(argc != 3) {
