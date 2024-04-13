@@ -157,6 +157,8 @@ int mx_list_size(t_list *list);
 
 t_list *mx_sort_list(t_list *lst, bool (*cmp)(void *, void *));
 
+void mx_del_node_if(t_list **list, void *del_data, bool (*cmp)(void *a, void *b));
+
 #endif
 
 

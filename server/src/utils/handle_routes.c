@@ -1,5 +1,7 @@
 #include "server.h"
 
+extern GHashTable *clients;
+
 void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
     if (!cJSON_HasObjectItem(req, "method")
         || !cJSON_HasObjectItem(req, "route")
@@ -7,6 +9,20 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
         error_handler(sock_fd, "Invalid json", 400);
         return;
     }
+
+    // TEMP, think of a better solution
+    client_connection_handler(req, db, sock_fd);
+
+    GHashTableIter iter;
+    gpointer key, value;
+
+    g_hash_table_iter_init (&iter, clients);
+    while (g_hash_table_iter_next (&iter, &key, &value)) {
+        connection_data *conn = (connection_data *) value;
+
+        printf("%d %s\n", conn->sock_fd, (char *) key);
+    }
+    // --------------------------------
 
     char *route = cJSON_GetObjectItemCaseSensitive(req, "route")->valuestring;
     char *method = cJSON_GetObjectItemCaseSensitive(req, "method")->valuestring;
@@ -32,6 +48,42 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
     } else if (strncmp(route, "/logout", strlen("/logout")) == 0) {
         if (strcmp(method, "POST") == 0) {
             logout_controller(req, db, sock_fd);
+        }
+    } else if (strncmp(route, "/chats", strlen("/chats")) == 0) {
+        int id;
+
+        if (strcmp(method, "POST") == 0) {
+            create_chat_controller(req, db, sock_fd);
+        } else if (strcmp(method, "GET") == 0) {
+            get_chats_controller(req, db, sock_fd);
+        } else if (strcmp(method, "PUT") == 0 && sscanf(route, "/chats/%d", &id) == 1) {
+            update_chat_controller(id, req, db, sock_fd);
+        } else if (strcmp(method, "DELETE") == 0 && sscanf(route, "/chats/%d", &id) == 1) {
+            delete_chat_controller(id, req, db, sock_fd);
+        }
+    } else if (strncmp(route, "/chat-members", strlen("/chat-members")) == 0) {
+        int id;
+
+        if (strcmp(method, "POST") == 0) {
+            create_chat_member_controller(req, db, sock_fd);
+        } else if (strcmp(method, "GET") == 0 && sscanf(route, "/chat-members/%d", &id) == 1) {
+            get_chat_members_controller(id, req, db, sock_fd);
+        } else if (strcmp(method, "PUT") == 0 && sscanf(route, "/chat-members/%d", &id) == 1) {
+            update_chat_member_controller(id, req, db, sock_fd);
+        } else if (strcmp(method, "DELETE") == 0 && sscanf(route, "/chat-members/%d", &id) == 1) {
+            delete_chat_member_controller(id, req, db, sock_fd);
+        }
+    } else if (strncmp(route, "/messages", strlen("/messages")) == 0) {
+        int id;
+
+        if (strcmp(method, "POST") == 0) {
+            create_message_controller(req, db, sock_fd);
+        } else if (strcmp(method, "GET") == 0 && sscanf(route, "/messages/%d", &id) == 1) {
+            get_messages_controller(id, req, db, sock_fd);
+        } else if (strcmp(method, "PUT") == 0 && sscanf(route, "/messages/%d", &id) == 1) {
+            update_message_controller(id, req, db, sock_fd);
+        } else if (strcmp(method, "DELETE") == 0 && sscanf(route, "/messages/%d", &id) == 1) {
+            delete_message_controller(id, req, db, sock_fd);
         }
     } else {
         error_handler(sock_fd, "Unknown endpoint", 404);
