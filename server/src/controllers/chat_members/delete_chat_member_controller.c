@@ -1,6 +1,6 @@
 #include "server.h"
 
-void delete_chat_member_controller(cJSON *req, sqlite3 *db, int sock_fd) {
+void delete_chat_member_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd) {
     cJSON *headers = cJSON_GetObjectItemCaseSensitive(req, "headers");
     cJSON *data = cJSON_GetObjectItemCaseSensitive(req, "data");
 
@@ -13,7 +13,7 @@ void delete_chat_member_controller(cJSON *req, sqlite3 *db, int sock_fd) {
         return;
     }
 
-    cJSON *chat_member = delete_chat_member_service(data, headers, db, sock_fd);
+    cJSON *chat_member = delete_chat_member_service(chat_id, data, headers, db, sock_fd);
 
     if (!chat_member) return;
 

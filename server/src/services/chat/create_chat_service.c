@@ -35,8 +35,9 @@ cJSON *create_chat_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd
     sqlite3_finalize(stmt);
     sqlite3_free(sql);
 
+    int chat_id = cJSON_GetObjectItem(chat, "id")->valueint;
     cJSON *chat_member_data = cJSON_CreateObject();
-    cJSON_AddNumberToObject(chat_member_data, "сhat_id", cJSON_GetObjectItem(chat, "id")->valueint);
+    cJSON_AddNumberToObject(chat_member_data, "сhat_id", chat_id);
     cJSON_AddNumberToObject(chat_member_data, "user_id", user_id);
 
     cJSON *chat_member = create_chat_member_service(chat_member_data, headers, db, sock_fd);
@@ -45,7 +46,7 @@ cJSON *create_chat_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd
     }
 
     cJSON_AddStringToObject(chat_member_data, "role", "ADMIN");
-    chat_member = update_chat_member_service(chat_member_data, headers, db, sock_fd);
+    chat_member = update_chat_member_service(chat_id, chat_member_data, headers, db, sock_fd);
     if (chat_member == NULL) {
         return NULL;
     }

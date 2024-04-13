@@ -1,7 +1,6 @@
 #include "server.h"
 
-// t_list *clients = NULL; // correct handle in multiple threads && user hashmap
-GHashTable *clients;
+GHashTable *clients; // correct handle in multiple threads
 
 int main(int argc, char *argv[]) {
     // start_daemon_process();

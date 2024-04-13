@@ -47,8 +47,8 @@ void delete_chat_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd);
 // - Chat Members
 void create_chat_member_controller(cJSON *req, sqlite3 *db, int sock_fd);
 void get_chat_members_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd);
-void update_chat_member_controller(cJSON *req, sqlite3 *db, int sock_fd);
-void delete_chat_member_controller(cJSON *req, sqlite3 *db, int sock_fd);
+void update_chat_member_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd);
+void delete_chat_member_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd);
 
 // - Message
 void create_message_controller(cJSON *req, sqlite3 *db, int sock_fd);
@@ -88,8 +88,8 @@ cJSON *delete_message_by_id_service(int message_id, cJSON *headers, sqlite3 *db,
 // - ChatMember
 cJSON *get_chat_members_service(int chat_id, cJSON *headers, sqlite3 *db, int sock_fd);
 cJSON *create_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
-cJSON *update_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
-cJSON *delete_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *update_chat_member_service(int chat_id, cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *delete_chat_member_service(int chat_id, cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
 
 // Utils
 void *handle_request(void *arg);

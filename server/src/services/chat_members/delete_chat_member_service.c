@@ -1,6 +1,6 @@
 #include "server.h"
 
-cJSON *delete_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd) {
+cJSON *delete_chat_member_service(int chat_id, cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd) {
     char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
     cJSON *session = get_session(session_id, db);
 
@@ -10,7 +10,6 @@ cJSON *delete_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int 
     }
 
     int user_id = cJSON_GetObjectItem(session, "user_id")->valueint;
-    int chat_id = cJSON_GetObjectItem(data, "сhat_id")->valueint;
     int delete_user_id = cJSON_GetObjectItem(data, "user_id")->valueint;
 
     cJSON *chat_members = get_chat_members_service(chat_id, headers, db, sock_fd);
