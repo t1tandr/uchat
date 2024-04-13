@@ -25,6 +25,8 @@ int logout_service(cJSON *data, sqlite3 *db, int sock_fd) {
         return -1;
     }
 
+    remove_client_connection(session_id);
+
     return 1;
 }
 
