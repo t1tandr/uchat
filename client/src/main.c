@@ -2,95 +2,51 @@
 
 int servsock;
 
-static void window_switch_child(GtkBuilder* builder, char* prev_id, char* next_id) {
-    GtkWidget* prev = GTK_WIDGET(gtk_builder_get_object(builder, prev_id));
-    GtkWidget* next = GTK_WIDGET(gtk_builder_get_object(builder, next_id));
-    GtkWindow* window = GTK_WINDOW(gtk_widget_get_parent(prev));
+static GtkBuilder* setup_builder(const char* files[], GObject* object) {
+    GtkBuilder* builder = gtk_builder_new();
+    GError* err = NULL;
 
-    gtk_widget_unparent(prev);
-    gtk_window_set_child(window, next);
-}
+    gtk_builder_set_current_object(builder, object);
 
-void login_button_click_cb(GtkWidget *self, gpointer user_data) {
-    GtkBuilder* builder = GTK_BUILDER(user_data);
-    GtkRevealer* revealer = GTK_REVEALER(gtk_builder_get_object(builder, "login-error-revealer"));
-    cJSON* data = NULL;
-    cJSON* headers = NULL;
-    cJSON* response = NULL;
-    const char* username = NULL;
-    const char* password = NULL;
+    for(int i = 0; files[i] != NULL; i++) {
+        gtk_builder_add_from_file(builder, files[i], &err);
 
-    username = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(builder, "login-username-entry")));
-    password = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(builder, "login-password-entry")));
-
-    headers = cJSON_CreateObject();  
-    data = cJSON_CreateObject();
-
-    cJSON_AddStringToObject(data, "username", username);
-    cJSON_AddStringToObject(data, "password", password);
-
-    response = send_request(servsock, create_request(METHOD_POST, "/login", data, headers));
-
-    if(response != NULL && cJSON_HasObjectItem(response, "status")) {
-        int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
-
-        if(status == 200) {
-            gtk_revealer_set_reveal_child(revealer, FALSE);
-            window_switch_child(builder, "login-page", "homepage");
-        }
-        else {
-            gtk_revealer_set_reveal_child(revealer, TRUE);
+        if(err != NULL) {
+            handle_error(mx_strjoin("uchat: failed to start application: ", err->message));
         }
     }
-    else {
-        handle_error("[ERROR]: Receiving response from server");
-    }
+
+    return builder;
 }
 
-void register_button_click_cb(GtkButton* self, gpointer user_data) {
-    GtkBuilder* builder = GTK_BUILDER(user_data);
-    GtkRevealer* username_revealer = GTK_REVEALER(gtk_builder_get_object(builder, "username-is-taken-revealer"));
-    GtkRevealer* unmatch_revealer = GTK_REVEALER(gtk_builder_get_object(builder, "password-unmatch-revealer"));
-    const char* username = NULL;
-    const char* name = NULL;
-    const char* password = NULL;
-    const char* confirm_password = NULL;
-    cJSON* data = NULL;
-    cJSON* headers = NULL;
-    cJSON* response = NULL;
+static void app_activate_cb(GtkApplication *app, gpointer user_data) {
+    const char* files[] = {
+        "resources/ui/login.ui",
+        "resources/ui/homepage.ui",
+        NULL 
+    };
 
-    username = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(builder, "register-username-entry")));
-    name = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(builder, "register-name-entry")));
-    password = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(builder, "register-password-entry")));
-    confirm_password = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(builder, "register-password-confirm-entry")));
+    GObject* uchat_obj = g_object_new(G_TYPE_OBJECT, NULL);
+    t_uchat_app* uchat = (t_uchat_app *)malloc(sizeof(t_uchat_app));
+    uchat->servsock = servsock;
+    uchat->builder = setup_builder(files, uchat_obj);
+    g_object_set_data(uchat_obj, "uchat", uchat);
 
-    gtk_revealer_set_reveal_child(unmatch_revealer, strcmp(password, confirm_password) != 0);
+    g_print("%d\n", ((t_uchat_app *)g_object_get_data(uchat_obj, "uchat"))->servsock);
+
+    GtkWidget* window = GTK_WIDGET(gtk_application_window_new(app));
     
-    if(check_password_strength(password, builder)) {   
-        headers = cJSON_CreateObject();   
-        data = cJSON_CreateObject();
+    gtk_window_set_title(GTK_WINDOW(window), "MonkeyChat!");
+    gtk_window_set_default_size(GTK_WINDOW(window), 1920, 1080);
+    gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
+    gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "login-page")));
 
-        cJSON_AddStringToObject(data, "username", username);
-        cJSON_AddStringToObject(data, "name", name);
-        cJSON_AddStringToObject(data, "password", password);
+    add_css_stylesheet("resources/css/style.css");
+    add_icon_theme("resources/icons");
 
-        response = send_request(servsock, create_request(METHOD_POST, "/users", data, headers));
+    gtk_window_present(GTK_WINDOW(window));
 
-        if(response != NULL && cJSON_HasObjectItem(response, "status")) {
-            int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
-
-            if(status == 201) {
-                gtk_revealer_set_reveal_child(username_revealer, FALSE);
-                window_switch_child(builder, "login-page", "homepage");
-            }
-            else {
-                gtk_revealer_set_reveal_child(username_revealer, TRUE);
-            }
-        }
-        else {
-            handle_error("[ERROR]: Receiving response from server");
-        }
-    }
+    g_signal_connect(window, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
 }
 
 int main(int argc, char *argv[]) {

@@ -1,5 +1,5 @@
-#ifndef _UCHAT_MESSAGE_BOX
-#define _UCHAT_MESSAGE_BOX
+#ifndef UCHAT_MESSAGE_BOX_H
+#define UCHAT_MESSAGE_BOX_H
 
 #include <gtk/gtk.h>
 

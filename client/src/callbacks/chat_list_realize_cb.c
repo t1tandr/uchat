@@ -8,8 +8,8 @@ static gboolean filter(GtkListBoxRow* row, gpointer user_data) {
 }
 
 void chat_list_realize_cb(GtkListBox* self, gpointer user_data) {
-    GtkBuilder* builder = GTK_BUILDER(user_data);
-    GObject* search_entry = gtk_builder_get_object(builder, "chat-search");
+    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
+    GObject* search_entry = gtk_builder_get_object(uchat->builder, "chat-search");
 
     gtk_list_box_set_filter_func(self, filter, search_entry, NULL);
 }
