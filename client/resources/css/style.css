@@ -75,6 +75,15 @@ entry {
     background-color:rgb(70, 68, 68);
 }
 
+#name1 {
+    background-color:rgb(126, 68, 68);
+}
+
+#name2 {
+    background-color:rgb(23, 158, 79);
+}
+
+
 .description {
     font-size: 20px;
 }

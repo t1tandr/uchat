@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <string.h>
+#include <time.h>
 
 #include <gtk/gtk.h>
 #include <cJSON.h>
@@ -15,6 +16,7 @@
 #include "templates/uchatchatbox.h"
 #include "templates/uchatmessagebox.h"
 #include "password.h"
+#include "utils.h"
 
 #define METHOD_GET      "GET"
 #define METHOD_POST     "POST"

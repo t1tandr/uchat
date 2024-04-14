@@ -37,7 +37,7 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     GtkWidget* window = GTK_WIDGET(gtk_application_window_new(app));
     
     gtk_window_set_title(GTK_WINDOW(window), "MonkeyChat!");
-    gtk_window_set_default_size(GTK_WINDOW(window), 1920, 1080);
+    gtk_window_set_default_size(GTK_WINDOW(window), 1600, 900);
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
     gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "login-page")));
 

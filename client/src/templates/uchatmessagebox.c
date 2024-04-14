@@ -4,6 +4,7 @@ struct _UchatMessageBox {
   GtkWidget parent_instance;
 
   GtkWidget* message;
+  GtkWidget* time;
 };
 
 G_DEFINE_TYPE(UchatMessageBox, uchat_message_box, GTK_TYPE_WIDGET)
@@ -16,6 +17,7 @@ uchat_message_box_class_init(UchatMessageBoxClass *klass) {
     gtk_widget_class_set_layout_manager_type(widget_class, GTK_TYPE_BOX_LAYOUT);
 
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, message);
+    gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, time);
 }
 
 /*
@@ -42,17 +44,21 @@ uchat_message_box_get_message(UchatMessageBox* self) {
     return gtk_label_get_label(GTK_LABEL(self->message));
 }
 
-/*
-
 void
-uchat_chat_box_set_time(UchatChatBox* self, const gchar* time) {
-    gtk_label_set_label(GTK_LABEL(self->time), time);
+uchat_message_box_set_time(UchatMessageBox* self, struct tm *time) {
+    char timestr[6];
+
+    strftime(timestr, sizeof timestr, "%H:%M", time);
+
+    gtk_label_set_label(GTK_LABEL(self->time), timestr);
 }
 
-const gchar *
-uchat_chat_box_get_time(UchatChatBox* self) {
+const char *
+uchat_message_box_get_time(UchatMessageBox* self) {
     return gtk_label_get_label(GTK_LABEL(self->time));
 }
+
+/*
 
 void
 uchat_chat_box_set_seen(UchatChatBox* self, gboolean seen) {
@@ -77,10 +83,11 @@ uchat_message_box_init(UchatMessageBox *self) {
 }
 
 UchatMessageBox *
-uchat_message_box_new(const char* message) {
+uchat_message_box_new(const char* message, struct tm* time) {
     UchatMessageBox* obj = g_object_new(UCHAT_TYPE_MESSAGE_BOX, NULL);
 
     uchat_message_box_set_message(obj, message);
+    uchat_message_box_set_time(obj, time);
 
     return obj;
 }

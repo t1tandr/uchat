@@ -10,7 +10,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(UchatMessageBox, uchat_message_box, UCHAT, MESSAGE_BOX, GtkWidget)
 
 UchatMessageBox *
-uchat_message_box_new(const char* name);
+uchat_message_box_new(const char* message, struct tm* time);
 
 void
 uchat_message_box_set_author(UchatMessageBox* self, const gchar* author);
@@ -25,9 +25,9 @@ const gchar *
 uchat_message_box_get_message(UchatMessageBox* self);
 
 void
-uchat_message_box_set_time(UchatMessageBox* self, const gchar* time);
+uchat_message_box_set_time(UchatMessageBox* self, struct tm *time);
 
-const gchar *
+const char *
 uchat_message_box_get_time(UchatMessageBox* self);
 
 void
