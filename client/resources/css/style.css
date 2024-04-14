@@ -176,11 +176,6 @@ entry {
     color: white;
 }
 
-#BoxForColor{
-    background-color: rgb(46, 17, 83);
-    border-radius: 50%;
-}
-
 #Change{
     border-radius: 20px;
     background-color: rgb(46, 17, 83);
@@ -191,6 +186,43 @@ entry {
     background-color: rgb(211,211,211);
 }
 
-#Avatar{
+#button_in_setting{
+    border-radius: 50px;
+    background-color: rgb(46, 17, 83);
+    color:rgb(245, 245, 245);
+    border:2px solid rgb(245, 245, 245);
+}
+
+#button_in_setting:hover{
+    background-color: rgb(211,211,211);
+}
+
+#entry_in_setting{
+    border-radius: 50px;
+    background-color:rgb(245, 245, 245);
+    color: @text-semibold-color;
+    font-size: 16px;
+}
+
+#names_in_setting{
+    font-size:24px;
+    color:rgb(245, 245, 245);
+}
+
+#theme_button_in_setting{
+    background-color: rgb(245, 245, 245);
+    border-radius: 50px;
+    border:2px solid black;
+}
+
+#theme_button_in_setting:hover{
+    background-color: rgb(211,211,211);
+}
+
+#avatar{
     border-radius: 50%;
+}
+
+#names_for_theme{
+    font-size:16px;
 }
