@@ -14,7 +14,8 @@
 
 #include "libmx.h"
 #include "password.h"
-#include "uchat_chat_box.h"
+#include "templates/uchatchatbox.h"
+#include "templates/uchatmessagebox.h"
 
 #define METHOD_GET      "GET"
 #define METHOD_POST     "POST"

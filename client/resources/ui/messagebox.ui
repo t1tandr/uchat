@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding=""?>
+<interface>
+    <template class="UchatMessageBox" parent="GtkWidget">
+        <child>
+            <object class="GtkBox">
+                <child>
+                    <object class="GtkLabel" id="message">
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>
