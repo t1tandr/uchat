@@ -12,6 +12,7 @@ typedef struct s_user {
     const char* username;
     const char* name;
     const char* bio;
+    const char* session;
     t_list* chats;
 } t_user;
 

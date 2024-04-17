@@ -15,3 +15,4 @@ void register_form_clear(GtkBuilder* builder) {
     gtk_editable_set_text(password_entry, "");
     gtk_editable_set_text(confirm_entry, "");
 }
+
