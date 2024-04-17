@@ -9,8 +9,8 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
     const char* username = NULL;
     const char* password = NULL;
 
-    username = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "login-username-entry")));
-    password = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "login-password-entry")));
+    username = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "login-username")));
+    password = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "login-password")));
 
     headers = cJSON_CreateObject();  
     data = cJSON_CreateObject();

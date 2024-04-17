@@ -11,5 +11,8 @@ void window_switch_child(GtkBuilder* builder, char* prev_id, char* next_id);
 void add_css_stylesheet(const char* path);
 void add_icon_theme(const char* path);
 
+void login_form_clear(GtkBuilder* builder);
+void register_form_clear(GtkBuilder* builder);
+
 #endif
 

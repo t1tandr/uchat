@@ -29,6 +29,7 @@
 typedef struct s_uchat_app {
     int servsock;
     GtkBuilder* builder;
+    GtkApplication* app;
 } t_uchat_app;
 
 int connect_to_server(const char* ip, const char* port);

@@ -6,3 +6,4 @@ void menu_back_button_click_cb(GtkButton* self, gpointer user_data) {
 
     gtk_widget_set_visible(GTK_WIDGET(box), FALSE);
 }
+

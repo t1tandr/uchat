@@ -30,6 +30,7 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     t_uchat_app* uchat = (t_uchat_app *)malloc(sizeof(t_uchat_app));
     uchat->servsock = servsock;
     uchat->builder = setup_builder(files, uchat_obj);
+    uchat->app = app;
     g_object_set_data(uchat_obj, "uchat", uchat);
 
     GtkWidget* window = GTK_WIDGET(gtk_application_window_new(app));

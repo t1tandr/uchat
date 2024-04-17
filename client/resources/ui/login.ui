@@ -54,26 +54,14 @@
                                                         <property name="orientation">horizontal</property>
                                                     </object>
                                                 </child>
-                                                <!-- <child>
-                                                    <object class="GtkLabel" id="login-label">
-                                                        <property name="label">Login</property>
-                                                        <property name="halign">start</property>
-                                                    </object>
-                                                </child> -->
                                                 <child>
-                                                    <object class="GtkEntry" id="login-username-entry">
+                                                    <object class="GtkEntry" id="login-username">
                                                         <property name="placeholder-text">Enter your login</property>
                                                         <property name="max-length">32</property>
                                                     </object>
                                                 </child>
-                                                <!-- <child>
-                                                    <object class="GtkLabel">
-                                                        <property name="label">Password</property>
-                                                        <property name="halign">start</property>
-                                                    </object>
-                                                </child> -->
                                                 <child>
-                                                    <object class="GtkPasswordEntry" id="login-password-entry">
+                                                    <object class="GtkPasswordEntry" id="login-password">
                                                         <property name="placeholder-text">Enter your password</property>
                                                         <property name="show-peek-icon">true</property>
                                                     </object>
@@ -207,7 +195,7 @@
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkEntry" id="register-username-entry">
+                                                    <object class="GtkEntry" id="register-username">
                                                         <property name="placeholder-text">Username</property>
                                                     </object>
                                                 </child>
@@ -226,12 +214,12 @@
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkEntry" id="register-name-entry">
+                                                    <object class="GtkEntry" id="register-name">
                                                         <property name="placeholder-text">Name</property>
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkPasswordEntry" id="register-password-entry">
+                                                    <object class="GtkPasswordEntry" id="register-password">
                                                         <property name="placeholder-text">Password</property>
                                                         <signal name="changed" handler="password_entry_changed_cb"/>
                                                     </object>
@@ -277,7 +265,7 @@
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkPasswordEntry" id="register-password-confirm-entry">
+                                                    <object class="GtkPasswordEntry" id="register-password-confirm">
                                                         <property name="placeholder-text">Confirm password</property>
                                                         <property name="show-peek-icon">true</property>
                                                         <signal name="changed" handler="password_confirm_entry_changed_cb"/>
