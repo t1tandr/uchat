@@ -32,8 +32,6 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     uchat->builder = setup_builder(files, uchat_obj);
     g_object_set_data(uchat_obj, "uchat", uchat);
 
-    g_print("%d\n", ((t_uchat_app *)g_object_get_data(uchat_obj, "uchat"))->servsock);
-
     GtkWidget* window = GTK_WIDGET(gtk_application_window_new(app));
     
     gtk_window_set_title(GTK_WINDOW(window), "MonkeyChat!");

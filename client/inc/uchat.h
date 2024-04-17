@@ -17,6 +17,7 @@
 #include "templates/uchatmessagebox.h"
 #include "password.h"
 #include "utils.h"
+#include "user.h"
 
 #define METHOD_GET      "GET"
 #define METHOD_POST     "POST"

@@ -83,6 +83,10 @@ entry {
     background-color:rgb(23, 158, 79);
 }
 
+.message {
+    background-color: rgb(74, 75, 74);
+    border-radius: 5px;
+}
 
 .description {
     font-size: 20px;
