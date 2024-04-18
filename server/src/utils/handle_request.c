@@ -13,6 +13,9 @@ void *handle_request(void *arg) {
             error_handler(sock_fd, "Error receiving data", 400);
             continue;
         }
+        if (n == 0) {
+            break;
+        }
 
         int received_bytes = 0;
         char *res_str = malloc(length + 1);
@@ -23,6 +26,9 @@ void *handle_request(void *arg) {
             if (n < 0) {
                 error_handler(sock_fd, "Error receiving data", 400);
                 continue; // how to continue outer loop without goto ??
+            }
+            if (n == 0) {
+                break;
             }
 
             received_bytes += n;
@@ -41,6 +47,11 @@ void *handle_request(void *arg) {
 
         cJSON_Delete(req_json);
         free(res_str);
+    }
+
+    char *session_id = find_session_by_sock(sock_fd);
+    if (session_id != NULL) {
+        remove_client_connection(session_id);
     }
 
     sqlite3_close(db);

@@ -1,17 +1,10 @@
 #include "server.h"
 
 cJSON *get_chats_service(cJSON *headers, sqlite3 *db, int sock_fd) {
-    char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
-    cJSON *session = get_session(session_id, db);
-
-    if (session == NULL) {
-        error_handler(sock_fd, "Unauthorized", 401);
-        return NULL;
-    }
-
     sqlite3_stmt *stmt;
     char *sql;
 
+    cJSON *session = cJSON_GetObjectItem(headers, "session_data");
     int user_id = cJSON_GetObjectItemCaseSensitive(session, "user_id")->valueint;
 
     sql = sqlite3_mprintf(

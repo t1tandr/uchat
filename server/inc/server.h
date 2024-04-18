@@ -70,7 +70,7 @@ cJSON *delete_user_by_id_service(int user_id, cJSON *headers, sqlite3 *db, int s
 cJSON *login_service(cJSON *data, sqlite3 *db, int sock_fd);
 
 // - Logout
-int logout_service(cJSON *data, sqlite3 *db, int sock_fd);
+int logout_service(cJSON *headers, sqlite3 *db, int sock_fd);
 
 // - Chat
 cJSON *create_chat_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
@@ -91,6 +91,24 @@ cJSON *create_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int 
 cJSON *update_chat_member_service(int chat_id, cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
 cJSON *delete_chat_member_service(int chat_id, cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
 
+// Models
+
+// - User
+int check_user_dto(cJSON *user, int sock_fd);
+int check_update_user_dto(cJSON *user, int sock_fd);
+
+// - Chat
+int check_chat_dto(cJSON *chat, int sock_fd);
+
+// - ChatMember
+int check_chat_member_dto(cJSON *chat_member, int sock_fd);
+int check_update_chat_member_dto(cJSON *chat_member, int sock_fd);
+int check_delete_chat_member_dto(cJSON *chat_member, int sock_fd);
+
+// - Message
+int check_message_dto(cJSON *message, int sock_fd);
+int check_update_message_dto(cJSON *message, int sock_fd);
+
 // Utils
 void *handle_request(void *arg);
 void handle_routes(cJSON *req, sqlite3 *db, int sock_fd);
@@ -104,28 +122,25 @@ void send_response_users_by_id(GHashTable *user_ids, cJSON *data, int status);
 void start_daemon_process();
 bool session_exists(char *session_id, int user_id, sqlite3 *db);
 cJSON *get_session(char *session_id, sqlite3 *db);
+bool auth_handler(cJSON *req, sqlite3 *db, int sock_fd);
 GHashTable *chat_members_to_user_ids_set(cJSON *chat_members);
 
 bool is_file_exists(char *filename);
+bool contains_space(char *string);
 cJSON *stmt_to_user_json(sqlite3_stmt *stmt);
 cJSON *stmt_to_message_json(sqlite3_stmt *stmt);
 cJSON *stmt_to_chat_json(sqlite3_stmt *stmt);
 cJSON *stmt_to_chat_member_json(sqlite3_stmt *stmt);
 bool is_user_chat_member(int user_id, cJSON *chat_members);
 
-void send_response_message_all(cJSON *headers, cJSON *message, int status, int sock_fd, sqlite3 *db);
 void add_client_connection(char *session_id, int user_id, int sock_fd);
 void remove_client_connection(char *session_id);
 bool is_client_saved(char *session_id);
 void client_connection_handler(cJSON *req, sqlite3 *db, int sock_fd);
-
-typedef struct {
-    int sock_fd;
-    char *session_id;
-    int user_id;
-} connection;
+char *find_session_by_sock(int sock_fd);
 
 typedef struct {
     int sock_fd;
     int user_id;
 } connection_data;
+
