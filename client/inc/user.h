@@ -4,21 +4,6 @@
 #include "uchat.h"
 
 /*
- * USER UTILS
-*/
-
-typedef struct s_user {
-    int id;
-    const char* username;
-    const char* name;
-    const char* bio;
-    const char* session;
-    t_list* chats;
-} t_user;
-
-t_user* get_user_from_json(cJSON* json);
-
-/*
  * CHAT UTILS
 */
 
@@ -29,6 +14,22 @@ typedef struct s_chat {
 } t_chat;
 
 t_chat* get_chat_from_json(cJSON* json);
+
+/*
+ * USER UTILS
+*/
+
+typedef struct s_user {
+    int id;
+    const char* username;
+    const char* name;
+    const char* bio;
+    const char* session;
+    t_chat* current_chat;
+    t_list* chats;
+} t_user;
+
+t_user* get_user_from_json(cJSON* json);
 
 /*
  * MESSAGE UTILS (?)

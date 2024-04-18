@@ -22,13 +22,47 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
 
     gchar* text = text_view_get_full_text(view);
 
+    g_print("%s\n", text);
     if (strlen(mx_strtrim(text)) > 0) {
-        time_t current_time = time(NULL);
-        GtkWidget* message = GTK_WIDGET(uchat_message_box_new(text, localtime(&current_time)));
-        GtkWidget* message_container = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "message-container"));
+        cJSON* request = NULL;
+        cJSON* response = NULL;
+        cJSON* data = NULL;
+        cJSON* headers = NULL;
 
-        gtk_widget_insert_before(message, message_container, NULL);
+        headers = cJSON_CreateObject();
+        cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
+        data = cJSON_CreateObject();
+        cJSON_AddNumberToObject(data, "chat_id", uchat->user/*->current_chat*/->id);
+        cJSON_AddStringToObject(data, "message", text);
+
+        request = create_request(METHOD_POST, "/message", data, headers);
+
+        response = send_request(uchat->servsock, request);
+
+        printf("%s", cJSON_Print(response));
+
+        cJSON_Delete(request);
+
+        if (response != NULL && cJSON_HasObjectItem(response, "status")) {
+            int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+
+            if (status == 201) {
+                time_t current_time = time(NULL);
+                GtkWidget* message = GTK_WIDGET(uchat_message_box_new(text, localtime(&current_time)));
+                GtkWidget* message_container = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "message-container"));
+
+                gtk_widget_insert_before(message, message_container, NULL);
+            }
+
+            cJSON_Delete(response);
+        }
+        else {
+            cJSON_Delete(response);
+            handle_error("uchat: error getting response from server");
+        }
+
+        /*
         vadj = gtk_scrolled_window_get_vadjustment(window);
 
         g_print("lower - %f\n", gtk_adjustment_get_lower(vadj));
@@ -39,6 +73,7 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
         gtk_adjustment_set_value(vadj, gtk_adjustment_get_upper(vadj) - gtk_adjustment_get_page_size(vadj));
 
         g_print("new value - %f\n\n", gtk_adjustment_get_value(vadj));
+        */
     }
 
     g_free((gpointer)text);

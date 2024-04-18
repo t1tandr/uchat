@@ -29,9 +29,10 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
     const char* name = NULL;
     const char* password = NULL;
     const char* confirm_password = NULL;
+    cJSON* request = NULL;
+    cJSON* response = NULL;
     cJSON* data = NULL;
     cJSON* headers = NULL;
-    cJSON* response = NULL;
 
     username = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "register-username")));
     name = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "register-name")));
@@ -41,19 +42,23 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
     gtk_revealer_set_reveal_child(unmatch_revealer, strcmp(password, confirm_password) != 0);
 
     if(check_password_strength(password, uchat->builder)) {   
-        headers = cJSON_CreateObject();   
-        data = cJSON_CreateObject();
+        headers = cJSON_CreateObject();
 
+        data = cJSON_CreateObject();
         cJSON_AddStringToObject(data, "username", username);
         cJSON_AddStringToObject(data, "name", name);
         cJSON_AddStringToObject(data, "password", password);
 
-        response = send_request(uchat->servsock, create_request(METHOD_POST, "/users", data, headers));
+        request = create_request(METHOD_POST, "/users", data, headers);
 
-        if(response != NULL && cJSON_HasObjectItem(response, "status")) {
+        response = send_request(uchat->servsock, request);
+
+        cJSON_Delete(request);
+
+        if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
-            if(status == 201) {
+            if (status == 201) {
                 gtk_revealer_set_reveal_child(username_revealer, FALSE);
 
                 GtkWidget* dialog = gtk_dialog_new_with_buttons("Registration successful",
@@ -61,7 +66,8 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
                     GTK_DIALOG_DESTROY_WITH_PARENT,
                     "Go to login",
                     GTK_RESPONSE_OK,
-                    NULL);
+                    NULL
+                );
                 gtk_window_set_default_size(GTK_WINDOW(dialog), 400, 225);
                 gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
                 
@@ -75,12 +81,14 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
                 gtk_box_append(GTK_BOX(content_area), label);
 
                 g_signal_connect(dialog, "response", G_CALLBACK(register_dialog_response_cb), user_data);
+                g_signal_connect(dialog, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
 
                 gtk_widget_show(dialog);
             }
             else {
                 gtk_revealer_set_reveal_child(username_revealer, TRUE);
             }
+            cJSON_Delete(response);
         }
         else {
             handle_error("[ERROR]: Receiving response from server");

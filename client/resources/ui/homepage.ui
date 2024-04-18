@@ -34,7 +34,7 @@
                                 <child>
                                     <object class="GtkButton">
                                         <property name="icon-name">contact-new</property>
-                                        <signal name="clicked" handler="menu_button_click_cb"/>
+                                        <signal name="clicked" handler="chat_new_button_click_cb"/>
                                     </object>
                                 </child>
                             </object>
