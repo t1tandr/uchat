@@ -4,13 +4,7 @@ void create_chat_controller(cJSON *req, sqlite3 *db, int sock_fd) {
     cJSON *headers = cJSON_GetObjectItemCaseSensitive(req, "headers");
     cJSON *data = cJSON_GetObjectItemCaseSensitive(req, "data");
 
-    if (data == NULL
-        || headers == NULL
-        || !cJSON_HasObjectItem(headers, "Authorization")
-        || !cJSON_HasObjectItem(data, "name")) {
-        error_handler(sock_fd, "Invalid json", 400);
-        return;
-    }
+    if (check_chat_dto(data, sock_fd) == -1) return;
 
     cJSON *chat = create_chat_service(data, headers, db, sock_fd);
 

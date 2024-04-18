@@ -4,13 +4,7 @@ void update_chat_member_controller(int chat_id, cJSON *req, sqlite3 *db, int soc
     cJSON *headers = cJSON_GetObjectItemCaseSensitive(req, "headers");
     cJSON *data = cJSON_GetObjectItemCaseSensitive(req, "data");
 
-    if (data == NULL
-        || headers == NULL
-        || !cJSON_HasObjectItem(headers, "Authorization")
-        || !cJSON_HasObjectItem(data, "role")) {
-        error_handler(sock_fd, "Invalid json", 400);
-        return;
-    }
+    if (check_update_chat_member_dto(data, sock_fd) == -1) return;
 
     cJSON *chat_member = update_chat_member_service(chat_id, data, headers, db, sock_fd);
 

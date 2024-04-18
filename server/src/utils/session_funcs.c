@@ -25,6 +25,22 @@ void add_client_connection(char *session_id, int user_id, int sock_fd) {
     g_hash_table_insert(clients, mx_strdup(session_id), conn);
 }
 
+char *find_session_by_sock(int sock_fd) {
+    GHashTableIter iter;
+    gpointer value, key;
+
+    g_hash_table_iter_init (&iter, clients);
+    while (g_hash_table_iter_next (&iter, &key, &value)) {
+        connection_data *conn = (connection_data *) value;
+
+        if (conn->sock_fd == sock_fd) {
+            return mx_strdup((char *) key);
+        }
+    }
+
+    return NULL;
+}
+
 void remove_client_connection(char *session_id) {
     g_hash_table_remove(clients, session_id);
 }

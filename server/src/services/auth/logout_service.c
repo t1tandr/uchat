@@ -1,15 +1,10 @@
 #include "server.h"
 
-int logout_service(cJSON *data, sqlite3 *db, int sock_fd) {
+int logout_service(cJSON *headers, sqlite3 *db, int sock_fd) {
     int rc;
     char *sql, *error_message;
 
-    char *session_id = cJSON_GetObjectItem(data, "session_id")->valuestring;
-
-    if (!session_exists(session_id, -1, db)) {
-        error_handler(sock_fd, "Session doesn't exist", 422);
-        return -1;
-    }
+    char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
 
     sql = sqlite3_mprintf(
         "DELETE FROM sessions WHERE id = %Q;",

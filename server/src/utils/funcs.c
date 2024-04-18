@@ -4,6 +4,16 @@ bool is_file_exists(char *filename) {
     return access(filename, F_OK) == 0;
 }
 
+bool contains_space(char *string) {
+    for (int i = 0; i < mx_strlen(string); i++) {
+        if (mx_isspace(string[i])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 cJSON *stmt_to_user_json(sqlite3_stmt *stmt) {
     cJSON *user = cJSON_CreateObject();
 
