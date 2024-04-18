@@ -2,47 +2,117 @@
 <interface>
     <requires lib="gtk" version="4.0"/>
     <object class="GtkWindow" id="chat-new-dialog">
-        <property name="width-request">600</property>
-        <property name="height-request">550</property>
+        <property name="width-request">350</property>
+        <property name="height-request">400</property>
         <property name="resizable">false</property>
         <property name="decorated">false</property>
+        <property name="modal">true</property>
         <property name="destroy-with-parent">true</property>
         <child>
-            <object class="GtkCenterBox">
+            <object class="GtkBox">
                 <property name="orientation">vertical</property>
-                <property name="hexpand">true</property>
-                <property name="vexpand">true</property>
+                <property name="spacing">10</property>
                 <property name="margin-top">20</property>
                 <property name="margin-bottom">20</property>
                 <property name="margin-start">20</property>
                 <property name="margin-end">20</property>
-                <child type="start">
+                <child>
                     <object class="GtkBox">
-                        <property name="orientation">horizontal</property>
+                        <property name="orientation">vertical</property>
                         <property name="spacing">10</property>
                         <child>
                             <object class="GtkBox">
-                                <property name="height-request">100</property>
-                                <property name="width-request">100</property>
-                                <property name="valign">start</property>
-                                <style>
-                                    <class name="avatar"/>
-                                </style>
+                                <property name="orientation">horizontal</property>
+                                <property name="spacing">10</property>
                                 <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">+</property>
+                                    <object class="GtkOverlay">
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="height-request">100</property>
+                                                <property name="width-request">100</property>
+                                                <property name="valign">start</property>
+                                                <style>
+                                                    <class name="avatar"/>
+                                                </style>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="label">+</property>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                        <child type="overlay">
+                                            <object class="GtkButton">
+                                                <property name="height-request">5</property>
+                                                <property name="width-request">5</property>
+                                                <property name="valign">end</property>
+                                                <property name="halign">end</property>
+                                                <property name="icon-name">camera-photo</property>
+                                                <style>
+                                                    <class name="add-photo-button"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkBox">
+                                        <property name="valign">end</property>
+                                        <child>
+                                            <object class="GtkEntry">
+                                                <property name="placeholder-text">Chat name...</property>
+                                                <property name="width-request">220</property>
+                                            </object>
+                                        </child>
                                     </object>
                                 </child>
                             </object>
                         </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">10</property>
                         <child>
-                            <object class="GtkEntry">
-                                <property name="placeholder-text">Chat name...</property>
+                            <object class="GtkLabel">
+                                <property name="halign">start</property>
+                                <property name="label">Add users</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkSearchEntry">
+                                <property name="placeholder-text">Search...</property>
+                                <signal name="activate" handler="user_search_entry_started_cb"/>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkScrolledWindow">
+                                <property name="height-request">250</property>
+                                <child>
+                                    <object class="GtkListBox">
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="label">pisya</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="label">pisya</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="label">pisya</property>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
                             </object>
                         </child>
                     </object>
                 </child>
-                <child type="end">
+                <child>
                     <object class="GtkCenterBox">
                         <property name="orientation">horizontal</property>
                         <child type="end">

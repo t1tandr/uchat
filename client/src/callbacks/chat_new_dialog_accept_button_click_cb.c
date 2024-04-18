@@ -6,3 +6,4 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
 
     gtk_widget_hide(dialog);
 }
+

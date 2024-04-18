@@ -34,7 +34,7 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
 
         data = cJSON_CreateObject();
         cJSON_AddNumberToObject(data, "chat_id", uchat->user/*->current_chat*/->id);
-        cJSON_AddStringToObject(data, "message", text);
+        cJSON_AddStringToObject(data, "text", text);
 
         request = create_request(METHOD_POST, "/message", data, headers);
 
@@ -44,7 +44,7 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
 
         cJSON_Delete(request);
 
-        if (response != NULL && cJSON_HasObjectItem(response, "status")) {
+        if (response != NULL && cJSON_HasObjectItem(response, "status") && cJSON_HasObjectItem(response, "data")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
             if (status == 201) {
