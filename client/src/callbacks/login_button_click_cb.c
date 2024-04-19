@@ -46,7 +46,7 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
             if (uchat->user == NULL) {
                 handle_error("uchat: error getting user data");
             }
-            
+
             create_session_file("session.json", cJSON_GetObjectItemCaseSensitive(response, "data"));
             window_switch_child(uchat->builder, "login-page", "homepage");
         }
