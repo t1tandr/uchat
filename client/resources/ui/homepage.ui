@@ -98,6 +98,7 @@
                                                 <property name="orientation">horizontal</property>
                                                 <property name="hexpand">false</property>
                                                 <property name="margin-top">20</property>
+                                                <property name="margin-start">140</property>
                                                 <child>
                                                     <object class="GtkBox">
                                                         <property name="overflow">hidden</property>
@@ -119,10 +120,9 @@
                                             <object class="GtkListBox" id="menu-options">
                                                 <property name="margin-top">20</property>
                                                 <property name="name">menu-options</property>
+                                                <property name="activate-on-single-click">TRUE</property>
                                                 <child>
-                                                    <object class="GtkBox">
-                                                        <property name="orientation">horizontal</property>
-                                                        <property name="spacing">10</property>
+                                                    <object class="GtkButton">
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">contact</property>
@@ -136,9 +136,7 @@
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkBox">
-                                                        <property name="orientation">horizontal</property>
-                                                        <property name="spacing">10</property>
+                                                    <object class="GtkButton">
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">settings</property>
@@ -152,9 +150,8 @@
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkBox">
-                                                        <property name="orientation">horizontal</property>
-                                                        <property name="spacing">10</property>
+                                                    <object class="GtkButton">
+                                                        <signal name="clicked" handler="log_out_button_click_cb"/>
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">sign-out</property>
