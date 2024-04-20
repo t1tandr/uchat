@@ -59,7 +59,7 @@
                                     <object class="GtkBox">
                                         <property name="valign">end</property>
                                         <child>
-                                            <object class="GtkEntry">
+                                            <object class="GtkEntry" id="chat-new-name-entry">
                                                 <property name="placeholder-text">Chat name...</property>
                                                 <property name="width-request">220</property>
                                             </object>
@@ -81,7 +81,7 @@
                             </object>
                         </child>
                         <child>
-                            <object class="GtkSearchEntry">
+                            <object class="GtkSearchEntry" id="chat-new-search-entry">
                                 <property name="placeholder-text">Search...</property>
                                 <signal name="activate" handler="user_search_entry_started_cb"/>
                             </object>
@@ -90,23 +90,7 @@
                             <object class="GtkScrolledWindow">
                                 <property name="height-request">250</property>
                                 <child>
-                                    <object class="GtkListBox">
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">pisya</property>
-                                            </object>
-                                        </child>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">pisya</property>
-                                            </object>
-                                        </child>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">pisya</property>
-                                            </object>
-                                        </child>
-                                    </object>
+                                    <object class="GtkListBox" id="new-chat-members-list"/>
                                 </child>
                             </object>
                         </child>

@@ -39,3 +39,4 @@ uchat_message_box_get_seen(UchatMessageBox* self);
 G_END_DECLS
 
 #endif
+

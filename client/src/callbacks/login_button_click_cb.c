@@ -37,12 +37,12 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
 
     cJSON_Delete(request);
 
-    if (response != NULL && cJSON_HasObjectItem(response, "status") && cJSON_HasObjectItem(response, "data")) {
+    if (response != NULL && cJSON_HasObjectItem(response, "status")) {
         int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
         if (status == 200) {
             gtk_revealer_set_reveal_child(revealer, FALSE);
-            uchat->user = get_user_from_json(response);
+            uchat->user = get_current_user_from_json(cJSON_GetObjectItemCaseSensitive(response, "data"));
 
             if (uchat->user == NULL) {
                 handle_error("uchat: error getting user data");

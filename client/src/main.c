@@ -60,7 +60,7 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
         gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "login-page")));
     }
     else {
-        uchat->user = get_user_from_json(cJSON_Parse(session));
+        uchat->user = get_current_user_from_json(cJSON_Parse(session));
         gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "homepage")));
     }
 
