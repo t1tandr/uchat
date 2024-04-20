@@ -7,7 +7,7 @@ cJSON *update_message_service(int message_id, cJSON *data, cJSON *headers, sqlit
     char sql[1024];
 
     int user_id = cJSON_GetObjectItem(session, "user_id")->valueint;
-    char *update_text = cJSON_GetObjectItem(data, "text")->valuestring;
+    char *update_content = cJSON_GetObjectItem(data, "content")->valuestring;
 
     cJSON *message = get_message_by_id_service(message_id, headers, db, sock_fd);
     if (message == NULL) {
@@ -19,10 +19,18 @@ cJSON *update_message_service(int message_id, cJSON *data, cJSON *headers, sqlit
         return NULL;
     }
 
+    char *type = cJSON_GetObjectItem(message, "type")->valuestring;
+    if (strcmp(type, "photo") == 0) {
+        char *old_photo_id = cJSON_GetObjectItem(message, "content")->valuestring;
+        delete_image(old_photo_id);
+
+        update_content = create_image(update_content);
+    }
+
     strcpy(sql, "UPDATE messages SET ");
 
-    if (cJSON_HasObjectItem(data, "text")) {
-        strcat(sql, "text = ?, ");
+    if (cJSON_HasObjectItem(data, "content")) {
+        strcat(sql, "content = ?, ");
     }
 
     strcat(sql, "updated_at = CURRENT_TIMESTAMP ");
@@ -35,8 +43,8 @@ cJSON *update_message_service(int message_id, cJSON *data, cJSON *headers, sqlit
     }
 
     int param_index = 1;
-    if (cJSON_HasObjectItem(data, "text")) {
-        sqlite3_bind_text(stmt, param_index++, update_text, -1, SQLITE_TRANSIENT);
+    if (cJSON_HasObjectItem(data, "content")) {
+        sqlite3_bind_text(stmt, param_index++, update_content, -1, SQLITE_TRANSIENT);
     }
 
     sqlite3_bind_int(stmt, param_index, message_id);

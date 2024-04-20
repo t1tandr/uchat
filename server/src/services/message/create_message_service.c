@@ -5,7 +5,8 @@ cJSON *create_message_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock
 
     int user_id = cJSON_GetObjectItemCaseSensitive(session, "user_id")->valueint;
     int chat_id = cJSON_GetObjectItemCaseSensitive(data, "chat_id")->valueint;
-    char *text = cJSON_GetObjectItemCaseSensitive(data, "text")->valuestring;
+    char *type = cJSON_GetObjectItemCaseSensitive(data, "type")->valuestring;
+    char *content = cJSON_GetObjectItemCaseSensitive(data, "content")->valuestring;
 
     cJSON *chat_members = get_chat_members_service(chat_id, headers, db, sock_fd);
 
@@ -14,15 +15,20 @@ cJSON *create_message_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock
         return NULL;
     }
 
+    if (strcmp(type, "photo") == 0) {
+        content = create_image(content);
+    }
+
     sqlite3_stmt *stmt;
     char *sql;
 
     sql = sqlite3_mprintf(
-        "INSERT INTO messages (user_id, chat_id, text)"
-        "VALUES (%d, %d, %Q) RETURNING *;",
+        "INSERT INTO messages (user_id, chat_id, type, content)"
+        "VALUES (%d, %d, %Q, %Q) RETURNING *;",
         user_id,
         chat_id,
-        text
+        type,
+        content
     );
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {

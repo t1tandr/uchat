@@ -43,10 +43,8 @@ cJSON *login_service(cJSON *data, sqlite3 *db, int sock_fd) {
         return NULL;
     }
 
-    cJSON *session_data = cJSON_CreateObject();
-    cJSON_AddStringToObject(session_data, "session_id", session_id_str);
-    cJSON_AddNumberToObject(session_data, "user_id", user_id);
+    cJSON_AddStringToObject(user, "session_id", session_id_str);
 
-    return session_data;  
+    return user;
 }
 

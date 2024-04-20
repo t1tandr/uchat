@@ -26,7 +26,7 @@ cJSON *get_chat_members_service(int chat_id, cJSON *headers, sqlite3 *db, int so
         cJSON_AddItemToArray(chat_members, chat_member);
     }
 
-    if (!is_user_chat_member(user_id, chat_members)) {
+    if (!is_user_chat_member(user_id, chat_members) && cJSON_GetArraySize(chat_members) > 0) {
         error_handler(sock_fd, "Unauthorized", 401);
         return NULL;
     }
