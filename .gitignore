@@ -13,3 +13,5 @@
 !*.xml
 !LICENSE
 !*.S
+
+server/*.png

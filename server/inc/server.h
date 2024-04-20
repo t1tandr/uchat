@@ -23,6 +23,8 @@
 
 #define BUFF_SIZE 1024
 
+#define IMAGES_PATH "./media/images"
+
 // Controllers
 
 // - User
@@ -126,6 +128,7 @@ bool auth_handler(cJSON *req, sqlite3 *db, int sock_fd);
 GHashTable *chat_members_to_user_ids_set(cJSON *chat_members);
 
 bool is_file_exists(char *filename);
+void create_dir_if_not_exists(char *path);
 bool contains_space(char *string);
 cJSON *stmt_to_user_json(sqlite3_stmt *stmt);
 cJSON *stmt_to_message_json(sqlite3_stmt *stmt);
@@ -138,6 +141,9 @@ void remove_client_connection(char *session_id);
 bool is_client_saved(char *session_id);
 void client_connection_handler(cJSON *req, sqlite3 *db, int sock_fd);
 char *find_session_by_sock(int sock_fd);
+
+void delete_image(char *image_id);
+char *create_image(char *base64);
 
 typedef struct {
     int sock_fd;

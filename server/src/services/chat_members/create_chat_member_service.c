@@ -4,7 +4,7 @@ cJSON *create_chat_member_service(cJSON *data, cJSON *headers, sqlite3 *db, int 
     cJSON *session = cJSON_GetObjectItem(headers, "session_data");
 
     int user_id = cJSON_GetObjectItem(session, "user_id")->valueint;
-    int chat_id = cJSON_GetObjectItem(data, "chat_id")->valueint;
+    int chat_id = cJSON_GetObjectItem(data, "сhat_id")->valueint;
     int add_user_id = cJSON_GetObjectItem(data, "user_id")->valueint;
 
     cJSON *chat_members = get_chat_members_service(chat_id, headers, db, sock_fd);

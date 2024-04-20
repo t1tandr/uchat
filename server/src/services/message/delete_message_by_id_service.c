@@ -45,6 +45,12 @@ cJSON *delete_message_by_id_service(int message_id, cJSON *headers, sqlite3 *db,
         return NULL;
     }
 
+    char *type = cJSON_GetObjectItem(message, "type")->valuestring;
+    if (strcmp(type, "photo") == 0) {
+        char *photo_id = cJSON_GetObjectItem(message, "content")->valuestring;
+        delete_image(photo_id);
+    }
+
     cJSON *deleted_message = stmt_to_message_json(stmt);
     
     sqlite3_finalize(stmt);

@@ -28,6 +28,11 @@ cJSON *delete_user_by_id_service(int user_id, cJSON *headers, sqlite3 *db, int s
     }
 
     cJSON *user = stmt_to_user_json(stmt);
+
+    if (cJSON_HasObjectItem(user, "avatar")) {
+        char *old_photo_id = cJSON_GetObjectItem(user, "avatar")->valuestring;
+        delete_image(old_photo_id);
+    }
     
     sqlite3_finalize(stmt);
     sqlite3_free(sql);
