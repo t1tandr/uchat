@@ -1,5 +1,5 @@
-#ifndef _UCHAT_CHAT_BOX
-#define _UCHAT_CHAT_BOX
+#ifndef UCHAT_CHAT_BOX_H
+#define UCHAT_CHAT_BOX_H
 
 #include <gtk/gtk.h>
 

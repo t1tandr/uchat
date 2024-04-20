@@ -11,6 +11,7 @@ void send_response_message_all(cJSON *headers, cJSON *message, int status, int s
     }
 
     char *res_str = cJSON_Print(res);
+    int length = strlen(res_str);
 
     int chat_id = cJSON_GetObjectItem(message, "chat_id")->valueint;
     cJSON *chat_members = get_chat_members_service(chat_id, headers, db, sock_fd);
@@ -24,9 +25,12 @@ void send_response_message_all(cJSON *headers, cJSON *message, int status, int s
             connection *conn = (connection *) temp->data;
             
             if (chat_member_id == conn->user_id) {
-                send(conn->sock_fd, res_str, strlen(res_str), 0);
+                int nbytes = send(conn->sock_fd, &length, sizeof(length), MSG_NOSIGNAL);
+    
+                if(nbytes > -1) {
+                    send(conn->sock_fd, res_str, length, MSG_NOSIGNAL);
+                }
             }
-
             temp = temp->next;
         }
     }

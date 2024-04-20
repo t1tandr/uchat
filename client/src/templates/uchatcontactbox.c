@@ -1,9 +1,13 @@
-#include "uchat_chat_box.h"
+#include "templates/uchatchatbox.h"
+
+/*
 
 enum {
   CHAT_BOX_NAME = 1,
   MAMAN_BAR_PAPA_NUMBER,
 };
+
+*/
 
 struct _UchatChatBox {
   GtkWidget parent_instance;
@@ -20,7 +24,7 @@ static void
 uchat_chat_box_class_init(UchatChatBoxClass *klass) {
     GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
 
-    gtk_widget_class_set_template_from_resource(widget_class, "/ua/ucode-connect/uchat/ui/chat-box.ui");
+    gtk_widget_class_set_template_from_resource(widget_class, "/ua/ucode-connect/uchat/ui/chatbox.ui");
     gtk_widget_class_set_layout_manager_type(widget_class, GTK_TYPE_BOX_LAYOUT);
 
     gtk_widget_class_bind_template_child(widget_class, UchatChatBox, name);
