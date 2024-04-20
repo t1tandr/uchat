@@ -1,13 +1,7 @@
 #include "server.h"
 
 cJSON *delete_message_by_id_service(int message_id, cJSON *headers, sqlite3 *db, int sock_fd) {
-    char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
-    cJSON *session = get_session(session_id, db);
-
-    if (session == NULL) {
-        error_handler(sock_fd, "Unauthorized", 401);
-        return NULL;
-    }
+    cJSON *session = cJSON_GetObjectItem(headers, "session_data");
 
     int user_id = cJSON_GetObjectItem(session, "user_id")->valueint;
 
@@ -49,6 +43,12 @@ cJSON *delete_message_by_id_service(int message_id, cJSON *headers, sqlite3 *db,
     if (sqlite3_step(stmt) != SQLITE_ROW) {
         error_handler(sock_fd, "Invalid input data", 422);
         return NULL;
+    }
+
+    char *type = cJSON_GetObjectItem(message, "type")->valuestring;
+    if (strcmp(type, "photo") == 0) {
+        char *photo_id = cJSON_GetObjectItem(message, "content")->valuestring;
+        delete_image(photo_id);
     }
 
     cJSON *deleted_message = stmt_to_message_json(stmt);

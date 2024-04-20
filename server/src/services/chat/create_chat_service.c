@@ -1,13 +1,7 @@
 #include "server.h"
 
 cJSON *create_chat_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd) { // TODO: do transaction
-    char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
-    cJSON *session = get_session(session_id, db);
-
-    if (session == NULL) {
-        error_handler(sock_fd, "Unauthorized", 401);
-        return NULL;
-    }
+    cJSON *session = cJSON_GetObjectItem(headers, "session_data");
 
     sqlite3_stmt *stmt;
     char *sql;

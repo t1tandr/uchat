@@ -1,14 +1,34 @@
 #include "server.h"
 
 cJSON *update_user_by_id_service(int user_id, cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd) {
-    char *session_id = cJSON_GetObjectItem(headers, "Authorization")->valuestring;
-    if (!session_exists(session_id, user_id, db)) {
+    cJSON *session = cJSON_GetObjectItem(headers, "session_data");
+
+    if (cJSON_GetObjectItem(session, "user_id")->valueint != user_id) {
         error_handler(sock_fd, "Unauthorized", 401);
         return NULL;
     }
 
     sqlite3_stmt *stmt;
     char sql[1024];
+
+    char *avatar;
+
+    if (cJSON_HasObjectItem(data, "avatar")) {
+        cJSON *user = get_user_by_id_service(user_id, db, sock_fd);
+        if (user == NULL) {
+            return NULL;
+        }
+
+        if (cJSON_HasObjectItem(user, "avatar")) {
+            char *old_photo_id = cJSON_GetObjectItem(user, "avatar")->valuestring;
+            delete_image(old_photo_id);
+        }
+
+        char *new_avatar_base64 = cJSON_GetObjectItem(data, "avatar")->valuestring;
+        avatar = create_image(new_avatar_base64);
+
+        cJSON_Delete(user);
+    }
 
     strcpy(sql, "UPDATE users SET ");
 
@@ -18,6 +38,10 @@ cJSON *update_user_by_id_service(int user_id, cJSON *data, cJSON *headers, sqlit
 
     if (cJSON_HasObjectItem(data, "name")) {
         strcat(sql, "name = ?, ");
+    }
+
+    if (cJSON_HasObjectItem(data, "avatar")) {
+        strcat(sql, "avatar = ?, ");
     }
 
     if (cJSON_HasObjectItem(data, "bio")) {
@@ -39,6 +63,10 @@ cJSON *update_user_by_id_service(int user_id, cJSON *data, cJSON *headers, sqlit
 
     if (cJSON_HasObjectItem(data, "name")) {
         sqlite3_bind_text(stmt, param_index++, cJSON_GetObjectItem(data, "name")->valuestring, -1, SQLITE_TRANSIENT);
+    }
+
+    if (cJSON_HasObjectItem(data, "avatar")) {
+        sqlite3_bind_text(stmt, param_index++, avatar, -1, SQLITE_TRANSIENT);
     }
 
     if (cJSON_HasObjectItem(data, "bio")) {

@@ -3,16 +3,23 @@
 void delete_message_controller(int message_id, cJSON *req, sqlite3 *db, int sock_fd) {
     cJSON *headers = cJSON_GetObjectItemCaseSensitive(req, "headers");
 
-    if (headers == NULL
-        || !cJSON_HasObjectItem(headers, "Authorization")) {
-        error_handler(sock_fd, "Invalid json", 400);
-        return;
-    }
-
     cJSON *message = delete_message_by_id_service(message_id, headers, db, sock_fd);
 
     if (!message) return;
 
-    send_response(sock_fd, message, 201);
+    cJSON *chat_members = get_chat_members_service(
+        cJSON_GetObjectItem(message, "chat_id")->valueint,
+        headers,
+        db,
+        sock_fd
+    );
+    
+    if (!chat_members) return;
+
+    GHashTable *user_ids = chat_members_to_user_ids_set(chat_members);
+
+    cJSON_Delete(chat_members);
+
+    send_response_users_by_id(user_ids, message, 201);
 }
 

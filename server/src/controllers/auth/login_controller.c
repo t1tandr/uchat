@@ -14,6 +14,8 @@ void login_controller(cJSON *req, sqlite3 *db, int sock_fd) {
 
     if (!session_data) return;
 
+    cJSON_DeleteItemFromObject(session_data, "password");
+
     send_response(sock_fd, session_data, 200);
 }
 

@@ -4,12 +4,19 @@ cJSON *create_user_service(cJSON *data, sqlite3 *db, int sock_fd) {
     char salt[BCRYPT_HASHSIZE];
     char hash[BCRYPT_HASHSIZE];
 
-    int rc;
-    char *sql, *error_message;
+    sqlite3_stmt *stmt;
+    char *sql;
 
-    char *username = cJSON_GetObjectItemCaseSensitive(data, "username")->valuestring;
-    char *name = cJSON_GetObjectItemCaseSensitive(data, "name")->valuestring;
-    char *password = cJSON_GetObjectItemCaseSensitive(data, "password")->valuestring;
+    char *username = cJSON_GetObjectItem(data, "username")->valuestring;
+    char *name = cJSON_GetObjectItem(data, "name")->valuestring;
+    char *password = cJSON_GetObjectItem(data, "password")->valuestring;
+
+    cJSON *user = get_user_by_username_service(username, db, sock_fd);
+
+    if (user != NULL) {
+        error_handler(sock_fd, "User already exists", 400);
+        return NULL;
+    }
 
     if (bcrypt_gensalt(12, salt) != 0) {
         error_handler(sock_fd, "Internal error", 500);
@@ -23,24 +30,30 @@ cJSON *create_user_service(cJSON *data, sqlite3 *db, int sock_fd) {
 
     sql = sqlite3_mprintf(
         "INSERT INTO users (username, name, password)"
-        "VALUES(%Q, %Q, %Q);",
+        "VALUES(%Q, %Q, %Q) RETURNING *;",
         username,
         name,
         hash
     );
    
-    rc = sqlite3_exec(db, sql, NULL, 0, &error_message);
-    sqlite3_free(sql);
-
-    if (rc != SQLITE_OK){
-        error_handler(sock_fd, error_message, 422);
-        sqlite3_free(error_message);
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
+        error_handler(sock_fd, (char *) sqlite3_errmsg(db), 422);
+        sqlite3_finalize(stmt);
+        sqlite3_free(sql);
         return NULL;
     }
 
-    cJSON *user = get_user_by_username_service(username, db, sock_fd);
+    if (sqlite3_step(stmt) != SQLITE_ROW) {
+        error_handler(sock_fd, "Invalid input data", 422);
+        sqlite3_finalize(stmt);
+        sqlite3_free(sql);
+        return NULL;
+    }
 
-    if (!user) return NULL;
+    user = stmt_to_user_json(stmt);
+
+    sqlite3_finalize(stmt);
+    sqlite3_free(sql);
 
     return user;
 }

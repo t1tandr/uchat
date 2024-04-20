@@ -4,15 +4,46 @@ bool is_file_exists(char *filename) {
     return access(filename, F_OK) == 0;
 }
 
+void create_dir_if_not_exists(char *path) {
+    struct stat st = {0};
+    char *path_copy = mx_strdup(path);
+    char *dir = path_copy;
+
+    while ((dir = strchr(dir + 1, '/')) != NULL) {
+        *dir = '\0';
+        if (stat(path_copy, &st) == -1) {
+            mkdir(path_copy, 0700);
+        }
+        *dir = '/';
+    }
+
+    if (stat(path_copy, &st) == -1) {
+        mkdir(path_copy, 0700);
+    }
+
+    free(path_copy);
+}
+
+bool contains_space(char *string) {
+    for (int i = 0; i < mx_strlen(string); i++) {
+        if (mx_isspace(string[i])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 cJSON *stmt_to_user_json(sqlite3_stmt *stmt) {
     cJSON *user = cJSON_CreateObject();
 
     cJSON_AddNumberToObject(user, "id", sqlite3_column_int(stmt, 0));
     cJSON_AddStringToObject(user, "username", (const char *) sqlite3_column_text(stmt, 1));
     cJSON_AddStringToObject(user, "name", (const char *) sqlite3_column_text(stmt, 2));
-    cJSON_AddStringToObject(user, "bio", (const char *) sqlite3_column_text(stmt, 3));
-    cJSON_AddStringToObject(user, "password", (const char *) sqlite3_column_text(stmt, 4));
-    cJSON_AddStringToObject(user, "created_at", (const char *) sqlite3_column_text(stmt, 5));
+    cJSON_AddStringToObject(user, "avatar", (const char *) sqlite3_column_text(stmt, 3));
+    cJSON_AddStringToObject(user, "bio", (const char *) sqlite3_column_text(stmt, 4));
+    cJSON_AddStringToObject(user, "password", (const char *) sqlite3_column_text(stmt, 5));
+    cJSON_AddStringToObject(user, "created_at", (const char *) sqlite3_column_text(stmt, 6));
 
     return user;
 }
@@ -23,9 +54,10 @@ cJSON *stmt_to_message_json(sqlite3_stmt *stmt) {
     cJSON_AddNumberToObject(message, "id", sqlite3_column_int(stmt, 0));
     cJSON_AddNumberToObject(message, "chat_id", sqlite3_column_int(stmt, 1));
     cJSON_AddNumberToObject(message, "user_id", sqlite3_column_int(stmt, 2));
-    cJSON_AddStringToObject(message, "text", (const char *) sqlite3_column_text(stmt, 3));
-    cJSON_AddStringToObject(message, "created_at", (const char *) sqlite3_column_text(stmt, 4));
-    cJSON_AddStringToObject(message, "updated_at", (const char *) sqlite3_column_text(stmt, 5));
+    cJSON_AddStringToObject(message, "type", (const char *) sqlite3_column_text(stmt, 3));
+    cJSON_AddStringToObject(message, "content", (const char *) sqlite3_column_text(stmt, 4));
+    cJSON_AddStringToObject(message, "created_at", (const char *) sqlite3_column_text(stmt, 5));
+    cJSON_AddStringToObject(message, "updated_at", (const char *) sqlite3_column_text(stmt, 6));
 
     return message;
 }
