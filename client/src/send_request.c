@@ -1,12 +1,12 @@
 #include "uchat.h"
 
 cJSON* send_request(int sockfd, cJSON *request) {
+    cJSON* res_json = NULL;
     char* req_str = NULL;
     char* res_str = NULL;
-    int nbytes = 0;
     int req_length = 0;
     int res_length = 0;
-    cJSON* res_json = NULL;
+    int nbytes = 0;
 
     req_str = cJSON_PrintUnformatted(request);
     if(req_str == NULL) {
@@ -22,7 +22,6 @@ cJSON* send_request(int sockfd, cJSON *request) {
 
         if(nbytes != -1) {
             nbytes = recv(sockfd, &res_length, sizeof(res_length), 0);
-            printf("length: %d\n", res_length);
 
             if (nbytes < 0) {
                 return NULL;;

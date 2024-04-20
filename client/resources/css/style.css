@@ -75,10 +75,21 @@ entry {
     background-color:rgb(70, 68, 68);
 }
 
+.message {
+    background-color: rgb(74, 75, 74);
+    border-radius: 5px;
+}
+
 .description {
     font-size: 20px;
 }
 
 .description-label {
     font-size: 32px;
+}
+
+.add-photo-button {
+    background-color: steelblue;
+    color: black;
+    border-radius: 50%;
 }

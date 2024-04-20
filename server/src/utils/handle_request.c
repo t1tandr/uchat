@@ -56,6 +56,7 @@ void *handle_request(void *arg) {
 
     sqlite3_close(db);
     close(sock_fd);
+
     return NULL;
 }
 

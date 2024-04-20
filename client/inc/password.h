@@ -27,8 +27,7 @@ static const char* req_fields[PWD_NUM][3] = {
     { "password-special", "✔ Contains a special symbol",      "x Contains a special symbol" }
 };
 
-bool* check_password_strength(const char* password, bool* strength);
-void  check_password_requirement(bool req, GtkBuilder* builder, int id);
+bool check_password_strength(const char* password, GtkBuilder* builder);
 
 #endif
 

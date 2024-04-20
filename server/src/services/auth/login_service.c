@@ -12,6 +12,7 @@ cJSON *login_service(cJSON *data, sqlite3 *db, int sock_fd) {
 
     cJSON* user = get_user_by_username_service(username, db, sock_fd);
     if (user == NULL) {
+        error_handler(sock_fd, "Username doesn't match", 400);
         return NULL;
     }
 
