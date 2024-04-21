@@ -17,9 +17,9 @@ void add_members_to_chat(t_chat* chat, t_uchat_app* uchat) {
 
         request = create_request(METHOD_POST, "/chat-members", data, headers);
 
-        response = send_request(uchat->servsock, request);
+        printf("%s\n", cJSON_Print(request));
 
-        cJSON_Delete(request);
+        response = send_request(uchat->servsock, request);
 
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
@@ -27,6 +27,7 @@ void add_members_to_chat(t_chat* chat, t_uchat_app* uchat) {
             if (status != 201) {
                 handle_error("uchat: error creating chat");
             }
+
             cJSON_Delete(response);
         }
         else {
@@ -53,7 +54,11 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
 
     request = create_request(METHOD_POST, "/chats", data, headers);
 
+    printf("%s\n", cJSON_Print(request));
+
     response = send_request(uchat->servsock, request);
+
+    printf("%s\n", cJSON_Print(response));
 
     if (response != NULL && cJSON_HasObjectItem(response, "status")) {
         int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
@@ -69,10 +74,14 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
 
             while ((row = gtk_list_box_get_row_at_index(list, index++)) != NULL) {
                 user_box = UCHAT_USER_BOX(gtk_list_box_row_get_child(row));
-                mx_push_back(&chat->members, uchat_user_box_get_user(user_box));
+                printf("%s\n", uchat_user_box_get_username(user_box));
+                // printf("%p\n", uchat_user_box_get_user(user_box));
+                mx_push_back(&(chat->members), (void *)uchat_user_box_get_user(user_box));
+                printf("%d\n", mx_list_size(chat->members));
             }
 
             if(mx_list_size(chat->members) > 0) {
+                printf("%d\n", mx_list_size(chat->members));
                 add_members_to_chat(chat, uchat);
             }
         }

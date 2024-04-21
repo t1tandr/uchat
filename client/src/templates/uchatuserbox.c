@@ -21,7 +21,7 @@ uchat_user_box_class_init(UchatUserBoxClass *klass) {
 
 void
 uchat_user_box_set_user(UchatUserBox* self, t_user* user) {
-    gtk_label_set_label(GTK_LABEL(self->username), user->username);
+    self->user = user;
 }
 
 t_user *
@@ -48,6 +48,7 @@ UchatUserBox *
 uchat_user_box_new(t_user* user) {
     UchatUserBox* obj = g_object_new(UCHAT_TYPE_USER_BOX, NULL);
 
+    uchat_user_box_set_user(obj, user);
     uchat_user_box_set_username(obj, user->username);
 
     return obj;
