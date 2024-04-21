@@ -12,7 +12,7 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
 
     if (strlen(mx_strtrim(entry_value)) > 0) {
         headers = cJSON_CreateObject();
-        cJSON_AddStringToObject(headers, "Authorization", uchat->session);
+        cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
         data = cJSON_CreateObject();
 
@@ -32,7 +32,7 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
                     const char* username = cJSON_GetObjectItemCaseSensitive(user_json, "username")->valuestring;
                     t_user* user = NULL;
 
-                    if (strcmp(entry_value, username) == 0 /* && strcmp(entry_value, uchat->user->username) != 0 */) {
+                    if (strcmp(entry_value, username) == 0 && strcmp(entry_value, uchat->user->username) != 0) {
                         user = get_user_from_json(user_json);
 
                         if (user != NULL) {

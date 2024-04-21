@@ -10,11 +10,10 @@
                 <child>
                     <object class="GtkCenterBox">
                         <property name="orientation">horizontal</property>
-                        <property name="height-request">130</property>
+                        <property name="height-request">100</property>
                         <property name="hexpand">true</property>
                         <child type="start">
-                            <object class="GtkBox">
-                                <property name="orientation">horizontal</property>
+                            <object class="GtkFixed">
                                 <property name="hexpand">true</property>
                                 <child>
                                     <object class="UchatAvatarBox">
@@ -29,6 +28,8 @@
                                 <child>
                                     <object class="GtkCenterBox">
                                         <property name="orientation">vertical</property>
+                                        <property name="margin-top">0</property>
+                                        <property name="margin-start">100</property>
                                         <child type="start">
                                             <object class="GtkLabel" id="name">
                                                 <property name="halign">start</property>

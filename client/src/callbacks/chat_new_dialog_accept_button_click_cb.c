@@ -9,7 +9,7 @@ bool add_members_to_chat(t_chat* chat, t_uchat* uchat) {
         t_user* member = (t_user *)i->data;
 
         headers = cJSON_CreateObject();
-        cJSON_AddStringToObject(headers, "Authorization", uchat->session);
+        cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
         data = cJSON_CreateObject();
         cJSON_AddNumberToObject(data, "chat_id", chat->id);
@@ -18,6 +18,8 @@ bool add_members_to_chat(t_chat* chat, t_uchat* uchat) {
         request = create_request(METHOD_POST, "/chat-members", data, headers);
 
         response = send_request(uchat->servsock, request);
+
+        printf("%s\n", cJSON_Print(response));
 
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
@@ -47,7 +49,7 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
     cJSON* headers = NULL;
 
     headers = cJSON_CreateObject();
-    cJSON_AddStringToObject(headers, "Authorization", uchat->session);
+    cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
     data = cJSON_CreateObject();
     cJSON_AddStringToObject(data, "name", chatname);

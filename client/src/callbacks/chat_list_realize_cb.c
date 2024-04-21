@@ -12,5 +12,13 @@ void chat_list_realize_cb(GtkListBox* self, gpointer user_data) {
     GObject* search_entry = gtk_builder_get_object(uchat->builder, "chat-search");
 
     gtk_list_box_set_filter_func(self, filter, search_entry, NULL);
+
+    t_list* list = uchat->user->chats;
+    while (list) {
+        UchatChatBox* box = uchat_chat_box_new((t_chat *)list->data);
+        gtk_list_box_append(self, GTK_WIDGET(box));
+
+        list = list->next;
+    }
 }
 

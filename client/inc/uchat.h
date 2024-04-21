@@ -32,7 +32,6 @@
 
 typedef struct s_uchat {
     int servsock;
-    const char* session;
     GtkBuilder* builder;
     GtkApplication* app;
     t_current_user* user;

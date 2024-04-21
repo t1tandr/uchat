@@ -19,4 +19,6 @@ struct s_chat {
 
 t_chat* get_chat_from_json(cJSON* json);
 
+t_list* get_chats_from_json_arr(cJSON* arr);
+
 #endif

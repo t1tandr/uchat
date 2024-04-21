@@ -9,7 +9,6 @@ t_chat* get_chat_from_json(cJSON* json) {
 
     chat->id = cJSON_GetObjectItemCaseSensitive(json, "id")->valueint;
     chat->name = strdup(cJSON_GetObjectItemCaseSensitive(json, "name")->valuestring);
-    // user->bio = strdup(cJSON_GetObjectItemCaseSensitive(json, "bio")->valuestring);
     chat->members = NULL;
 
     return chat;
