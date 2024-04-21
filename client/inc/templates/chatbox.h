@@ -14,6 +14,12 @@ UchatChatBox *
 uchat_chat_box_new(t_chat* chat);
 
 void
+uchat_chat_box_set_chat(UchatChatBox* self, t_chat* chat);
+
+t_chat *
+uchat_chat_box_get_chat(UchatChatBox* self);
+
+void
 uchat_chat_box_set_name(UchatChatBox* self, const gchar* name);
 
 const gchar *

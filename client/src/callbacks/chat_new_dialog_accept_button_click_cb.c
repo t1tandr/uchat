@@ -19,8 +19,6 @@ bool add_members_to_chat(t_chat* chat, t_uchat* uchat) {
 
         response = send_request(uchat->servsock, request);
 
-        printf("%s\n", cJSON_Print(response));
-
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
@@ -79,7 +77,7 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
                 if (add_members_to_chat(chat, uchat)) {
                     GtkListBox* chat_list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "chat-list"));
 
-                    gtk_list_box_append(chat_list, GTK_WIDGET(uchat_chat_box_new(chat)));
+                    gtk_list_box_prepend(chat_list, GTK_WIDGET(uchat_chat_box_new(chat)));
                     mx_push_back(&(uchat->user->chats), chat);
                 }
             }

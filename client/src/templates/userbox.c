@@ -1,4 +1,4 @@
-#include "templates/uchatuserbox.h"
+#include "templates/userbox.h"
 
 struct _UchatUserBox {
     GtkWidget parent_instance;

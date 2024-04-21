@@ -75,8 +75,6 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
 
         response = send_request(uchat->servsock, request);
 
-        printf("%s\n", cJSON_Print(response));
-
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
@@ -84,13 +82,6 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
                 cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
 
                 uchat->user->chats = get_chats_from_json_arr(response_data);
-
-                // t_list* list = uchat->user->chats;
-                // while (list) {
-                //     printf("%s\n", ((t_chat *)list->data)->name);
-
-                //     list = list->next;
-                // }
             }
 
             cJSON_Delete(response);

@@ -1,4 +1,4 @@
-#include "templates/uchatavatarbox.h"
+#include "templates/avatarbox.h"
 
 enum {
     PROP_SIZE = 1,

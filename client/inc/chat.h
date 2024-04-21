@@ -14,6 +14,7 @@ struct s_chat {
     int id;
     const char* name;
     GFile* img;
+    int size;
     t_list* members;
 };
 

@@ -56,8 +56,6 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
-            printf("%s\n", cJSON_Print(response));
-
             if (status == 201) {
                 gtk_revealer_set_reveal_child(username_revealer, FALSE);
 

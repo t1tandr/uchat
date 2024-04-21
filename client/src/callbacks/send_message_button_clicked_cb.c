@@ -32,7 +32,7 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
         cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
         data = cJSON_CreateObject();
-        cJSON_AddNumberToObject(data, "chat_id", uchat->user/*->current_chat*/->id);
+        cJSON_AddNumberToObject(data, "chat_id", uchat->user->current_chat->id);
         cJSON_AddStringToObject(data, "text", text);
 
         request = create_request(METHOD_POST, "/message", data, headers);
@@ -43,11 +43,11 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
             if (status == 201) {
-                time_t current_time = time(NULL);
-                GtkWidget* message = GTK_WIDGET(uchat_message_box_new(text, localtime(&current_time)));
-                GtkWidget* message_container = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "message-container"));
+                // time_t current_time = time(NULL);
+                // GtkWidget* message = GTK_WIDGET(uchat_text_message_new(text, localtime(&current_time)));
+                // GtkWidget* message_container = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "message-container"));
 
-                gtk_widget_insert_before(message, message_container, NULL);
+                // gtk_widget_insert_before(message, message_container, NULL);
             }
 
             cJSON_Delete(response);

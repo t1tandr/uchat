@@ -9,15 +9,13 @@
                 <property name="margin-top">5</property>
                 <property name="margin-end">5</property>
                 <child>
-                    <object class="GtkBox">
-                        <property name="orientation">horizontal</property>
-                        <property name="spacing">10</property>
-                        <property name="height-request">30</property>
+                    <object class="GtkFixed">
+                        <property name="height-request">50</property>
                         <child>
                             <object class="UchatAvatarBox">
-                                <property name="width-request">30</property>
-                                <property name="height-request">30</property>
-                                <property name="size">30</property>
+                                <property name="width-request">50</property>
+                                <property name="height-request">50</property>
+                                <property name="size">50</property>
                                 <style>
                                     <class name="avatar"/>
                                 </style>
@@ -26,6 +24,7 @@
                         <child>
                             <object class="GtkCenterBox">
                                 <property name="orientation">vertical</property>
+                                <property name="margin-start">60</property>
                                 <child type="start">
                                     <object class="GtkLabel" id="username">
                                         <property name="halign">start</property>

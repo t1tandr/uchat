@@ -17,11 +17,13 @@
 #include "utils.h"
 #include "user.h"
 #include "chat.h"
+#include "message.h"
 
-#include "templates/uchatchatbox.h"
-#include "templates/uchatmessagebox.h"
-#include "templates/uchatuserbox.h"
-#include "templates/uchatavatarbox.h"
+#include "templates/chatbox.h"
+#include "templates/textmessage.h"
+#include "templates/userbox.h"
+#include "templates/avatarbox.h"
+#include "templates/messagebox.h"
 
 #define METHOD_GET      "GET"
 #define METHOD_POST     "POST"
