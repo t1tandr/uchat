@@ -84,7 +84,7 @@
                             </object>
                         </child>
                         <child>
-                            <object class="GtkEntry" id = "settings-get-register">
+                            <object class="GtkEntry" id = "settings-get-username">
                                 <property name="placeholder-text">  Enter new username</property>
                                 <property name="height-request">55</property>
                                 <property name="margin-start">50</property>
@@ -110,11 +110,14 @@
                                 <property name="margin-start">50</property>
                                 <property name="margin-top">375</property>
                                 <property name="width-request">500</property>
-                                <property name="name">entry_in_setting</property>
+                                <property name="name">entry_for_biography</property>
+                                <attributes>
+                                    <attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
+                                </attributes>
                             </object>
                         </child>
                         <child>
-                            <object class="GtkLabel" id="settings-get-password">
+                            <object class="GtkLabel">
                                 <property name="label">Password:</property>
                                 <property name="height-request">50</property>
                                 <property name="margin-start">50</property>
@@ -124,8 +127,8 @@
                             </object>
                         </child>
                         <child>
-                            <object class="GtkPasswordEntry" id="settings-get-password-confrim">
-                                <property name="placeholder-text">  New password</property>
+                            <object class="GtkPasswordEntry" id="settings-get-password">
+                                <property name="placeholder-text">New password</property>
                                 <property name="show-peek-icon">true</property>
                                 <property name="height-request">55</property>
                                 <property name="margin-start">50</property>
@@ -135,8 +138,8 @@
                             </object>
                         </child>
                         <child>
-                            <object class="GtkPasswordEntry">
-                                <property name="placeholder-text">  Repeat new password</property>
+                            <object class="GtkPasswordEntry" id="settings-get-password-confrim">
+                                <property name="placeholder-text">Repeat new password</property>
                                 <property name="show-peek-icon">true</property>
                                 <property name="height-request">55</property>
                                 <property name="margin-start">50</property>
@@ -153,7 +156,7 @@
                                 <property name="margin-top">1025</property>
                                 <property name="width-request">120</property>
                                 <property name="name">button_in_setting</property>
-                                <!-- <signal name="clicked" handler="save_button_click_cb"/> -->
+                                <signal name="clicked" handler="save_button_click_cb"/>
                             </object>
                         </child>
                         <child>

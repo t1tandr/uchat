@@ -122,6 +122,13 @@ entry {
     font-size: 16px;
 }
 
+#entry_for_biography{
+    border-radius: 50px;
+    background-color:rgb(245, 245, 245);
+    color: @text-semibold-color;
+    font-size: 16px;
+}
+
 #names_in_setting{
     font-size:24px;
     color:rgb(245, 245, 245);
