@@ -14,7 +14,7 @@ struct s_message {
     int user_id;
     int chat_id;
     const char* time;
-    const char* message;
+    const char* content;
 };
 
 t_message* get_message_from_json(cJSON* json);

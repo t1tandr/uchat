@@ -18,7 +18,10 @@ t_chat *
 uchat_message_box_get_chat(UchatMessageBox* self);
 
 void
-uchat_message_box_add_message(UchatMessageBox* self, t_message* message);
+uchat_message_box_add_message(UchatMessageBox* self, t_message* message, bool own);
+
+gchar *
+uchat_message_box_get_text(UchatMessageBox* self);
 
 G_END_DECLS
 

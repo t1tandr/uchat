@@ -1,26 +1,19 @@
 #include "uchat.h"
 
-static gchar* text_view_get_full_text(GtkTextView* view) {
-    GtkTextBuffer* buffer = gtk_text_view_get_buffer(view);
-    GtkTextIter start, end;
-    gchar* text = NULL;
-
-    gtk_text_buffer_get_bounds(buffer, &start, &end);
-
-    text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-
-    gtk_text_buffer_delete(buffer, &start, &end);
-
-    return text;
-}
-
 void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
     t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
-    GtkTextView* view = GTK_TEXT_VIEW(gtk_builder_get_object(uchat->builder, "message-entry"));
-    GtkScrolledWindow* window = GTK_SCROLLED_WINDOW(gtk_builder_get_object(uchat->builder, "message-container-scrolled"));
-    GtkAdjustment* vadj = NULL;
 
-    gchar* text = text_view_get_full_text(view);
+    printf("%p\n", uchat);
+        mx_printstr("hello\n");
+    GtkNotebook* chats = GTK_NOTEBOOK(gtk_builder_get_object(uchat->builder, "message-container"));
+        mx_printstr("hello\n");
+    int id = gtk_notebook_get_current_page(chats);
+        mx_printstr("hello\n");
+    UchatMessageBox* chat = gtk_notebook_get_nth_page(chats, id);
+
+    mx_printstr("hello\n");
+
+    gchar* text = uchat_message_box_get_text(chat);
 
     if (strlen(mx_strtrim(text)) > 0) {
         cJSON* request = NULL;
@@ -33,21 +26,25 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
 
         data = cJSON_CreateObject();
         cJSON_AddNumberToObject(data, "chat_id", uchat->user->current_chat->id);
-        cJSON_AddStringToObject(data, "text", text);
+        cJSON_AddStringToObject(data, "type", "text");
+        cJSON_AddStringToObject(data, "content", text);
 
         request = create_request(METHOD_POST, "/message", data, headers);
 
+        printf("%s\n", cJSON_Print(request));
+
         response = send_request(uchat->servsock, request);
+
+        printf("%s\n", cJSON_Print(response));
 
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
             if (status == 201) {
-                // time_t current_time = time(NULL);
-                // GtkWidget* message = GTK_WIDGET(uchat_text_message_new(text, localtime(&current_time)));
-                // GtkWidget* message_container = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "message-container"));
+                cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
+                t_message* message = get_message_from_json(response_data);
 
-                // gtk_widget_insert_before(message, message_container, NULL);
+                uchat_message_box_add_message(chat, message, true);
             }
 
             cJSON_Delete(response);
@@ -70,5 +67,5 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
         */
     }
 
-    g_free((gpointer)text);
+    free(text);
 }

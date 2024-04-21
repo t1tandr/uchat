@@ -11,7 +11,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(UchatTextMessage, uchat_text_message, UCHAT, TEXT_MESSAGE, GtkWidget)
 
 UchatTextMessage *
-uchat_text_message_new(t_message* message);
+uchat_text_message_new(t_message* message, bool own);
 
 void
 uchat_text_message_set_author(UchatTextMessage* self, const gchar* author);
@@ -26,9 +26,9 @@ const gchar *
 uchat_text_message_get_message(UchatTextMessage* self);
 
 void
-uchat_text_message_set_time(UchatTextMessage* self, struct tm *time);
+uchat_text_message_set_time(UchatTextMessage* self, const gchar* time);
 
-const char *
+const gchar *
 uchat_text_message_get_time(UchatTextMessage* self);
 
 G_END_DECLS

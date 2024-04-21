@@ -27,7 +27,7 @@
                     </object>
                 </child>
                 <child type="center">
-                    <object class="GtkScrolledWindow" id="message-container-scrolled">
+                    <object class="GtkScrolledWindow" id="container-wrapper">
                         <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">true</property>
                         <child>
@@ -51,7 +51,7 @@
                             <object class="GtkScrolledWindow">
                                 <property name="hscrollbar-policy">never</property>
                                 <child>
-                                    <object class="GtkTextView" id="message-entry">
+                                    <object class="GtkTextView" id="textview">
                                         <property name="top-margin">10</property>
                                         <property name="bottom-margin">10</property>
                                         <property name="left-margin">15</property>
