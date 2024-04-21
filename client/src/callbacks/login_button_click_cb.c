@@ -12,7 +12,7 @@ static void create_session_file(const char* filename, cJSON* obj) {
 }
 
 void login_button_click_cb(GtkWidget *self, gpointer user_data) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
+    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkRevealer* revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "login-error-revealer"));
     const char* username = NULL;
     const char* password = NULL;
@@ -38,15 +38,19 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
     if (response != NULL && cJSON_HasObjectItem(response, "status")) {
         int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
+        printf("%s\n", cJSON_Print(response));
+
         if (status == 200) {
-            gtk_revealer_set_reveal_child(revealer, FALSE);
-            uchat->user = get_current_user_from_json(cJSON_GetObjectItemCaseSensitive(response, "data"));
+            cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
+            uchat->session = strdup(cJSON_GetObjectItemCaseSensitive(response_data, "session_id")->valuestring);
+            uchat->user = get_current_user_from_json(response_data);
 
             if (uchat->user == NULL) {
                 handle_error("uchat: error getting user data");
             }
 
-            create_session_file("session.json", cJSON_GetObjectItemCaseSensitive(response, "data"));
+            create_session_file("session.json", response_data);
+            gtk_revealer_set_reveal_child(revealer, FALSE);        
             window_switch_child(uchat->builder, "login-page", "homepage");
         }
         else {

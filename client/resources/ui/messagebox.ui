@@ -8,18 +8,14 @@
                 <property name="height-request">60</property>
                 <property name="width-request">150</property>
                 <child>
-                    <object class="GtkBox">
+                    <object class="UchatAvatarBox">
                         <property name="height-request">60</property>
                         <property name="width-request">60</property>
                         <property name="valign">start</property>
+                        <property name="size">60</property>
                         <style>
                             <class name="avatar"/>
                         </style>
-                        <child>
-                            <object class="GtkLabel">
-                                <property name="label">+</property>
-                            </object>
-                        </child>
                     </object>
                 </child>
                 <child>

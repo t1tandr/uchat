@@ -5,20 +5,6 @@
 #include "libmx.h"
 
 /*
- * CHAT UTILS
-*/
-
-typedef struct s_chat t_chat;
-
-struct s_chat {
-    int id;
-    const char* name;
-    t_list* members;
-};
-
-t_chat* get_chat_from_json(cJSON* json);
-
-/*
  * CURRENT USER UTILS
 */
 
@@ -30,7 +16,7 @@ struct s_current_user {
     const char* name;
     const char* bio;
     const char* session;
-    t_chat* current_chat;
+    // t_chat* current_chat;
     t_list* chats;
 };
 

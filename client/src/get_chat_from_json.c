@@ -1,7 +1,7 @@
 #include "uchat.h"
 
 t_chat* get_chat_from_json(cJSON* json) {
-    if(json == NULL) {
+    if (json == NULL) {
         return NULL;
     }
 

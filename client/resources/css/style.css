@@ -57,7 +57,7 @@ entry {
 }
 
 .avatar {
-    background-color: white;
+    background-color: #fff;
     border-radius: 50%;
     background-position: center;
     background-size: cover;

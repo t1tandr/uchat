@@ -15,7 +15,7 @@ cJSON* recv_response(int sockfd) {
 
     res_str = (char *)malloc(length + 1);
 
-    while(received_bytes < length) {
+    while (received_bytes < length) {
         nbytes = recv(sockfd, res_str + received_bytes, length - received_bytes, 0);
 
         if (nbytes < 0) {
@@ -39,7 +39,7 @@ cJSON* send_request(int sockfd, cJSON *request) {
     req_str = cJSON_PrintUnformatted(request);
     cJSON_Delete(request);
 
-    if(req_str == NULL) {
+    if (req_str == NULL) {
         return NULL;
     }
 
@@ -47,11 +47,11 @@ cJSON* send_request(int sockfd, cJSON *request) {
 
     nbytes = send(sockfd, &length, sizeof(length), 0);
     
-    if(nbytes != -1) {
+    if (nbytes != -1) {
         nbytes = send(sockfd, req_str, length, 0);
         free(req_str);
 
-        if(nbytes != -1) {
+        if (nbytes != -1) {
             return recv_response(sockfd);
         }
     }

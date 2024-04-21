@@ -16,10 +16,12 @@
 #include "password.h"
 #include "utils.h"
 #include "user.h"
+#include "chat.h"
 
 #include "templates/uchatchatbox.h"
 #include "templates/uchatmessagebox.h"
 #include "templates/uchatuserbox.h"
+#include "templates/uchatavatarbox.h"
 
 #define METHOD_GET      "GET"
 #define METHOD_POST     "POST"
@@ -28,12 +30,13 @@
 
 #define USAGE_ERROR "usage: uchat <server-ip> <server-port>"
 
-typedef struct s_uchat_app {
+typedef struct s_uchat {
     int servsock;
+    const char* session;
     GtkBuilder* builder;
     GtkApplication* app;
     t_current_user* user;
-} t_uchat_app;
+} t_uchat;
 
 int connect_to_server(const char* ip, const char* port);
 

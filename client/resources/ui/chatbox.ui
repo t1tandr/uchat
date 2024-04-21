@@ -17,21 +17,13 @@
                                 <property name="orientation">horizontal</property>
                                 <property name="hexpand">true</property>
                                 <child>
-                                    <object class="GtkBox">
-                                        <property name="overflow">hidden</property>
+                                    <object class="UchatAvatarBox">
                                         <property name="width-request">90</property>
                                         <property name="height-request">90</property>
+                                        <property name="size">90</property>
                                         <style>
                                             <class name="avatar"/>
                                         </style>
-                                        <child>
-                                            <object class="GtkPicture" id="avatar">
-                                                <property name="paintable">resources/img/logo.png</property>
-                                                <property name="halign">center</property>
-                                                <property name="valign">center</property>
-                                                <property name="keep-aspect-ratio">false</property>
-                                            </object>
-                                        </child>
                                     </object>
                                 </child>
                                 <child>
@@ -59,11 +51,6 @@
                                 <child type="start">
                                     <object class="GtkLabel" id="time">
                                         <property name="label">time</property>
-                                    </object>
-                                </child>
-                                <child type="end">
-                                    <object class="GtkLabel" id="seen">
-                                        <property name="label">\\//</property>
                                     </object>
                                 </child>
                             </object>

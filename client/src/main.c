@@ -15,10 +15,10 @@ static GtkBuilder* setup_builder(const char* files[], GObject* object) {
 
     gtk_builder_set_current_object(builder, object);
 
-    for(int i = 0; files[i] != NULL; i++) {
+    for (int i = 0; files[i] != NULL; i++) {
         gtk_builder_add_from_file(builder, files[i], &err);
 
-        if(err != NULL) {
+        if (err != NULL) {
             handle_error(mx_strjoin("uchat: failed to start application: ", err->message));
         }
     }
@@ -28,7 +28,7 @@ static GtkBuilder* setup_builder(const char* files[], GObject* object) {
 
 static GObject* create_uchat_object(int sockfd, GtkApplication* app) {
     GObject* obj = g_object_new(G_TYPE_OBJECT, NULL);
-    t_uchat_app* uchat = (t_uchat_app *)malloc(sizeof(t_uchat_app));
+    t_uchat* uchat = (t_uchat *)malloc(sizeof(t_uchat));
 
     uchat->servsock = sockfd;
     uchat->builder = setup_builder(files, obj);
@@ -41,7 +41,7 @@ static GObject* create_uchat_object(int sockfd, GtkApplication* app) {
 
 static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     GObject* uchat_obj = create_uchat_object(servsock, app);
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(uchat_obj, "uchat");
+    t_uchat* uchat = (t_uchat *)g_object_get_data(uchat_obj, "uchat");
 
     add_css_stylesheet("resources/css/style.css");
     add_icon_theme("resources/icons");
@@ -53,14 +53,18 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
     
     char* session = mx_file_to_str("session.json");
-    if(session == NULL) {
-        if(errno != ENOENT) {
+    if (session == NULL) {
+        if (errno != ENOENT) {
             handle_error(mx_strjoin("uchat: failed to get session: ", strerror(errno)));
         }
+        
         gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "login-page")));
     }
     else {
-        uchat->user = get_current_user_from_json(cJSON_Parse(session));
+        cJSON* session_json = cJSON_Parse(session);
+        uchat->session = strdup(cJSON_GetObjectItemCaseSensitive(session_json, "session_id")->valuestring);
+        uchat->user = get_current_user_from_json(session_json);
+
         gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "homepage")));
     }
 
@@ -70,7 +74,7 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
 }
 
 int main(int argc, char *argv[]) {
-    if(argc != 3) {
+    if (argc != 3) {
         handle_error(USAGE_ERROR);
     }
     GtkApplication* app = NULL;

@@ -15,14 +15,13 @@ static gchar* text_view_get_full_text(GtkTextView* view) {
 }
 
 void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
+    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkTextView* view = GTK_TEXT_VIEW(gtk_builder_get_object(uchat->builder, "message-entry"));
     GtkScrolledWindow* window = GTK_SCROLLED_WINDOW(gtk_builder_get_object(uchat->builder, "message-container-scrolled"));
     GtkAdjustment* vadj = NULL;
 
     gchar* text = text_view_get_full_text(view);
 
-    g_print("%s\n", text);
     if (strlen(mx_strtrim(text)) > 0) {
         cJSON* request = NULL;
         cJSON* response = NULL;
@@ -30,7 +29,7 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
         cJSON* headers = NULL;
 
         headers = cJSON_CreateObject();
-        cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
+        cJSON_AddStringToObject(headers, "Authorization", uchat->session);
 
         data = cJSON_CreateObject();
         cJSON_AddNumberToObject(data, "chat_id", uchat->user/*->current_chat*/->id);

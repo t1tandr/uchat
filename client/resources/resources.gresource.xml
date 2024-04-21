@@ -4,5 +4,6 @@
         <file>ui/chatbox.ui</file>
         <file>ui/messagebox.ui</file>
         <file>ui/userbox.ui</file>
+        <file>ui/avatarbox.ui</file>
     </gresource>
 </gresources>

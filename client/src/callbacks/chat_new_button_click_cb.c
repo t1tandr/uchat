@@ -1,7 +1,7 @@
 #include "uchat.h"
 
 static void chat_new_dialog_response_cb(GtkDialog* self, int response_id, gpointer user_data) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
+    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
 
     if (response_id == GTK_RESPONSE_ACCEPT) {
         gtk_window_close(GTK_WINDOW(self));
@@ -12,7 +12,7 @@ static void chat_new_dialog_response_cb(GtkDialog* self, int response_id, gpoint
 }
 
 static GtkWidget* create_chat_new_dialog(GObject* uchat_obj) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(uchat_obj, "uchat");
+    t_uchat* uchat = (t_uchat *)g_object_get_data(uchat_obj, "uchat");
 
     GtkWidget* dialog = gtk_window_new();
     gtk_window_set_default_size(GTK_WINDOW(dialog), 600, 550);
@@ -59,10 +59,10 @@ static GtkWidget* create_chat_new_dialog(GObject* uchat_obj) {
 }
 
 void chat_new_button_click_cb(GtkButton* self, gpointer user_data) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
+    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkWidget* dialog = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "chat-new-dialog"));
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), gtk_application_get_active_window(uchat->app));
 
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), gtk_application_get_active_window(uchat->app));
     gtk_widget_show(dialog);
 }
 

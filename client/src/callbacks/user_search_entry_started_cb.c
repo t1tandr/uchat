@@ -1,7 +1,7 @@
 #include "uchat.h"
 
 void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
+    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     const char* entry_value = NULL;
     cJSON* request = NULL;
     cJSON* response = NULL;
@@ -12,7 +12,7 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
 
     if (strlen(mx_strtrim(entry_value)) > 0) {
         headers = cJSON_CreateObject();
-        cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
+        cJSON_AddStringToObject(headers, "Authorization", uchat->session);
 
         data = cJSON_CreateObject();
 

@@ -1,21 +1,11 @@
 #include "templates/uchatchatbox.h"
 
-/*
-
-enum {
-  CHAT_BOX_NAME = 1,
-  MAMAN_BAR_PAPA_NUMBER,
-};
-
-*/
-
 struct _UchatChatBox {
   GtkWidget parent_instance;
 
   GtkWidget* name;
   GtkWidget* message;
   GtkWidget* time;
-  GtkWidget* seen;
 };
 
 G_DEFINE_TYPE(UchatChatBox, uchat_chat_box, GTK_TYPE_WIDGET)
@@ -30,7 +20,6 @@ uchat_chat_box_class_init(UchatChatBoxClass *klass) {
     gtk_widget_class_bind_template_child(widget_class, UchatChatBox, name);
     gtk_widget_class_bind_template_child(widget_class, UchatChatBox, message);
     gtk_widget_class_bind_template_child(widget_class, UchatChatBox, time);
-    gtk_widget_class_bind_template_child(widget_class, UchatChatBox, seen);
 }
 
 void 
@@ -63,31 +52,16 @@ uchat_chat_box_get_time(UchatChatBox* self) {
     return gtk_label_get_label(GTK_LABEL(self->time));
 }
 
-void
-uchat_chat_box_set_seen(UchatChatBox* self, gboolean seen) {
-    if(seen) {
-        gtk_label_set_label(GTK_LABEL(self->seen), "\\\\//");
-    }
-    else {
-        gtk_label_set_label(GTK_LABEL(self->seen), "\\/");
-    }
-}
-
-gboolean
-uchat_chat_box_get_seen(UchatChatBox* self) {
-    return strcmp(gtk_label_get_label(GTK_LABEL(self->seen)), "\\\\//") == 0;
-}
-
 static void
 uchat_chat_box_init(UchatChatBox *self) {
     gtk_widget_init_template(GTK_WIDGET(self));
 }
 
 UchatChatBox *
-uchat_chat_box_new(const char* name) {
+uchat_chat_box_new(t_chat* chat) {
     UchatChatBox* obj = g_object_new(UCHAT_TYPE_CHAT_BOX, NULL);
 
-    uchat_chat_box_set_message(obj, name);
+    uchat_chat_box_set_name(obj, chat->name);
 
     return obj;
 }
