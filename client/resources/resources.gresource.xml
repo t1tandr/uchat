@@ -2,6 +2,9 @@
 <gresources>
     <gresource prefix="/ua/ucode-connect/uchat">
         <file>ui/chatbox.ui</file>
+        <file>ui/textmessage.ui</file>
+        <file>ui/userbox.ui</file>
+        <file>ui/avatarbox.ui</file>
         <file>ui/messagebox.ui</file>
     </gresource>
 </gresources>

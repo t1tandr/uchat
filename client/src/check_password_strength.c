@@ -1,8 +1,8 @@
 #include "uchat.h"
 
 static bool str_has_digit(const char* str) {
-    for(int i = 0; i < strlen(str); i++) {
-        if(isdigit(str[i])) {
+    for (int i = 0; i < strlen(str); i++) {
+        if (isdigit(str[i])) {
             return true;
         }
     }
@@ -11,8 +11,8 @@ static bool str_has_digit(const char* str) {
 }
 
 static bool str_has_lower(const char* str) {
-    for(int i = 0; i < strlen(str); i++) {
-        if(islower(str[i])) {
+    for (int i = 0; i < strlen(str); i++) {
+        if (islower(str[i])) {
             return true;
         }
     }
@@ -21,8 +21,8 @@ static bool str_has_lower(const char* str) {
 }
 
 static bool str_has_upper(const char* str) {
-    for(int i = 0; i < strlen(str); i++) {
-        if(isupper(str[i])) {
+    for (int i = 0; i < strlen(str); i++) {
+        if (isupper(str[i])) {
             return true;
         }
     }
@@ -31,8 +31,8 @@ static bool str_has_upper(const char* str) {
 }
 
 static bool str_has_special(const char* str) {
-    for(int i = 0; i < strlen(str); i++) {
-        if(ispunct(str[i])) {
+    for (int i = 0; i < strlen(str); i++) {
+        if (ispunct(str[i])) {
             return true;
         }
     }
@@ -43,12 +43,12 @@ static bool str_has_special(const char* str) {
 static void check_password_requirement(bool req, GtkBuilder* builder, int id) {
     GtkWidget* label = GTK_WIDGET(gtk_builder_get_object(builder, req_fields[id][BUILDER_ID]));
     
-    if(!req) {
+    if (!req) {
         gtk_widget_add_css_class(label, "error-label");
         gtk_label_set_label(GTK_LABEL(label), req_fields[id][WRONG_LABEL]);
     }
     else {
-        if(widget_has_css_class(label, "error-label")) {
+        if (widget_has_css_class(label, "error-label")) {
             gtk_widget_remove_css_class(label, "error-label");
         }
         gtk_label_set_label(GTK_LABEL(label), req_fields[id][CORRECT_LABEL]);
@@ -64,7 +64,7 @@ bool check_password_strength(const char* password, GtkBuilder* builder) {
     reqs[PWD_UPPER] = str_has_upper(password);
     reqs[PWD_SPECIAL] = str_has_special(password);
     
-    for(int i = 0; i < PWD_NUM; i++) {
+    for (int i = 0; i < PWD_NUM; i++) {
         check_password_requirement(reqs[i], builder, i);
     }
 

@@ -28,7 +28,7 @@ static GtkBuilder* setup_builder(const char* files[], GObject* object) {
 
 static GObject* create_uchat_object(int sockfd, GtkApplication* app) {
     GObject* obj = g_object_new(G_TYPE_OBJECT, NULL);
-    t_uchat_app* uchat = (t_uchat_app *)malloc(sizeof(t_uchat_app));
+    t_uchat* uchat = (t_uchat *)malloc(sizeof(t_uchat));
 
     uchat->servsock = sockfd;
     uchat->builder = setup_builder(files, obj);
@@ -41,7 +41,7 @@ static GObject* create_uchat_object(int sockfd, GtkApplication* app) {
 
 static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     GObject* uchat_obj = create_uchat_object(servsock, app);
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(uchat_obj, "uchat");
+    t_uchat* uchat = (t_uchat *)g_object_get_data(uchat_obj, "uchat");
 
     add_css_stylesheet("resources/css/style.css");
     add_icon_theme("resources/icons");
@@ -60,7 +60,36 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
         gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "login-page")));
     }
     else {
-        uchat->user = get_user_from_json(cJSON_Parse(session));
+        uchat->user = get_current_user_from_json(cJSON_Parse(session));
+        cJSON* request = NULL;
+        cJSON* response = NULL;
+        cJSON* data = NULL;
+        cJSON* headers = NULL;
+
+        headers = cJSON_CreateObject();
+        cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
+
+        data = cJSON_CreateObject();
+
+        request = create_request(METHOD_GET, "/chats", data, headers);
+
+        response = send_request(uchat->servsock, request);
+
+        if (response != NULL && cJSON_HasObjectItem(response, "status")) {
+            int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+
+            if (status == 201) {
+                cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
+
+                uchat->user->chats = get_chats_from_json_arr(response_data);
+            }
+
+            cJSON_Delete(response);
+        }
+        else {
+            handle_error("uchat: error getting response from server");
+        }
+
         gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "homepage")));
     }
 

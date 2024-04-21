@@ -13,11 +13,17 @@
 #include <cJSON.h>
 #include "libmx.h"
 
-#include "templates/uchatchatbox.h"
-#include "templates/uchatmessagebox.h"
 #include "password.h"
 #include "utils.h"
 #include "user.h"
+#include "chat.h"
+#include "message.h"
+
+#include "templates/chatbox.h"
+#include "templates/textmessage.h"
+#include "templates/userbox.h"
+#include "templates/avatarbox.h"
+#include "templates/messagebox.h"
 
 #define METHOD_GET      "GET"
 #define METHOD_POST     "POST"
@@ -26,12 +32,12 @@
 
 #define USAGE_ERROR "usage: uchat <server-ip> <server-port>"
 
-typedef struct s_uchat_app {
+typedef struct s_uchat {
     int servsock;
     GtkBuilder* builder;
     GtkApplication* app;
-    t_user* user;
-} t_uchat_app;
+    t_current_user* user;
+} t_uchat;
 
 int connect_to_server(const char* ip, const char* port);
 

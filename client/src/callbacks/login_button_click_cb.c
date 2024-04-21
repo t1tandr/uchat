@@ -12,7 +12,7 @@ static void create_session_file(const char* filename, cJSON* obj) {
 }
 
 void login_button_click_cb(GtkWidget *self, gpointer user_data) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
+    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkRevealer* revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "login-error-revealer"));
     const char* username = NULL;
     const char* password = NULL;
@@ -35,14 +35,12 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
 
     response = send_request(uchat->servsock, request);
 
-    cJSON_Delete(request);
-
-    if (response != NULL && cJSON_HasObjectItem(response, "status") && cJSON_HasObjectItem(response, "data")) {
+    if (response != NULL && cJSON_HasObjectItem(response, "status")) {
         int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
         if (status == 200) {
             gtk_revealer_set_reveal_child(revealer, FALSE);
-            uchat->user = get_user_from_json(response);
+            uchat->user = get_current_user_from_json(cJSON_GetObjectItemCaseSensitive(response, "data"));
 
             if (uchat->user == NULL) {
                 handle_error("uchat: error getting user data");
@@ -54,6 +52,7 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
         else {
             gtk_revealer_set_reveal_child(revealer, TRUE);
         }
+        
         cJSON_Delete(response);
     }
     else {

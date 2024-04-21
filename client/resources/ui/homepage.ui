@@ -47,6 +47,7 @@
                                     <object class="GtkListBox" id="chat-list">
                                         <property name="show-separators">true</property>
                                         <signal name="realize" handler="chat_list_realize_cb"/>
+                                        <signal name="row-selected" handler="chat_list_row_selected_cb"/>
                                     </object>
                                 </child>
                             </object>
@@ -180,80 +181,17 @@
             </object>
         </child>
         <child>
-            <object class="GtkCenterBox">
-                <property name="orientation">vertical</property>
-                <property name="width-request">1160</property>
-                <property name="hexpand">true</property>
-                <child type="start">
-                    <object class="GtkBox">
-                        <property name="orientation">horizontal</property>
-                        <property name="hexpand">true</property>
-                        <property name="height-request">100</property>
-                        <property name="name">name</property>
-                        <child>
-                            <object class="GtkLabel">
-                                <property name="label">header for chat</property>
-                                <property name="halign">center</property>
-                                <property name="valign">center</property>
-                            </object>
-                        </child>
-                    </object>
-                </child>
-                <child type="center">
-                    <object class="GtkScrolledWindow" id="message-container-scrolled">
-                        <property name="hscrollbar-policy">never</property>
+            <object class="GtkNotebook" id="message-container">
+                <property name="show-tabs">false</property>
+                <child>
+                    <object class="GtkCenterBox" id="start-messaging">
+                        <property name="orientation">vertical</property>
+                        <property name="width-request">1160</property>
+                        <property name="height-request">900</property>
                         <property name="vexpand">true</property>
-                        <property name="name">name1</property>
-                        <!-- <signal name="realize" handler="message_container_scrolled_realize_cb"/> -->
-                        <child>
-                            <object class="GtkBox" id="message-container">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">20</property>
-                                <property name="vexpand">true</property>
-                                <property name="height-request">600</property>
-                                <property name="margin-top">20</property>
-                                <property name="margin-bottom">20</property>
-                                <property name="margin-start">40</property>
-                                <property name="margin-end">40</property>
-                            </object>
-                        </child>
-                    </object>
-                </child>
-                <child type="end">
-                    <object class="GtkBox">
-                        <property name="orientation">horizontal</property>
-                        <!-- <property name="height-request">150</property> -->
-                        <property name="name">name2</property>
-                        <child>
-                            <object class="GtkScrolledWindow">
-                                <property name="hscrollbar-policy">never</property>
-                                <!-- <property name="name">message-entry-container</property> -->
-                                <child>
-                                    <object class="GtkTextView" id="message-entry">
-                                        <property name="top-margin">10</property>
-                                        <property name="bottom-margin">10</property>
-                                        <property name="left-margin">15</property>
-                                        <property name="right-margin">15</property>
-                                        <property name="hexpand">true</property>
-                                        <property name="valign">end</property>
-                                        <property name="margin-top">10</property>
-                                        <property name="margin-bottom">10</property>
-                                        <property name="margin-start">15</property>
-                                        <property name="margin-end">15</property>
-                                        <property name="height-request">45</property>
-                                    </object>
-                                </child>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkButton" id="send-message">
-                                <property name="label">Send</property>
-                                <property name="margin-start">10</property>
-                                <property name="margin-top">10</property>
-                                <property name="margin-bottom">10</property>
-                                <property name="margin-end">15</property>
-                                <property name="valign">end</property>
-                                <signal name="clicked" handler="send_message_button_clicked_cb"/>
+                        <child type="center">
+                            <object class="GtkLabel">
+                                <property name="label">Select chat to start messaging!</property>
                             </object>
                         </child>
                     </object>
