@@ -40,10 +40,6 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
 
         response = send_request(uchat->servsock, request);
 
-        printf("%s", cJSON_Print(response));
-
-        cJSON_Delete(request);
-
         if (response != NULL && cJSON_HasObjectItem(response, "status") && cJSON_HasObjectItem(response, "data")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
@@ -58,7 +54,6 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
             cJSON_Delete(response);
         }
         else {
-            cJSON_Delete(response);
             handle_error("uchat: error getting response from server");
         }
 

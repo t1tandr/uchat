@@ -55,8 +55,6 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
 
     response = send_request(uchat->servsock, request);
 
-    cJSON_Delete(request);
-
     if (response != NULL && cJSON_HasObjectItem(response, "status")) {
         int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
@@ -69,17 +67,16 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
 
             chat = get_chat_from_json(cJSON_GetObjectItemCaseSensitive(response, "data"));
 
-            mx_push_back(&chat->members, uchat->user);
-
             while ((row = gtk_list_box_get_row_at_index(list, index++)) != NULL) {
                 user_box = UCHAT_USER_BOX(gtk_list_box_row_get_child(row));
                 mx_push_back(&chat->members, uchat_user_box_get_user(user_box));
             }
 
-            if(mx_list_size(chat->members) > 1) {
+            if(mx_list_size(chat->members) > 0) {
                 add_members_to_chat(chat, uchat);
             }
         }
+
         cJSON_Delete(response);
     }
     else {

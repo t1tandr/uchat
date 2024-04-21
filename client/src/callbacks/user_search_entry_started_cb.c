@@ -20,8 +20,6 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
 
         response = send_request(uchat->servsock, request);
 
-        cJSON_Delete(request);
-
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
@@ -56,11 +54,10 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
                     }
                 }
             }
-
+            
             cJSON_Delete(response);
         }
         else {
-            cJSON_Delete(response);
             handle_error("uchat: error getting response from server");
         }
     }

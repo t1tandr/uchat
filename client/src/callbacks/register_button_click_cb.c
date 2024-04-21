@@ -53,8 +53,6 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
 
         response = send_request(uchat->servsock, request);
 
-        cJSON_Delete(request);
-
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
@@ -88,6 +86,7 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
             else {
                 gtk_revealer_set_reveal_child(username_revealer, TRUE);
             }
+            
             cJSON_Delete(response);
         }
         else {
