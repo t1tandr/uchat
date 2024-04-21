@@ -10,13 +10,15 @@ void send_response(int sock_fd, cJSON *data, int status) {
 
     char *res_str = cJSON_Print(res);
     int length = strlen(res_str);
-    int nbytes = 0;
+    // int nbytes = 0;
 
-    nbytes = send(sock_fd, &length, sizeof(length), MSG_NOSIGNAL);
+    // nbytes = send(sock_fd, &length, sizeof(length), MSG_NOSIGNAL);
     
-    if(nbytes > -1) {
-        send(sock_fd, res_str, length, MSG_NOSIGNAL);
-    }
+    // if(nbytes > -1) {
+    //     send(sock_fd, res_str, length, MSG_NOSIGNAL);
+    // }
+
+    send(sock_fd, res_str, length, MSG_NOSIGNAL);
 
     cJSON_Delete(res);
     cJSON_free(res_str);

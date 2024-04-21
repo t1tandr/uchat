@@ -27,6 +27,8 @@ void handle_routes(cJSON *req, sqlite3 *db, int sock_fd) {
     char *route = cJSON_GetObjectItemCaseSensitive(req, "route")->valuestring;
     char *method = cJSON_GetObjectItemCaseSensitive(req, "method")->valuestring;
 
+    query_params_handler(req, route);
+
     if (strncmp(route, "/users", strlen("/users")) == 0) {
         int id;
 

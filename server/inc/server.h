@@ -79,6 +79,7 @@ cJSON *create_chat_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd
 cJSON *get_chats_service(cJSON *headers, sqlite3 *db, int sock_fd);
 cJSON *update_chat_by_id_service(int chat_id, cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
 cJSON *delete_chat_by_id_service(int chat_id, cJSON *headers, sqlite3 *db, int sock_fd);
+cJSON *get_chat_by_id_service(int chat_id, sqlite3 *db, int sock_fd);
 
 // - Message
 cJSON *create_message_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd);
@@ -101,6 +102,7 @@ int check_update_user_dto(cJSON *user, int sock_fd);
 
 // - Chat
 int check_chat_dto(cJSON *chat, int sock_fd);
+int check_update_chat_dto(cJSON *chat, int sock_fd);
 
 // - ChatMember
 int check_chat_member_dto(cJSON *chat_member, int sock_fd);
@@ -144,6 +146,9 @@ char *find_session_by_sock(int sock_fd);
 
 void delete_image(char *image_id);
 char *create_image(char *base64);
+
+cJSON *extract_query_params(char *route);
+void query_params_handler(cJSON *req, char *route);
 
 typedef struct {
     int sock_fd;

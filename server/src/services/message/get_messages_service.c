@@ -2,6 +2,7 @@
 
 cJSON *get_messages_service(int chat_id, cJSON *headers, sqlite3 *db, int sock_fd) {
     cJSON *session = cJSON_GetObjectItem(headers, "session_data");
+    cJSON *query_params = cJSON_GetObjectItem(headers, "query_params");
 
     int user_id = cJSON_GetObjectItemCaseSensitive(session, "user_id")->valueint;
 
@@ -12,18 +13,41 @@ cJSON *get_messages_service(int chat_id, cJSON *headers, sqlite3 *db, int sock_f
         return NULL;
     }
 
-    sqlite3_stmt *stmt;
-    char *sql;
+    mx_printstr(cJSON_Print(headers));
 
-    sql = sqlite3_mprintf(
-        "SELECT * FROM messages WHERE chat_id=%d;",
-        chat_id
-    );
+    sqlite3_stmt *stmt;
+    char sql[1024];
+
+    strcpy(sql, "SELECT * FROM (SELECT * FROM messages WHERE chat_id=? ORDER BY id DESC");
+
+    if (query_params != NULL && cJSON_HasObjectItem(query_params, "limit")) {
+        strcat(sql, " LIMIT ? ");
+
+        if (query_params != NULL && cJSON_HasObjectItem(query_params, "offset")) {
+            strcat(sql, " OFFSET ? ");
+        }
+    }
+    strcat(sql, ") ORDER BY id ASC;");
+
+    // sql = sqlite3_mprintf(
+    //     "SELECT * FROM messages WHERE chat_id=%d;",
+    //     chat_id
+    // );
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
         error_handler(sock_fd, (char *) sqlite3_errmsg(db), 422);
-        sqlite3_free(sql);
         return NULL;
+    }
+
+    int param_index = 1;
+    sqlite3_bind_int(stmt, param_index++, chat_id);
+
+    if (query_params != NULL && cJSON_HasObjectItem(query_params, "limit")) {
+        sqlite3_bind_text(stmt, param_index++, cJSON_GetObjectItem(query_params, "limit")->valuestring, -1, SQLITE_TRANSIENT);
+    }
+
+    if (query_params != NULL && cJSON_HasObjectItem(query_params, "offset")) {
+        sqlite3_bind_text(stmt, param_index++, cJSON_GetObjectItem(query_params, "offset")->valuestring, -1, SQLITE_TRANSIENT);
     }
 
     cJSON *messages = cJSON_CreateArray();
@@ -35,7 +59,6 @@ cJSON *get_messages_service(int chat_id, cJSON *headers, sqlite3 *db, int sock_f
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_free(sql);
 
     return messages;
 }

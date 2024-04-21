@@ -33,6 +33,11 @@ cJSON *delete_chat_by_id_service(int chat_id, cJSON *headers, sqlite3 *db, int s
 
     cJSON *chat = stmt_to_chat_json(stmt);
     
+    if (cJSON_HasObjectItem(chat, "img")) {
+        char *old_photo_id = cJSON_GetObjectItem(chat, "img")->valuestring;
+        delete_image(old_photo_id);
+    }
+
     sqlite3_finalize(stmt);
     sqlite3_free(sql);
 

@@ -12,7 +12,7 @@ void send_response_users_by_id(GHashTable *user_ids, cJSON *data, int status) {
 
     char *res_str = cJSON_Print(res);
     int length = strlen(res_str);
-    int nbytes = 0;
+    // int nbytes = 0;
 
     GHashTableIter iter;
     gpointer value;
@@ -23,11 +23,13 @@ void send_response_users_by_id(GHashTable *user_ids, cJSON *data, int status) {
         char *user_id = mx_itoa(conn->user_id);
 
         if(g_hash_table_contains(user_ids, (const void *) user_id)) {
-            nbytes = send(conn->sock_fd, &length, sizeof(length), MSG_NOSIGNAL);
+            // nbytes = send(conn->sock_fd, &length, sizeof(length), MSG_NOSIGNAL);
             
-            if(nbytes > -1) {
-                send(conn->sock_fd, res_str, length, MSG_NOSIGNAL);
-            }
+            // if(nbytes > -1) {
+            //     send(conn->sock_fd, res_str, length, MSG_NOSIGNAL);
+            // }
+
+            send(conn->sock_fd, res_str, length, MSG_NOSIGNAL);
         }
 
         free(user_id);

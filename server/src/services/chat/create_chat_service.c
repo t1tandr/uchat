@@ -8,10 +8,17 @@ cJSON *create_chat_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd
 
     int user_id = cJSON_GetObjectItem(session, "user_id")->valueint;
     char *name = cJSON_GetObjectItem(data, "name")->valuestring;
+    char *img = NULL;
+
+    if (cJSON_HasObjectItem(data, "img")) {
+        char *new_img_base64 = cJSON_GetObjectItem(data, "img")->valuestring;
+        img = create_image(new_img_base64);
+    }
 
     sql = sqlite3_mprintf(
-        "INSERT INTO chats (name) VALUES (%Q) RETURNING *;",
-        name
+        "INSERT INTO chats (name, img) VALUES (%Q, %Q) RETURNING *;",
+        name,
+        img
     );
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
@@ -31,7 +38,7 @@ cJSON *create_chat_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd
 
     int chat_id = cJSON_GetObjectItem(chat, "id")->valueint;
     cJSON *chat_member_data = cJSON_CreateObject();
-    cJSON_AddNumberToObject(chat_member_data, "сhat_id", chat_id);
+    cJSON_AddNumberToObject(chat_member_data, "chat_id", chat_id);
     cJSON_AddNumberToObject(chat_member_data, "user_id", user_id);
 
     cJSON *chat_member = create_chat_member_service(chat_member_data, headers, db, sock_fd);
