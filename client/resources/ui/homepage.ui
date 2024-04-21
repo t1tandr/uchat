@@ -14,11 +14,11 @@
                         <child>
                             <object class="GtkBox" id="header">
                                 <property name="orientation">horizontal</property>
-                                <property name="spacing">40</property>
+                                <property name="spacing">10</property>
                                 <property name="margin-top">10</property>
                                 <property name="margin-bottom">10</property>
-                                <property name="margin-start">20</property>
-                                <property name="margin-end">20</property>
+                                <property name="margin-start">10</property>
+                                <property name="margin-end">10</property>
                                 <child>
                                     <object class="GtkButton">
                                         <property name="icon-name">go-home</property>
@@ -29,6 +29,12 @@
                                     <object class="GtkSearchEntry" id="chat-search">
                                         <property name="hexpand">true</property>
                                         <signal name="search-changed" handler="chat_search_entry_changed_cb"/>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon-name">contact-new</property>
+                                        <signal name="clicked" handler="chat_new_button_click_cb"/>
                                     </object>
                                 </child>
                             </object>
@@ -92,6 +98,7 @@
                                                 <property name="orientation">horizontal</property>
                                                 <property name="hexpand">false</property>
                                                 <property name="margin-top">20</property>
+                                                <property name="margin-start">140</property>
                                                 <child>
                                                     <object class="GtkBox">
                                                         <property name="overflow">hidden</property>
@@ -101,8 +108,13 @@
                                                             <class name="avatar"/>
                                                         </style>
                                                         <child>
-                                                            <object class="GtkPicture">
-                                                                <property name="paintable">../img/logo.png</property>
+                                                            <object class = "GtkDrawingArea" id="avatar-in-overlay">
+                                                                <property name="margin-top">5</property>
+                                                                <property name="margin-bottom">5</property>
+                                                                <property name="margin-start">5</property>
+                                                                <property name="margin-end">5</property>
+                                                                <property name="halign">start</property>
+                                                                <property name="valign">start</property>
                                                             </object>
                                                         </child>
                                                     </object>
@@ -113,10 +125,9 @@
                                             <object class="GtkListBox" id="menu-options">
                                                 <property name="margin-top">20</property>
                                                 <property name="name">menu-options</property>
+                                                <property name="activate-on-single-click">TRUE</property>
                                                 <child>
-                                                    <object class="GtkBox">
-                                                        <property name="orientation">horizontal</property>
-                                                        <property name="spacing">10</property>
+                                                    <object class="GtkButton">
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">contact</property>
@@ -130,9 +141,8 @@
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkBox">
-                                                        <property name="orientation">horizontal</property>
-                                                        <property name="spacing">10</property>
+                                                    <object class="GtkButton">
+                                                    <signal name="clicked" handler="settings_button_click_cb"/>
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">settings</property>
@@ -146,9 +156,8 @@
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkBox">
-                                                        <property name="orientation">horizontal</property>
-                                                        <property name="spacing">10</property>
+                                                    <object class="GtkButton">
+                                                        <signal name="clicked" handler="log_out_button_click_cb"/>
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">sign-out</property>
@@ -177,49 +186,82 @@
             </object>
         </child>
         <child>
-            <object class="GtkBox">
+            <object class="GtkCenterBox" id = "right-side">
                 <property name="orientation">vertical</property>
                 <property name="width-request">1160</property>
                 <property name="hexpand">true</property>
-                <child>
-                    <object class="GtkScrolledWindow">
-                        <property name="vexpand">true</property>
-                        <property name="hscrollbar-policy">never</property>
+                <child type="start">
+                    <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="hexpand">true</property>
+                        <property name="height-request">100</property>
+                        <property name="name">name</property>
                         <child>
-                            <object class="GtkBox">
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">20</property>
-                                <property name="vexpand">true</property>
-                                <property name="margin-top">20</property>
-                                <property name="margin-bottom">20</property>
-                                <property name="margin-start">40</property>
-                                <property name="margin-end">40</property>
-                                <child>
-                                    <object class="GtkFrame">
-                                        <property name="halign">end</property>
-                                        <property name="hexpand">false</property>
-                                        <child>
-                                            <object class="GtkLabel">
-                                                <property name="label">hello</property>
-                                                <property name="margin-top">10</property>
-                                                <property name="margin-bottom">10</property>
-                                                <property name="margin-start">15</property>
-                                                <property name="margin-end">15</property>
-                                            </object>
-                                        </child>
-                                    </object>
-                                </child>
+                            <object class="GtkLabel">
+                                <property name="label">header for chat</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
                             </object>
                         </child>
                     </object>
                 </child>
-                <child>
-                    <object class="GtkTextView">
-                        <property name="margin-top">10</property>
-                        <property name="margin-bottom">10</property>
-                        <property name="margin-start">15</property>
-                        <property name="margin-end">15</property>
-                        <property name="height-request">45</property>
+                <child type="center">
+                    <object class="GtkScrolledWindow" id="message-container-scrolled">
+                        <property name="hscrollbar-policy">never</property>
+                        <property name="vexpand">true</property>
+                        <property name="name">name1</property>
+                        <!-- <signal name="realize" handler="message_container_scrolled_realize_cb"/> -->
+                        <child>
+                            <object class="GtkBox" id="message-container">
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">20</property>
+                                <property name="vexpand">true</property>
+                                <property name="height-request">600</property>
+                                <property name="margin-top">20</property>
+                                <property name="margin-bottom">20</property>
+                                <property name="margin-start">40</property>
+                                <property name="margin-end">40</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child type="end">
+                    <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <!-- <property name="height-request">150</property> -->
+                        <property name="name">name2</property>
+                        <child>
+                            <object class="GtkScrolledWindow">
+                                <property name="hscrollbar-policy">never</property>
+                                <!-- <property name="name">message-entry-container</property> -->
+                                <child>
+                                    <object class="GtkTextView" id="message-entry">
+                                        <property name="top-margin">10</property>
+                                        <property name="bottom-margin">10</property>
+                                        <property name="left-margin">15</property>
+                                        <property name="right-margin">15</property>
+                                        <property name="hexpand">true</property>
+                                        <property name="valign">end</property>
+                                        <property name="margin-top">10</property>
+                                        <property name="margin-bottom">10</property>
+                                        <property name="margin-start">15</property>
+                                        <property name="margin-end">15</property>
+                                        <property name="height-request">45</property>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkButton" id="send-message">
+                                <property name="label">Send</property>
+                                <property name="margin-start">10</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="margin-end">15</property>
+                                <property name="valign">end</property>
+                                <signal name="clicked" handler="send_message_button_clicked_cb"/>
+                            </object>
+                        </child>
                     </object>
                 </child>
             </object>

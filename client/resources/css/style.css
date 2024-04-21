@@ -75,10 +75,83 @@ entry {
     background-color:rgb(70, 68, 68);
 }
 
+.message {
+    background-color: rgb(74, 75, 74);
+    border-radius: 5px;
+}
+
 .description {
     font-size: 20px;
 }
 
 .description-label {
     font-size: 32px;
+}
+
+.add-photo-button {
+    background-color: steelblue;
+    color: black;
+    border-radius: 50%;
+}
+
+#Change{
+    border-radius: 20px;
+    background-color: rgb(46, 17, 83);
+    color:rgb(245, 245, 245);
+    border:2px solid rgb(245, 245, 245);
+}
+#Change:hover{
+    background-color: rgb(211,211,211);
+}
+
+#button_in_setting{
+    border-radius: 50px;
+    background-color: rgb(46, 17, 83);
+    color:rgb(245, 245, 245);
+    border:2px solid rgb(245, 245, 245);
+}
+
+#button_in_setting:hover{
+    background-color: rgb(211,211,211);
+}
+
+#entry_in_setting{
+    border-radius: 50px;
+    background-color:rgb(245, 245, 245);
+    color: @text-semibold-color;
+    font-size: 16px;
+}
+
+#names_in_setting{
+    font-size:24px;
+    color:rgb(245, 245, 245);
+}
+
+#theme_button_in_setting{
+    background-color: rgb(245, 245, 245);
+    border-radius: 50px;
+    border:2px solid black;
+}
+
+#theme_button_in_setting:hover{
+    background-color: rgb(211,211,211);
+}
+
+#avatar{
+    border-radius: 50%;
+}
+
+#names_for_theme{
+    font-size:16px;
+}
+
+#box_for_image{
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+}
+
+#settings_name_in_set_menu{
+    color: rgb(217, 217, 217);
+    font-size: 60px;
+    font-family: 'Times New Roman', Times, serif;
 }

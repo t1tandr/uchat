@@ -1,16 +1,16 @@
 #include "server.h"
 
 void *handle_request(void *arg) {
-    int sock_fd = *(int*)arg;
+    int sockfd = *(int*)arg;
     sqlite3 *db = database_connect(); // Maybe switch to connection pool
 
-    while (1) {
+    while(1) {
         int length, n;
 
-        n = recv(sock_fd, &length, sizeof(length), 0);
+        n = recv(sockfd, &length, sizeof(length), 0);
 
         if (n < 0) {
-            error_handler(sock_fd, "Error receiving data", 400);
+            error_handler(sockfd, "Error receiving data", 400);
             continue;
         }
 
@@ -18,10 +18,10 @@ void *handle_request(void *arg) {
         char *res_str = malloc(length + 1);
 
         while (received_bytes < length) {
-            n = recv(sock_fd, res_str + received_bytes, length - received_bytes, 0);
+            n = recv(sockfd, res_str + received_bytes, length - received_bytes, 0);
 
             if (n < 0) {
-                error_handler(sock_fd, "Error receiving data", 400);
+                error_handler(sockfd, "Error receiving data", 400);
                 continue; // how to continue outer loop without goto ??
             }
 
@@ -33,18 +33,18 @@ void *handle_request(void *arg) {
         cJSON *req_json = cJSON_Parse(res_str);
         
         if (!cJSON_IsObject(req_json)) {
-            error_handler(sock_fd, "Invalid json", 400);
+            error_handler(sockfd, "Invalid json", 400);
             continue;
         }
         
-        handle_routes(req_json, db, sock_fd);
+        handle_routes(req_json, db, sockfd);
 
         cJSON_Delete(req_json);
         free(res_str);
     }
-
     sqlite3_close(db);
-    close(sock_fd);
+    close(sockfd);
+
     return NULL;
 }
 
