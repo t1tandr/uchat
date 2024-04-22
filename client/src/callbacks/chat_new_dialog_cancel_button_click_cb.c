@@ -1,7 +1,6 @@
 #include "uchat.h"
 
 void chat_new_dialog_cancel_button_click_cb(GtkButton* self, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkWidget* dialog = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "chat-new-dialog"));
     GtkWidget* chatname_entry = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "chat-new-name-entry"));
     GtkWidget* search_entry = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "chat-new-search-entry"));

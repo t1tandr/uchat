@@ -1,7 +1,5 @@
 #include "uchat.h"
 
-int servsock;
-
 static const char* files[] = {
     "resources/ui/login.ui",
     "resources/ui/homepage.ui",
@@ -9,11 +7,17 @@ static const char* files[] = {
     NULL
 };
 
-static GtkBuilder* setup_builder(const char* files[], GObject* object) {
+struct args {
+    int argc;
+    char** argv;
+};
+
+int servsock;
+t_uchat* uchat = NULL;
+
+static GtkBuilder* setup_builder(const char* files[]) {
     GtkBuilder* builder = gtk_builder_new();
     GError* err = NULL;
-
-    gtk_builder_set_current_object(builder, object);
 
     for(int i = 0; files[i] != NULL; i++) {
         gtk_builder_add_from_file(builder, files[i], &err);
@@ -26,22 +30,19 @@ static GtkBuilder* setup_builder(const char* files[], GObject* object) {
     return builder;
 }
 
-static GObject* create_uchat_object(int sockfd, GtkApplication* app) {
-    GObject* obj = g_object_new(G_TYPE_OBJECT, NULL);
+static t_uchat* create_uchat_object(int sockfd, GtkApplication* app) {
     t_uchat* uchat = (t_uchat *)malloc(sizeof(t_uchat));
 
     uchat->servsock = sockfd;
-    uchat->builder = setup_builder(files, obj);
+    uchat->builder = setup_builder(files);
     uchat->app = app;
+    uchat->user = NULL;
 
-    g_object_set_data(obj, "uchat", uchat);
-
-    return obj;
+    return uchat;
 }
 
 static void app_activate_cb(GtkApplication *app, gpointer user_data) {
-    GObject* uchat_obj = create_uchat_object(servsock, app);
-    t_uchat* uchat = (t_uchat *)g_object_get_data(uchat_obj, "uchat");
+    uchat = create_uchat_object(servsock, app);
 
     add_css_stylesheet("resources/css/style.css");
     add_icon_theme("resources/icons");
@@ -98,25 +99,60 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     gtk_window_present(GTK_WINDOW(window));
 }
 
-int main(int argc, char *argv[]) {
-    if(argc != 3) {
-        handle_error(USAGE_ERROR);
-    }
+void* start_app(void* arg) {
+    struct args args = *((struct args *)arg);
     GtkApplication* app = NULL;
     int status = 0;
 
-    servsock = connect_to_server(argv[1], argv[2]);
+    servsock = connect_to_server(args.argv[1], args.argv[2]);
 
     app = gtk_application_new("ua.ucode-connect.uchat", G_APPLICATION_HANDLES_OPEN);
 
     g_signal_connect(app, "open", G_CALLBACK(app_activate_cb), NULL);
 
-    status = g_application_run(G_APPLICATION(app), argc, argv);
+    status = g_application_run(G_APPLICATION(app), args.argc, args.argv);
 
     g_object_unref(app);
 
     close(servsock);
 
+    pthread_exit(&status);
+}
+
+void* listen_for_response(void* arg) {
+    printf("thread id = %d\n", *((int *)arg));
+
+    pthread_exit(NULL);
+}
+
+int init_threads(int argc, char *argv[]) {
+    int status = 0;
+    pthread_t main_id, listener_id;
+    struct args* args = (struct args *)malloc(sizeof(struct args));
+    args->argc = argc;
+    args->argv = argv;
+
+    status = pthread_create(&main_id, NULL, start_app, args);
+    if (status != 0) {
+        handle_error(mx_strjoin("uchat: failed to create thread: ", strerror(errno)));
+    }
+    
+    status = pthread_create(&listener_id, NULL, listen_for_response, &listener_id);
+    if (status != 0) {
+        handle_error(mx_strjoin("uchat: failed to create thread: ", strerror(errno)));
+    }
+    
+    pthread_join(main_id, NULL);
+    pthread_join(listener_id, NULL);
+
     return status;
+}
+
+int main(int argc, char *argv[]) {
+    if(argc != 3) {
+        handle_error(USAGE_ERROR);
+    }
+
+    return init_threads(argc, argv);;
 }
 

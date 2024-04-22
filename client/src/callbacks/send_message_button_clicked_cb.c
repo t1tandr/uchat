@@ -1,17 +1,9 @@
 #include "uchat.h"
 
 void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
-
-    printf("%p\n", uchat);
-        mx_printstr("hello\n");
     GtkNotebook* chats = GTK_NOTEBOOK(gtk_builder_get_object(uchat->builder, "message-container"));
-        mx_printstr("hello\n");
     int id = gtk_notebook_get_current_page(chats);
-        mx_printstr("hello\n");
-    UchatMessageBox* chat = gtk_notebook_get_nth_page(chats, id);
-
-    mx_printstr("hello\n");
+    UchatMessageBox* chat = UCHAT_MESSAGE_BOX(gtk_notebook_get_nth_page(chats, id));
 
     gchar* text = uchat_message_box_get_text(chat);
 
@@ -29,13 +21,9 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
         cJSON_AddStringToObject(data, "type", "text");
         cJSON_AddStringToObject(data, "content", text);
 
-        request = create_request(METHOD_POST, "/message", data, headers);
-
-        printf("%s\n", cJSON_Print(request));
+        request = create_request(METHOD_POST, "/messages", data, headers);
 
         response = send_request(uchat->servsock, request);
-
-        printf("%s\n", cJSON_Print(response));
 
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;

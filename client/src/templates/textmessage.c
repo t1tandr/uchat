@@ -53,7 +53,7 @@ uchat_text_message_new(t_message* message, bool own) {
 
     gtk_widget_set_visible(obj->avatar, !own);
     uchat_text_message_set_message(obj, message->content);
-    uchat_text_message_set_time(obj, message->time);
+    uchat_text_message_set_time(obj, strndup(&(message->time[11]), 5));
 
     return obj;
 }

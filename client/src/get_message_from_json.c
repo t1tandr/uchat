@@ -12,6 +12,7 @@ t_message* get_message_from_json(cJSON* json) {
     msg->user_id = cJSON_GetObjectItemCaseSensitive(json, "user_id")->valueint;
     msg->content = strdup(cJSON_GetObjectItemCaseSensitive(json, "content")->valuestring);
     // user->bio = strdup(cJSON_GetObjectItemCaseSensitive(json, "bio")->valuestring);
+    msg->time = strdup(cJSON_GetObjectItemCaseSensitive(json, "created_at")->valuestring);
 
     return msg;
 }

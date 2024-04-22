@@ -1,7 +1,6 @@
 #include "uchat.h"
 
 void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     const char* entry_value = NULL;
     cJSON* request = NULL;
     cJSON* response = NULL;

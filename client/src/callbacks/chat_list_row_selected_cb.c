@@ -1,7 +1,6 @@
 #include "uchat.h"
 
 void chat_list_row_selected_cb(GtkListBox* self, GtkListBoxRow* row, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     UchatChatBox* chatbox = UCHAT_CHAT_BOX(gtk_list_box_row_get_child(row));
     GtkNotebook* notebook = GTK_NOTEBOOK(gtk_builder_get_object(uchat->builder, "message-container"));
 

@@ -12,7 +12,6 @@ static void create_session_file(const char* filename, cJSON* obj) {
 }
 
 void login_button_click_cb(GtkWidget *self, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkRevealer* revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "login-error-revealer"));
     const char* username = NULL;
     const char* password = NULL;

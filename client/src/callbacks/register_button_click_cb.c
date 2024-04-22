@@ -1,7 +1,6 @@
 #include "uchat.h"
 
 static void register_dialog_response_cb(GtkDialog* self, int response_id, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkRevealer* login_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "login-revealer"));
     GtkRevealer* register_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "register-revealer"));
 
@@ -22,7 +21,6 @@ static void register_dialog_response_cb(GtkDialog* self, int response_id, gpoint
 }
 
 void register_button_click_cb(GtkButton* self, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkRevealer* username_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "username-is-taken-revealer"));
     GtkRevealer* unmatch_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "password-unmatch-revealer"));
     const char* username = NULL;

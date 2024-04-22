@@ -8,6 +8,7 @@
 #include <netdb.h>
 #include <string.h>
 #include <time.h>
+#include <pthread.h>
 
 #include <gtk/gtk.h>
 #include <cJSON.h>
@@ -39,10 +40,13 @@ typedef struct s_uchat {
     t_current_user* user;
 } t_uchat;
 
+extern t_uchat* uchat;
+
 int connect_to_server(const char* ip, const char* port);
 
 cJSON* create_request(const char* method, const char* route, cJSON* data, cJSON* headers);
 cJSON* send_request(int sockfd, cJSON* request);
+cJSON* recv_response(int sockfd);
 
 #endif
 

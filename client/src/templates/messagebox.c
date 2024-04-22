@@ -41,7 +41,7 @@ uchat_message_box_class_init(UchatMessageBoxClass *klass) {
 
 gchar *
 uchat_message_box_get_text(UchatMessageBox* self) {
-    return text_view_get_full_text(self->textview);
+    return text_view_get_full_text(GTK_TEXT_VIEW(self->textview));
 }
 
 t_chat *
