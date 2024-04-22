@@ -92,8 +92,6 @@ entry {
     background-color: steelblue;
     color: black;
     border-radius: 50%;
-<<<<<<< HEAD
-=======
 }
 
 #Change{
@@ -163,5 +161,4 @@ entry {
     color: rgb(217, 217, 217);
     font-size: 60px;
     font-family: 'Times New Roman', Times, serif;
->>>>>>> feature/make_avatar_template
 }
