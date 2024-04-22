@@ -24,6 +24,16 @@
     background-position: center;
 }
 
+.title-login-and-register{
+    font-size: 20px;
+}
+
+#welcome-slide{
+    background-image: url(../img/title_welcome.jpg);
+    background-size: contain;
+    background-position: center;
+}
+
 #login-page {
     /* background-color: @bg-color; */
     /* background-image: url(../img/background.png); */
