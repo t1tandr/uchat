@@ -6,6 +6,10 @@
     color: #fff;
 }
 
+.title-login-and-register{
+    font-size: 20px;
+}
+
 #welcome-slide{
     background-image: url(../img/title_welcome.jpg);
     background-size: contain;
@@ -14,7 +18,8 @@
 
 #login-page {
     /* background-color: @bg-color; */
-    background-image: url(../img/background.png);
+    /* background-image: url(../img/background.png); */
+    background-color: rgb(133, 3, 165);
     background-size: contain;
     background-position: center;
 }

@@ -47,6 +47,9 @@
                                                     <object class="GtkLabel">
                                                         <property name="label">Welcome to MonkeyChat!</property>
                                                         <property name="halign">center</property>
+                                                        <style>
+                                                            <class name="title-login-and-register"/>
+                                                        </style>
                                                     </object>
                                                 </child>
                                                 <child>
@@ -187,6 +190,9 @@
                                                 <child>
                                                     <object class="GtkLabel">
                                                         <property name="label">MonkeyChat!</property>
+                                                        <style>
+                                                            <class name="title-login-and-register"/>
+                                                        </style>
                                                     </object>
                                                 </child>
                                                 <child>
