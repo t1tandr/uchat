@@ -37,6 +37,8 @@ int connect_to_server(const char* ip, const char* port);
 
 cJSON* create_request(const char* method, const char* route, cJSON* data, cJSON* headers);
 cJSON* send_request(int sockfd, cJSON* request);
+static void draw_from_path(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer user_data);
+static void on_open_response (GtkDialog *dialog, int response, gpointer user_data);
 
 #endif
 

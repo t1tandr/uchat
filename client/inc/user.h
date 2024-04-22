@@ -25,6 +25,7 @@ typedef struct s_user {
     const char* name;
     const char* bio;
     const char* session;
+    char* ava_path;
     t_chat* current_chat;
     t_list* chats;
 } t_user;

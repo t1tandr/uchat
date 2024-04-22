@@ -108,8 +108,13 @@
                                                             <class name="avatar"/>
                                                         </style>
                                                         <child>
-                                                            <object class="GtkPicture">
-                                                                <property name="paintable">../img/logo.png</property>
+                                                            <object class = "GtkDrawingArea" id="avatar-in-overlay">
+                                                                <property name="margin-top">5</property>
+                                                                <property name="margin-bottom">5</property>
+                                                                <property name="margin-start">5</property>
+                                                                <property name="margin-end">5</property>
+                                                                <property name="halign">start</property>
+                                                                <property name="valign">start</property>
                                                             </object>
                                                         </child>
                                                     </object>
@@ -137,6 +142,10 @@
                                                 </child>
                                                 <child>
                                                     <object class="GtkButton">
+<<<<<<< HEAD
+=======
+                                                    <signal name="clicked" handler="settings_button_click_cb"/>
+>>>>>>> feature/make_avatar_template
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">settings</property>
@@ -180,7 +189,11 @@
             </object>
         </child>
         <child>
+<<<<<<< HEAD
             <object class="GtkCenterBox">
+=======
+            <object class="GtkCenterBox" id = "right-side">
+>>>>>>> feature/make_avatar_template
                 <property name="orientation">vertical</property>
                 <property name="width-request">1160</property>
                 <property name="hexpand">true</property>

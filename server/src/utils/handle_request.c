@@ -1,10 +1,10 @@
 #include "server.h"
 
 void *handle_request(void *arg) {
-    int sock_fd = *(int*)arg;
+    int sockfd = *(int*)arg;
     sqlite3 *db = database_connect(); // Maybe switch to connection pool
 
-    while (1) {
+    while(1) {
         int length, n;
 
         n = recv(sock_fd, &length, sizeof(length), 0);
