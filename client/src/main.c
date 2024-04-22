@@ -7,6 +7,7 @@ static const char* files[] = {
     "resources/ui/homepage.ui",
     "resources/ui/chatnewdialog.ui",
     "resources/ui/settings.ui",
+    "resources/ui/afterlogindialog.ui",
     NULL
 };
 
@@ -50,7 +51,7 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     GtkWidget* window = GTK_WIDGET(gtk_application_window_new(app));
     
     gtk_window_set_title(GTK_WINDOW(window), "MonkeyChat!");
-    gtk_window_set_default_size(GTK_WINDOW(window), 1600, 900);
+    gtk_window_set_default_size(GTK_WINDOW(window), 1200, 900);
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
     
     char* session = mx_file_to_str("session.json");
@@ -66,6 +67,10 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     }
 
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
+
+    // GtkWidget* dialog = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "after-login"));
+    // gtk_window_set_transient_for(GTK_WINDOW(dialog), gtk_application_get_active_window(uchat->app));
+    // gtk_widget_show(dialog);
 
     gtk_window_present(GTK_WINDOW(window));
 }

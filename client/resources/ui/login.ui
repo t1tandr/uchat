@@ -47,6 +47,9 @@
                                                     <object class="GtkLabel">
                                                         <property name="label">Welcome to MonkeyChat!</property>
                                                         <property name="halign">center</property>
+                                                        <style>
+                                                            <class name="title-login-and-register"/>
+                                                        </style>
                                                     </object>
                                                 </child>
                                                 <child>
@@ -120,14 +123,14 @@
                     </object>
                 </child>
                 <child>
-                    <object class="GtkBox">
+                    <object class="GtkBox" id="welcome-slide">
                         <property name="orientation">vertical</property>
                         <property name="height-request">420</property>
                         <property name="width-request">620</property>
-                        <property name="name">name</property>
+                        <property name="name">welcome-slide</property>
                         <child>
                             <object class="GtkLabel">
-                                <property name="label">MonkeyChat!</property>
+                                <!-- <property name="label">MonkeyChat!</property> -->
                                 <property name="halign">start</property>
                                 <property name="margin-top">20</property>
                                 <property name="margin-start">10</property>
@@ -136,7 +139,7 @@
                                 </style>
                             </object>
                         </child>
-                        <child>
+                        <!-- <child>
                             <object class="GtkTextView">
                                 <property name="buffer">buffer</property>
                                 <property name="editable">false</property>
@@ -151,7 +154,7 @@
                                     <class name="description"/>
                                 </style>
                             </object>
-                        </child>
+                        </child> -->
                     </object>
                 </child>
                 <child>
@@ -187,6 +190,9 @@
                                                 <child>
                                                     <object class="GtkLabel">
                                                         <property name="label">MonkeyChat!</property>
+                                                        <style>
+                                                            <class name="title-login-and-register"/>
+                                                        </style>
                                                     </object>
                                                 </child>
                                                 <child>
@@ -324,7 +330,7 @@
             </object>
         </child> 
     </object>
-    <object class="GtkTextBuffer" id="buffer">
+    <!-- <object class="GtkTextBuffer" id="buffer">
         <property name="text">Lorem ipsum</property>
-    </object>
+    </object> -->
 </interface>

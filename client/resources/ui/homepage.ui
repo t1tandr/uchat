@@ -188,7 +188,7 @@
         <child>
             <object class="GtkCenterBox" id = "right-side">
                 <property name="orientation">vertical</property>
-                <property name="width-request">1160</property>
+                <property name="width-request">760</property>
                 <property name="hexpand">true</property>
                 <child type="start">
                     <object class="GtkBox">

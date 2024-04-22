@@ -1,14 +1,33 @@
 @import url("colors.css");
 
+#after-register-window{
+    /* background-color: @bg-color; */
+    background-image: url(../img/gorilla.jpg);
+    background-size: contain;
+    background-position: center;
+    border-radius: 20px;
+}
+
 #signup {
     background-color: @purple-button-bg;
     border-radius: 3px;
     color: #fff;
 }
 
+.title-login-and-register{
+    font-size: 20px;
+}
+
+#welcome-slide{
+    background-image: url(../img/welcome_slide.png);
+    background-size: contain;
+    background-position: center;
+}
+
 #login-page {
     /* background-color: @bg-color; */
-    background-image: url(../img/background.png);
+    /* background-image: url(../img/background.png); */
+    background-color: rgb(133, 3, 165);
     background-size: contain;
     background-position: center;
 }

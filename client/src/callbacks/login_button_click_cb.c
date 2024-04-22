@@ -36,8 +36,7 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
     response = send_request(uchat->servsock, request);
 
     cJSON_Delete(request);
-    mx_printstr(cJSON_Print(response));
-
+    
     if (response != NULL && cJSON_HasObjectItem(response, "status") && cJSON_HasObjectItem(response, "data")) {
         int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
