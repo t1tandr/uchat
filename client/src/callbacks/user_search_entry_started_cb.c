@@ -19,7 +19,11 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
 
         response = send_request(uchat->servsock, request);
 
-        if (response != NULL && cJSON_HasObjectItem(response, "status")) {
+        if (response == NULL) {
+            handle_error("uchat: error \'GET /users\' request to server");
+        }
+        
+        if (cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
             if (status == 200) {
@@ -57,7 +61,7 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
             cJSON_Delete(response);
         }
         else {
-            handle_error("uchat: error getting response from server");
+            handle_error("uchat: error \'GET /users\' response from server");
         }
     }
 

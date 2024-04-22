@@ -25,7 +25,11 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
 
         response = send_request(uchat->servsock, request);
 
-        if (response != NULL && cJSON_HasObjectItem(response, "status")) {
+        if (response == NULL) {
+            handle_error("uchat: error \'POST /messages\' request to server");
+        }
+        
+        if (cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
             if (status == 201) {
@@ -38,22 +42,10 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
             cJSON_Delete(response);
         }
         else {
-            handle_error("uchat: error getting response from server");
+            handle_error("uchat: error \'POST /messages\' response from server");
         }
-
-        /*
-        vadj = gtk_scrolled_window_get_vadjustment(window);
-
-        g_print("lower - %f\n", gtk_adjustment_get_lower(vadj));
-        g_print("upper - %f\n", gtk_adjustment_get_upper(vadj));
-        g_print("page size - %f\n", gtk_adjustment_get_page_size(vadj));
-        g_print("value - %f\n", gtk_adjustment_get_value(vadj));
-
-        gtk_adjustment_set_value(vadj, gtk_adjustment_get_upper(vadj) - gtk_adjustment_get_page_size(vadj));
-
-        g_print("new value - %f\n\n", gtk_adjustment_get_value(vadj));
-        */
     }
 
     free(text);
 }
+

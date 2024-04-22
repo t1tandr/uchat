@@ -42,6 +42,8 @@ typedef struct s_uchat {
 
 extern t_uchat* uchat;
 
+t_uchat* uchat_create(int sockfd, GtkApplication* app);
+
 int connect_to_server(const char* ip, const char* port);
 
 cJSON* create_request(const char* method, const char* route, cJSON* data, cJSON* headers);

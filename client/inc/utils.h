@@ -14,5 +14,9 @@ void add_icon_theme(const char* path);
 void login_form_clear(GtkBuilder* builder);
 void register_form_clear(GtkBuilder* builder);
 
+GtkBuilder* builder_create(const char* files[]);
+
+void create_session_file(const char* filename, cJSON* obj);
+
 #endif
 

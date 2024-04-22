@@ -1,16 +1,5 @@
 #include "uchat.h"
 
-static void create_session_file(const char* filename, cJSON* obj) {
-    FILE* file = fopen(filename, "w+");
-    const char* buffer = cJSON_Print(obj);
-
-    if (file == NULL) {
-        handle_error(mx_strjoin("uchat: error writing to session file: ", strerror(errno)));
-    }
-
-    fputs(buffer, file);
-}
-
 void login_button_click_cb(GtkWidget *self, gpointer user_data) {
     GtkRevealer* revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "login-error-revealer"));
     const char* username = NULL;
@@ -19,7 +8,6 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
     cJSON* response = NULL;
     cJSON* data = NULL;
     cJSON* headers = NULL;
-    uchat->user = NULL;
 
     username = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "login-username")));
     password = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "login-password")));
@@ -34,7 +22,11 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
 
     response = send_request(uchat->servsock, request);
 
-    if (response != NULL && cJSON_HasObjectItem(response, "status")) {
+    if (response == NULL) {
+        handle_error("uchat: error \'POST /login\' request to server");
+    }
+
+    if (cJSON_HasObjectItem(response, "status")) {
         int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
         if (status == 200) {
@@ -55,7 +47,7 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
         cJSON_Delete(response);
     }
     else {
-        handle_error("uchat: error getting response from server");
+        handle_error("uchat: error \'POST /login\' response from server");
     }
 }
 

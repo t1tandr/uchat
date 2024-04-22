@@ -51,6 +51,10 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
 
         response = send_request(uchat->servsock, request);
 
+        if (response == NULL) {
+            handle_error("uchat: error \'POST /users\' request to server");
+        }
+
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
@@ -88,7 +92,7 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
             cJSON_Delete(response);
         }
         else {
-            handle_error("[ERROR]: Receiving response from server");
+            handle_error("uchat: error \'POST /users\' response from server");
         }
     }
 }
