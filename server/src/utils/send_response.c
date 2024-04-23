@@ -3,6 +3,7 @@
 void send_response(int sock_fd, cJSON *data, int status) {
     cJSON *res = cJSON_CreateObject();
     cJSON_AddNumberToObject(res, "status", status);
+    cJSON_AddStringToObject(res, "type", "regular");
 
     if (data != NULL) {
         cJSON_AddItemToObject(res, "data", data);

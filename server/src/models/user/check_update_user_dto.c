@@ -5,7 +5,8 @@ int check_update_user_dto(cJSON *user, int sock_fd) {
         || (!cJSON_HasObjectItem(user, "username")
         && !cJSON_HasObjectItem(user, "name")
         && !cJSON_HasObjectItem(user, "avatar")
-        && !cJSON_HasObjectItem(user, "bio"))) {
+        && !cJSON_HasObjectItem(user, "bio")
+        && !cJSON_HasObjectItem(user, "password"))) {
         error_handler(sock_fd, "Invalid json", 400);
         return -1;
     }

@@ -48,6 +48,10 @@ cJSON *update_user_by_id_service(int user_id, cJSON *data, cJSON *headers, sqlit
         strcat(sql, "bio = ?, ");
     }
 
+    if (cJSON_HasObjectItem(data, "password")) {
+        strcat(sql, "password = ?, ");
+    }
+
     sql[strlen(sql) - 2] = '\0';
     strcat(sql, "WHERE id = ? RETURNING *;");
  
@@ -71,6 +75,18 @@ cJSON *update_user_by_id_service(int user_id, cJSON *data, cJSON *headers, sqlit
 
     if (cJSON_HasObjectItem(data, "bio")) {
         sqlite3_bind_text(stmt, param_index++, cJSON_GetObjectItem(data, "bio")->valuestring, -1, SQLITE_TRANSIENT);
+    }
+
+    if (cJSON_HasObjectItem(data, "password")) {
+        char *password = cJSON_GetObjectItem(data, "password")->valuestring;
+
+        char salt[BCRYPT_HASHSIZE];
+        char hash[BCRYPT_HASHSIZE];
+
+        bcrypt_gensalt(12, salt);
+        bcrypt_hashpw(password, salt, hash);
+
+        sqlite3_bind_text(stmt, param_index++, hash, -1, SQLITE_TRANSIENT);
     }
 
     sqlite3_bind_int(stmt, param_index, user_id);

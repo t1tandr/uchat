@@ -1,7 +1,7 @@
 #include "server.h"
 
 void logout_controller(cJSON *req, sqlite3 *db, int sock_fd) {
-    cJSON *headers = cJSON_GetObjectItemCaseSensitive(req, "data");
+    cJSON *headers = cJSON_GetObjectItemCaseSensitive(req, "headers");
 
     if (logout_service(headers, db, sock_fd) == -1) return;
 

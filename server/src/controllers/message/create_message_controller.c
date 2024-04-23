@@ -23,6 +23,6 @@ void create_message_controller(cJSON *req, sqlite3 *db, int sock_fd) {
 
     cJSON_Delete(chat_members);
 
-    send_response_users_by_id(user_ids, message, 201);
+    send_response_users_by_id(user_ids, message, 201, sock_fd);
 }
 
