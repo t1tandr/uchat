@@ -62,29 +62,9 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
 
             if (status == 201) {
                 gtk_revealer_set_reveal_child(username_revealer, FALSE);
-
-                GtkWidget* dialog = gtk_dialog_new_with_buttons("Registration successful",
-                    gtk_application_get_active_window(uchat->app),
-                    GTK_DIALOG_DESTROY_WITH_PARENT,
-                    "Go to login",
-                    GTK_RESPONSE_OK,
-                    NULL
-                );
-                gtk_window_set_default_size(GTK_WINDOW(dialog), 400, 225);
-                gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
                 
-                
-                GtkWidget* content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-                GtkWidget* button = gtk_dialog_get_widget_for_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
-                GtkWidget* label = gtk_label_new("Hello, pusie! Start chatting after log in!");
-                
-                gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
-                gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-                gtk_box_append(GTK_BOX(content_area), label);
-
-                g_signal_connect(dialog, "response", G_CALLBACK(register_dialog_response_cb), user_data);
-                g_signal_connect(dialog, "destroy", G_CALLBACK(gtk_window_destroy), NULL);
-
+                GtkWidget* dialog = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "after-login"));
+                gtk_window_set_transient_for(GTK_WINDOW(dialog), gtk_application_get_active_window(uchat->app));
                 gtk_widget_show(dialog);
             }
             else {
