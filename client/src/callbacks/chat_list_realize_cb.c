@@ -1,92 +1,5 @@
 #include "uchat.h"
 
-static char* chat_member_get_username_by_id(int id) {
-    cJSON* request = NULL;
-    cJSON* response = NULL;
-    cJSON* data = NULL;
-    cJSON* headers = NULL;
-    char route[128];
-
-    sprintf(route, "/users/%d", id);
-
-    headers = cJSON_CreateObject();
-    cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
-
-    data = cJSON_CreateObject();
-
-    request = create_request(METHOD_GET, route, data, headers);
-
-    int status = send_request(uchat->servsock, request);
-
-    if (status != REQUEST_SUCCESS) {
-        handle_error(REQUEST_ERROR, "GET /users/{id}");
-    }
-
-    response = g_async_queue_pop(uchat->responses);
-
-    if (response != NULL && cJSON_HasObjectItem(response, "status")) {
-        status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
-
-        if (status == 200) {
-            cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
-            char* username = cJSON_GetObjectItemCaseSensitive(response_data, "username")->valuestring;
-
-            cJSON_Delete(response);
-
-            return username;
-        }
-
-        cJSON_Delete(response);
-
-        return NULL;
-    }
-    else {
-        handle_error(RESPONSE_ERROR, "GET /messages/{id}");
-    }
-
-    return NULL;
-}
-
-static void add_members_to_chat(t_chat* chat) {
-    cJSON* request = NULL;
-    cJSON* response = NULL;
-    cJSON* data = NULL;
-    cJSON* headers = NULL;
-    char route[128];
-
-    sprintf(route, "/chat-members/%d", chat->id);
-
-    headers = cJSON_CreateObject();
-    cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
-
-    data = cJSON_CreateObject();
-
-    request = create_request(METHOD_GET, route, data, headers);
-
-    int status = send_request(uchat->servsock, request);
-
-    if (status != REQUEST_SUCCESS) {
-        handle_error(REQUEST_ERROR, "GET /chat-members");
-    }
-
-    response = g_async_queue_pop(uchat->responses);
-
-    if (response != NULL && cJSON_HasObjectItem(response, "status")) {
-        status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
-
-        if (status == 200) {
-            cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
-
-            chat->members = chat_member_parse_from_json_arr(response_data);
-        }
-
-        cJSON_Delete(response);
-    }
-    else {
-        handle_error(RESPONSE_ERROR, "GET /chat-members");
-    }
-}
-
 static gboolean filter_func(GtkListBoxRow* row, gpointer user_data) {
     UchatChatBox* chat = UCHAT_CHAT_BOX(gtk_list_box_row_get_child(row));
     const char* text = gtk_editable_get_text(GTK_EDITABLE(user_data));
@@ -151,10 +64,9 @@ void chat_list_realize_cb(GtkListBox* self, gpointer user_data) {
             
             for (t_list* i = uchat->user->chats; i != NULL; i = i->next) {
                 t_chat* chat = (t_chat *)i->data;
-
                 UchatChatBox* box = uchat_chat_box_new(chat);
 
-                add_members_to_chat(chat);
+                chat_add_members(chat);
 
                 gtk_list_box_append(self, GTK_WIDGET(box));
             }

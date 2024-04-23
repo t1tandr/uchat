@@ -1,11 +1,34 @@
 #include "uchat.h"
 
 static void handle_message_response(cJSON* data) {
-    printf("new message!");
+    t_message* message = message_parse_from_json(data);
+
+    for (t_list* i = uchat->user->chats; i != NULL; i = i->next) {
+        t_chat* chat = (t_chat *)i->data;
+        
+        if (chat->id == message->chat_id) {
+            chat->last_message = message;
+            mx_push_back(&(chat->messages), message);
+            break;
+        }
+    }
+
+    GtkWidget* list = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "chat-list"));
+    GtkWidget* child = NULL;
+
+    while((child = gtk_widget_get_first_child(list)) != NULL) {
+        UchatChatBox* chatbox = UCHAT_CHAT_BOX(child);
+        t_chat* chat = uchat_chat_box_get_chat(chatbox);
+
+        if (message->chat_id == chat->id) {
+            uchat_chat_box_set_message(chatbox, message);
+            break;
+        }
+    }
 }
 
 static void handle_chat_member_response(cJSON* data) {
-    printf("new chat!");
+    t_chat_member* member = chat_member_parse_from_json(data);
 }
 
 static void handle_response(cJSON* response) {

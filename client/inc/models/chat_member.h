@@ -28,4 +28,6 @@ t_chat_member* chat_member_parse_from_json(cJSON* json);
 
 t_list* chat_member_parse_from_json_arr(cJSON* arr);
 
+char* chat_member_get_username_by_id(int id);
+
 #endif

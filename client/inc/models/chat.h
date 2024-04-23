@@ -27,4 +27,6 @@ t_chat* chat_parse_from_json(cJSON* json);
 
 t_list* chat_parse_from_json_arr(cJSON* arr);
 
+void chat_add_members(t_chat* chat);
+
 #endif

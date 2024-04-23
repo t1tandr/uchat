@@ -1,45 +1,46 @@
 #include "uchat.h"
 
-bool add_members_to_chat(t_chat* chat, t_uchat* uchat) {
+static void add_members_to_chat(t_chat* chat, t_uchat* uchat) {
     for (t_list* i = chat->members; i != NULL; i = i->next) {
         cJSON* request = NULL;
         cJSON* response = NULL;
         cJSON* data = NULL;
         cJSON* headers = NULL;
-        t_user* member = (t_user *)i->data;
+        t_user* user = (t_user *)i->data;
 
         headers = cJSON_CreateObject();
         cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
         data = cJSON_CreateObject();
         cJSON_AddNumberToObject(data, "chat_id", chat->id);
-        cJSON_AddNumberToObject(data, "user_id", member->id);
+        cJSON_AddNumberToObject(data, "user_id", user->id);
 
         request = create_request(METHOD_POST, "/chat-members", data, headers);
 
         int status = send_request(uchat->servsock, request);
 
         if (status != REQUEST_SUCCESS) {
-            handle_error(REQUEST_ERROR, "\'POST /chat-members\'");
+            handle_error(REQUEST_ERROR, "POST /messages");
         }
 
         response = g_async_queue_pop(uchat->responses);
+        
+        if (cJSON_HasObjectItem(response, "status")) {
+            status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
-        if (response != NULL && cJSON_HasObjectItem(response, "status")) {
-            int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+            if (status == 201) {
+                cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
+                t_chat_member* member = chat_member_parse_from_json(response_data);
 
-            if (status != 201) {
-                return false;
+                mx_push_back(&(chat->members), member);
             }
 
             cJSON_Delete(response);
         }
         else {
-            handle_error(RESPONSE_ERROR, "\'POST /chat-members\'");
+            handle_error(RESPONSE_ERROR, "POST /messages");
         }
     }
-
-    return true;
 }
 
 void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data) {
@@ -76,21 +77,21 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
             UchatUserBox* user_box = NULL;
             guint index = 0;
             t_chat* chat = NULL;
+            t_list* members = NULL;
 
             chat = chat_parse_from_json(cJSON_GetObjectItemCaseSensitive(response, "data"));
 
             while ((row = gtk_list_box_get_row_at_index(list, index++)) != NULL) {
                 user_box = UCHAT_USER_BOX(gtk_list_box_row_get_child(row));
-                mx_push_back(&(chat->members), (void *)uchat_user_box_get_user(user_box));
+                mx_push_back(&members, uchat_user_box_get_user(user_box));
             }
 
-            if(mx_list_size(chat->members) > 0) {
-                if (add_members_to_chat(chat, uchat)) {
-                    GtkListBox* chat_list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "chat-list"));
+            if(mx_list_size(members) > 0) {
+                GtkListBox* chat_list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "chat-list"));
+                add_members_to_chat(chat, uchat);
 
-                    gtk_list_box_prepend(chat_list, GTK_WIDGET(uchat_chat_box_new(chat)));
-                    mx_push_back(&(uchat->user->chats), chat);
-                }
+                gtk_list_box_prepend(chat_list, GTK_WIDGET(uchat_chat_box_new(chat)));
+                mx_push_back(&(uchat->user->chats), chat);
             }
         }
 
