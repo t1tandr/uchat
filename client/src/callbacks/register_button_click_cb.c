@@ -1,7 +1,6 @@
 #include "uchat.h"
 
 static void register_dialog_response_cb(GtkDialog* self, int response_id, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkRevealer* login_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "login-revealer"));
     GtkRevealer* register_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "register-revealer"));
 
@@ -22,7 +21,6 @@ static void register_dialog_response_cb(GtkDialog* self, int response_id, gpoint
 }
 
 void register_button_click_cb(GtkButton* self, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkRevealer* username_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "username-is-taken-revealer"));
     GtkRevealer* unmatch_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "password-unmatch-revealer"));
     const char* username = NULL;
@@ -51,10 +49,16 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
 
         request = create_request(METHOD_POST, "/users", data, headers);
 
-        response = send_request(uchat->servsock, request);
+        int status = send_request(uchat->servsock, request);
+
+        if (status != REQUEST_SUCCESS) {
+            handle_error(REQUEST_ERROR, "POST /users");
+        }
+
+        response = g_async_queue_pop(uchat->responses);
 
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
-            int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+            status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
             if (status == 201) {
                 gtk_revealer_set_reveal_child(username_revealer, FALSE);
@@ -90,7 +94,7 @@ void register_button_click_cb(GtkButton* self, gpointer user_data) {
             cJSON_Delete(response);
         }
         else {
-            handle_error("[ERROR]: Receiving response from server");
+            handle_error(RESPONSE_ERROR, "POST /users");
         }
     }
 }

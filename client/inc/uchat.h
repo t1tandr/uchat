@@ -8,6 +8,7 @@
 #include <netdb.h>
 #include <string.h>
 #include <time.h>
+#include <pthread.h>
 
 #include <gtk/gtk.h>
 #include <cJSON.h>
@@ -17,7 +18,9 @@
 #include "utils.h"
 #include "user.h"
 #include "chat.h"
+#include "chat_member.h"
 #include "message.h"
+#include "error.h"
 
 #include "templates/chatbox.h"
 #include "templates/textmessage.h"
@@ -30,21 +33,27 @@
 #define METHOD_PUT      "PUT"
 #define METHOD_DELETE   "DELETE"
 
-#define USAGE_ERROR "usage: uchat <server-ip> <server-port>"
+#define REQUEST_SUCCESS 0
 
 typedef struct s_uchat {
     int servsock;
     GtkBuilder* builder;
     GtkApplication* app;
     t_current_user* user;
+    GAsyncQueue* responses;
 } t_uchat;
+
+extern t_uchat* uchat;
+
+t_uchat* uchat_create(int sockfd, GtkApplication* app);
 
 int connect_to_server(const char* ip, const char* port);
 
 cJSON* create_request(const char* method, const char* route, cJSON* data, cJSON* headers);
-cJSON* send_request(int sockfd, cJSON* request);
-static void draw_from_path(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer user_data);
-static void on_open_response (GtkDialog *dialog, int response, gpointer user_data);
+int send_request(int sockfd, cJSON* request);
+cJSON* recv_response(int sockfd);
+
+void init_listener_thread(void);
 
 #endif
 

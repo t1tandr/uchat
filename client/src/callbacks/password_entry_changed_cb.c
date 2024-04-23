@@ -1,7 +1,6 @@
 #include "uchat.h"
 
 void password_entry_changed_cb(GtkEntry* self, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkRevealer* revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "password-reqs-revealer"));
     const char* password = gtk_editable_get_text(GTK_EDITABLE(self));
 

@@ -1,7 +1,6 @@
 #include "uchat.h"
 
 void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     const char* entry_value = NULL;
     cJSON* request = NULL;
     cJSON* response = NULL;
@@ -18,10 +17,16 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
 
         request = create_request(METHOD_GET, "/users", data, headers);
 
-        response = send_request(uchat->servsock, request);
+        int status = send_request(uchat->servsock, request);
 
-        if (response != NULL && cJSON_HasObjectItem(response, "status")) {
-            int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+        if (status != REQUEST_SUCCESS) {
+            handle_error(REQUEST_ERROR, "GET /users");
+        }
+
+        response = g_async_queue_pop(uchat->responses);
+        
+        if (cJSON_HasObjectItem(response, "status")) {
+            status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
             if (status == 200) {
                 cJSON* users_arr = cJSON_GetObjectItemCaseSensitive(response, "data");
@@ -30,10 +35,9 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
                 for (int i = 0 ; i < size; i++) {
                     cJSON* user_json = cJSON_GetArrayItem(users_arr, i);
                     const char* username = cJSON_GetObjectItemCaseSensitive(user_json, "username")->valuestring;
-                    t_user* user = NULL;
 
                     if (strcmp(entry_value, username) == 0 && strcmp(entry_value, uchat->user->username) != 0) {
-                        user = get_user_from_json(user_json);
+                        t_user* user = user_parse_from_json(user_json);
 
                         if (user != NULL) {
                             GtkListBox* list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "new-chat-members-list"));
@@ -58,7 +62,7 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
             cJSON_Delete(response);
         }
         else {
-            handle_error("uchat: error getting response from server");
+            handle_error(RESPONSE_ERROR, "GET /users");
         }
     }
 

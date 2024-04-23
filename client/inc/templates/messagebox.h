@@ -2,8 +2,7 @@
 #define UCHAT_MESSAGE_BOX_H
 
 #include <gtk/gtk.h>
-#include "chat.h"
-#include "templates/textmessage.h"
+#include "uchat.h"
 
 G_BEGIN_DECLS
 

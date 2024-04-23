@@ -7,17 +7,29 @@
  * MESSAGE UTILS
 */
 
+enum {
+    MSG_TYPE_TXT,
+    MSG_TYPE_IMG,
+    MSG_TYPE_VID,
+    MSG_TYPE_AUD,
+    MSG_TYPE_UNKNOWN
+};
+
 typedef struct s_message t_message;
 
 struct s_message {
     int id;
     int user_id;
     int chat_id;
-    const char* time;
+    int type;
     const char* content;
+    const char* author;
+    const char* time;
 };
 
-t_message* get_message_from_json(cJSON* json);
+t_message* message_init(void);
+
+t_message* message_parse_from_json(cJSON* json);
 
 #endif
 

@@ -1,7 +1,6 @@
 #include "uchat.h"
 
 void return_from_settings_button_click_cb(GtkButton* self, gpointer user_data) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
     GtkBox* homepage = GTK_BOX(gtk_builder_get_object(uchat->builder, "homepage"));
     GtkCenterBox* right_side = GTK_CENTER_BOX(gtk_builder_get_object(uchat->builder, "right-side"));
     GtkScrolledWindow* settings = GTK_SCROLLED_WINDOW(gtk_builder_get_object(uchat->builder, "settings"));
@@ -14,7 +13,6 @@ void on_response(GtkDialog *dialog, gint response_id, gpointer user_data) {
     if (response_id == GTK_RESPONSE_OK) {
         GdkRGBA color;
         gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&color);
-        t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
         GtkWidget* box_1 = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "box_for_image_in_settings"));
         char *css = g_strdup_printf("box { background-color: %s;border-radius: 50%%; }",gdk_rgba_to_string(&color));
 
@@ -30,7 +28,6 @@ void on_response(GtkDialog *dialog, gint response_id, gpointer user_data) {
 }
 
 void open_color_chooser(GtkButton* self, gpointer user_data) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
     GtkWindow* window = GTK_WINDOW(gtk_builder_get_object(uchat->builder, "main-window"));
     
     GtkColorChooserDialog *dialog = GTK_COLOR_CHOOSER_DIALOG(gtk_color_chooser_dialog_new("Select Color", GTK_WINDOW(window)));
@@ -40,7 +37,6 @@ void open_color_chooser(GtkButton* self, gpointer user_data) {
 }
 
 void settings_button_click_cb(GtkButton* self, gpointer user_data) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
     GtkBox* homepage = GTK_BOX(gtk_builder_get_object(uchat->builder, "homepage"));
     GtkCenterBox* right_side = GTK_CENTER_BOX(gtk_builder_get_object(uchat->builder, "right-side"));
     GtkScrolledWindow* settings = GTK_SCROLLED_WINDOW(gtk_builder_get_object(uchat->builder, "settings"));

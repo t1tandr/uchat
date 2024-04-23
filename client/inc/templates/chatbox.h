@@ -26,7 +26,7 @@ const gchar *
 uchat_chat_box_get_name(UchatChatBox* self);
 
 void
-uchat_chat_box_set_message(UchatChatBox* self, const gchar* message);
+uchat_chat_box_set_message(UchatChatBox* self, t_message* message);
 
 const gchar *
 uchat_chat_box_get_message(UchatChatBox* self);

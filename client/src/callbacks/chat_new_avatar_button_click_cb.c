@@ -1,8 +1,6 @@
 #include "uchat.h"
 
 static void on_save_response_cb(GtkDialog *self, int response, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
-
     if (response == GTK_RESPONSE_ACCEPT) {
         GtkFileChooser *chooser = GTK_FILE_CHOOSER(self);
         UchatAvatarBox* avatar = UCHAT_AVATAR_BOX(gtk_builder_get_object(uchat->builder, "chat-new-avatar"));
@@ -16,7 +14,6 @@ static void on_save_response_cb(GtkDialog *self, int response, gpointer user_dat
 }
 
 void chat_new_avatar_button_click_cb(GtkButton* self, gpointer user_data) {
-    t_uchat* uchat = (t_uchat *)g_object_get_data(user_data, "uchat");
     GtkWidget* dialog = NULL;
     GtkFileFilter* filter = NULL;
 
