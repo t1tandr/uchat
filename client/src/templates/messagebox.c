@@ -18,6 +18,7 @@ struct _UchatMessageBox {
   GtkWidget parent_instance;
 
   t_chat* chat;
+  GtkWidget* header;
   GtkWidget* textview;
   GtkWidget* container;
   GtkWidget* name;
@@ -119,6 +120,7 @@ uchat_message_box_class_init(UchatMessageBoxClass *klass) {
     gtk_widget_class_set_template_from_resource(widget_class, "/ua/ucode-connect/uchat/ui/messagebox.ui");
     gtk_widget_class_set_layout_manager_type(widget_class, GTK_TYPE_BOX_LAYOUT);
 
+    gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, header);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, container);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, name);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, num_of_members);
@@ -165,7 +167,7 @@ uchat_message_box_new(t_chat* chat) {
 
     g_signal_connect(gesture, "pressed", G_CALLBACK(gesture_released_cb), chat);
 
-    gtk_widget_add_controller(GTK_WIDGET(obj), GTK_EVENT_CONTROLLER(gesture));
+    gtk_widget_add_controller(GTK_WIDGET(obj->header), GTK_EVENT_CONTROLLER(gesture));
 
     return obj;
 }

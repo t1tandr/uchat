@@ -17,15 +17,10 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     gtk_window_set_default_size(GTK_WINDOW(window), 1200, 900);
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
     
-    char* session = mx_file_to_str("session.json");
-    if(session == NULL) {
-        if(errno != ENOENT) {
-            handle_error(SESSION_ERROR, strerror(errno));
-        }
+    if(uchat->user == NULL) {
         gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "login-page")));
     }
     else {
-        uchat->user = get_current_user_from_json(cJSON_Parse(session));
         gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "homepage")));
     }
     gtk_window_present(GTK_WINDOW(window));

@@ -5,17 +5,16 @@ void* listen_for_response(void* arg) {
         cJSON* response = recv_response(uchat->servsock);
 
         if (response != NULL) {
-            // if (cJSON_HasObjectItem(response, "type")) {
-            //     char* type = cJSON_GetObjectItemCaseSensitive(response, "type")->valuestring;
+            if (cJSON_HasObjectItem(response, "type")) {
+                char* type = cJSON_GetObjectItemCaseSensitive(response, "type")->valuestring;
 
-            //     if (strcmp(type, "regular") == 0) {
-            //         g_async_queue_push(uchat->responses, response);
-            //     }
-            //     if (strcmp(type, "socket") == 0) {
-            //         mx_printstr(cJSON_Print(response));
-            //     }
-            // }
-            g_async_queue_push(uchat->responses, response);
+                if (strcmp(type, "regular") == 0) {
+                    g_async_queue_push(uchat->responses, response);
+                }
+                if (strcmp(type, "socket") == 0) {
+                    mx_printstr(cJSON_Print(response));
+                }
+            }
         }
     }
 
