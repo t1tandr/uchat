@@ -4,7 +4,7 @@ void update_chat_controller(int chat_id, cJSON *req, sqlite3 *db, int sock_fd) {
     cJSON *headers = cJSON_GetObjectItemCaseSensitive(req, "headers");
     cJSON *data = cJSON_GetObjectItemCaseSensitive(req, "data");
 
-    if (check_chat_dto(data, sock_fd) == -1) return;
+    if (check_update_chat_dto(data, sock_fd) == -1) return;
 
     cJSON *chat = update_chat_by_id_service(chat_id, data, headers, db, sock_fd);
 

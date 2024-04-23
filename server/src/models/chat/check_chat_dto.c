@@ -9,7 +9,7 @@ int check_chat_dto(cJSON *chat, int sock_fd) {
 
     char *name = cJSON_GetObjectItem(chat, "name")->valuestring;
 
-    if (strlen(name) < 3 || strlen(name) > 32) {
+    if (strlen(name) > 32) {
         error_handler(sock_fd, "Invalid name", 400);
         return -1;
     }

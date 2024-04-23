@@ -1,7 +1,7 @@
 #include "server.h"
 
 cJSON *get_user_by_username_service(char* username, sqlite3 *db, int sock_fd) {
-    (void)sock_fd;
+    (void) sock_fd;
     sqlite3_stmt *stmt;
     char *sql;
 
@@ -11,7 +11,7 @@ cJSON *get_user_by_username_service(char* username, sqlite3 *db, int sock_fd) {
     );
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
-        // error_handler(sock_fd, (char *) sqlite3_errmsg(db), 422);
+        // error_handler(sock_fd, (char *) sqlite3_errmsg(db), 422); // Bad decision to comment
         sqlite3_free(sql);
         return NULL;
     }

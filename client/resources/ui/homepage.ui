@@ -109,8 +109,13 @@
                                                             <class name="avatar"/>
                                                         </style>
                                                         <child>
-                                                            <object class="GtkPicture">
-                                                                <property name="paintable">../img/logo.png</property>
+                                                            <object class = "GtkDrawingArea" id="avatar-in-overlay">
+                                                                <property name="margin-top">5</property>
+                                                                <property name="margin-bottom">5</property>
+                                                                <property name="margin-start">5</property>
+                                                                <property name="margin-end">5</property>
+                                                                <property name="halign">start</property>
+                                                                <property name="valign">start</property>
                                                             </object>
                                                         </child>
                                                     </object>
@@ -138,6 +143,7 @@
                                                 </child>
                                                 <child>
                                                     <object class="GtkButton">
+                                                    <signal name="clicked" handler="settings_button_click_cb"/>
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">settings</property>
@@ -181,13 +187,28 @@
             </object>
         </child>
         <child>
-            <object class="GtkNotebook" id="message-container">
-                <property name="show-tabs">false</property>
-                <child>
-                    <object class="GtkCenterBox" id="start-messaging">
-                        <property name="orientation">vertical</property>
-                        <property name="width-request">1160</property>
-                        <property name="height-request">900</property>
+            <object class="GtkCenterBox" id = "right-side">
+                <property name="orientation">vertical</property>
+                <property name="width-request">1160</property>
+                <property name="hexpand">true</property>
+                <child type="start">
+                    <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="hexpand">true</property>
+                        <property name="height-request">100</property>
+                        <property name="name">name</property>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="label">header for chat</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child type="center">
+                    <object class="GtkScrolledWindow" id="message-container-scrolled">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">true</property>
                         <child type="center">
                             <object class="GtkLabel">
