@@ -39,6 +39,8 @@ cJSON* create_request(const char* method, const char* route, cJSON* data, cJSON*
 cJSON* send_request(int sockfd, cJSON* request);
 static void draw_from_path(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer user_data);
 static void on_open_response (GtkDialog *dialog, int response, gpointer user_data);
+unsigned char* file_to_bytes(const char *file_name, long *file_size);
+void bytes_to_file(const unsigned char *bytes, unsigned long size, const char *output_file_name);
 
 #endif
 

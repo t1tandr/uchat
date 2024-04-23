@@ -152,5 +152,5 @@ entry {
     background-color: rgb(206, 210, 214);
     border: 1px solid @purple-button-bg;
     color: black;
-    border-radius: 3px;
+    border-radius: 5px;
 }

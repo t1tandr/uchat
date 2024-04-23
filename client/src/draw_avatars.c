@@ -2,7 +2,12 @@
 
 static void draw_from_path(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer user_data) {
     t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
-    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(uchat->user->ava_path, NULL);
+    unsigned long size;
+    unsigned char *from_bytes = g_base64_decode(uchat->user->ava_path,&size);
+    const char* path = "output.txt";
+    bytes_to_file(from_bytes,size,path);
+
+    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(path, NULL);
     
     int img_width = gdk_pixbuf_get_width(pixbuf);
     int img_height = gdk_pixbuf_get_height(pixbuf);
@@ -46,7 +51,9 @@ static void on_open_response (GtkDialog *dialog, int response, gpointer user_dat
 
         g_autoptr(GFile) file = gtk_file_chooser_get_file (chooser);
         const gchar *path = g_file_get_path(file);
-        user->ava_path = strdup(path);
+        long size;
+        unsigned char* bytes = file_to_bytes(path,&size);
+        user->ava_path = strdup(g_base64_encode(bytes,size));
         uchat->user = user;
         g_free((gpointer)path);
         GtkBox* box_in_setting = GTK_BOX(gtk_builder_get_object(uchat->builder, "box_for_image_in_settings"));
