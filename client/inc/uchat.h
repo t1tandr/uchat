@@ -19,6 +19,7 @@
 #include "user.h"
 #include "chat.h"
 #include "message.h"
+#include "error.h"
 
 #include "templates/chatbox.h"
 #include "templates/textmessage.h"
@@ -31,13 +32,14 @@
 #define METHOD_PUT      "PUT"
 #define METHOD_DELETE   "DELETE"
 
-#define USAGE_ERROR "usage: uchat <server-ip> <server-port>"
+#define REQUEST_SUCCESS 0
 
 typedef struct s_uchat {
     int servsock;
     GtkBuilder* builder;
     GtkApplication* app;
     t_current_user* user;
+    GAsyncQueue* responses;
 } t_uchat;
 
 extern t_uchat* uchat;
@@ -47,7 +49,7 @@ t_uchat* uchat_create(int sockfd, GtkApplication* app);
 int connect_to_server(const char* ip, const char* port);
 
 cJSON* create_request(const char* method, const char* route, cJSON* data, cJSON* headers);
-cJSON* send_request(int sockfd, cJSON* request);
+int send_request(int sockfd, cJSON* request);
 cJSON* recv_response(int sockfd);
 
 #endif

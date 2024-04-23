@@ -3,8 +3,6 @@
 
 #include <gtk/gtk.h>
 
-void handle_error(const char* message);
-
 bool widget_has_css_class(GtkWidget* self, const char* class);
 void window_switch_child(GtkBuilder* builder, char* prev_id, char* next_id);
 

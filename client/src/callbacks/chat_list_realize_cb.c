@@ -4,7 +4,7 @@ static gboolean filter(GtkListBoxRow* row, gpointer user_data) {
     UchatChatBox* chat = UCHAT_CHAT_BOX(gtk_list_box_row_get_child(row));
     const char* text = gtk_editable_get_text(GTK_EDITABLE(user_data));
 
-    return strncmp(uchat_chat_box_get_message(chat), text, strlen(text)) == 0;
+    return strncmp(uchat_chat_box_get_name(chat), text, strlen(text)) == 0;
 }
 
 void chat_list_realize_cb(GtkListBox* self, gpointer user_data) {
@@ -24,14 +24,16 @@ void chat_list_realize_cb(GtkListBox* self, gpointer user_data) {
 
     request = create_request(METHOD_GET, "/chats", data, headers);
 
-    response = send_request(uchat->servsock, request);
+    int status = send_request(uchat->servsock, request);
 
-    if (response == NULL) {
-        handle_error("uchat: error GET /chats request to server");
+    if (status != REQUEST_SUCCESS) {
+        handle_error(REQUEST_ERROR, "GET /chats");
     }
 
-    if (cJSON_HasObjectItem(response, "status")) {
-        int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+    response = g_async_queue_pop(uchat->responses);
+
+    if (response != NULL && cJSON_HasObjectItem(response, "status")) {
+        status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
         if (status == 201) {
             cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
@@ -51,7 +53,7 @@ void chat_list_realize_cb(GtkListBox* self, gpointer user_data) {
         cJSON_Delete(response);
     }
     else {
-        handle_error("uchat: error GET /chats response from server");
+        handle_error(RESPONSE_ERROR, "GET /chats");
     }
 }
 

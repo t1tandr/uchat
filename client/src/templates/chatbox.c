@@ -61,8 +61,22 @@ uchat_chat_box_get_name(UchatChatBox* self) {
 }
 
 void
-uchat_chat_box_set_message(UchatChatBox* self, const gchar* message) {
-    gtk_label_set_label(GTK_LABEL(self->message), message);
+uchat_chat_box_set_message(UchatChatBox* self, t_message* message) {
+    if (message == NULL) {
+        gtk_label_set_label(GTK_LABEL(self->message), "The chat is created");
+    }
+    else {
+        char* content = NULL;
+
+        if (message->type == MSG_TYPE_TXT) {
+            content = mx_strjoin(message->author, mx_strjoin(": ", message->content));
+        }
+        else if (message->type == MSG_TYPE_IMG) {
+            content = mx_strjoin(message->author, ": sends an image");
+        }
+        
+        gtk_label_set_label(GTK_LABEL(self->message), content);
+    }
 }
 
 const gchar *
@@ -91,11 +105,19 @@ uchat_chat_box_new(t_chat* chat) {
 
     obj->chat = chat;
     uchat_chat_box_set_name(obj, chat->name);
+    uchat_chat_box_set_message(obj, chat->last_message);
 
-    GtkGesture* gesture = gtk_gesture_click_new();
-    gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), GDK_BUTTON_SECONDARY);
-    g_signal_connect(gesture, "pressed", G_CALLBACK(gesture_released_cb), obj);
-    gtk_widget_add_controller(GTK_WIDGET(obj), GTK_EVENT_CONTROLLER(gesture));
+    if (chat->last_message == NULL) {
+        uchat_chat_box_set_time(obj, strndup(&(chat->created_at[11]), 5));
+    }
+    else {
+        uchat_chat_box_set_time(obj, strndup(&(chat->last_message->time[11]), 5));
+    }
+
+    // GtkGesture* gesture = gtk_gesture_click_new();
+    // gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), GDK_BUTTON_SECONDARY);
+    // g_signal_connect(gesture, "pressed", G_CALLBACK(gesture_released_cb), obj);
+    // gtk_widget_add_controller(GTK_WIDGET(obj), GTK_EVENT_CONTROLLER(gesture));
 
     return obj;
 }

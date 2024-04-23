@@ -8,7 +8,8 @@ void* listen_for_response(void* arg) {
         cJSON* response = recv_response(uchat->servsock);
 
         if (response != NULL) {
-            // TODO: something
+            mx_printstr(cJSON_Print(response));
+            g_async_queue_push(uchat->responses, response);
         }
     }
 
@@ -21,10 +22,13 @@ void init_listener_thread() {
 
     status = pthread_create(&id, NULL, listen_for_response, NULL);
     if (status != 0) {
-        handle_error(mx_strjoin("uchat: failed to create thread: ", strerror(errno)));
+        handle_error(PTHREAD_ERROR, strerror(errno));
     }
 
-    pthread_detach(id);
+    status = pthread_detach(id);
+    if (status != 0) {
+        handle_error(PTHREAD_ERROR, strerror(errno));
+    }
 }
 
 static void app_activate_cb(GtkApplication *app, gpointer user_data) {
@@ -44,7 +48,7 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     char* session = mx_file_to_str("session.json");
     if(session == NULL) {
         if(errno != ENOENT) {
-            handle_error(mx_strjoin("uchat: failed to get session: ", strerror(errno)));
+            handle_error(SESSION_ERROR, strerror(errno));
         }
         gtk_window_set_child(GTK_WINDOW(window), GTK_WIDGET(gtk_builder_get_object(uchat->builder, "login-page")));
     }
@@ -59,7 +63,7 @@ static void app_activate_cb(GtkApplication *app, gpointer user_data) {
 
 int main(int argc, char *argv[]) {
     if(argc != 3) {
-        handle_error(USAGE_ERROR);
+        handle_error(USAGE_ERROR, "");
     }
     GtkApplication* app = NULL;
     int status = 0;

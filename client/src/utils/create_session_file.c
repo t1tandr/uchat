@@ -6,7 +6,7 @@ void create_session_file(const char* filename, cJSON* obj) {
 
     mx_printstr(buffer);
     if (file == NULL) {
-        handle_error(mx_strjoin("uchat: error writing to session file: ", strerror(errno)));
+        handle_error(SESSION_ERROR, strerror(errno));
     }
 
     fputs(buffer, file);

@@ -14,8 +14,7 @@ t_uchat* uchat_create(int sockfd, GtkApplication* app) {
     uchat->builder = builder_create(files);
     uchat->app = app;
     uchat->user = NULL;
-    uchat->response = NULL;
-    uchat->request_sent = false;
+    uchat->responses = g_async_queue_new();
 
     return uchat;
 }

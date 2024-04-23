@@ -23,14 +23,16 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
 
         request = create_request(METHOD_POST, "/messages", data, headers);
 
-        response = send_request(uchat->servsock, request);
+        int status = send_request(uchat->servsock, request);
 
-        if (response == NULL) {
-            handle_error("uchat: error \'POST /messages\' request to server");
+        if (status != REQUEST_SUCCESS) {
+            handle_error(REQUEST_ERROR, "\'POST /messages\'");
         }
+
+        response = g_async_queue_pop(uchat->responses);
         
         if (cJSON_HasObjectItem(response, "status")) {
-            int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+            status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
             if (status == 201) {
                 cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
@@ -42,7 +44,7 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
             cJSON_Delete(response);
         }
         else {
-            handle_error("uchat: error \'POST /messages\' response from server");
+            handle_error(RESPONSE_ERROR, "POST /messages");
         }
     }
 

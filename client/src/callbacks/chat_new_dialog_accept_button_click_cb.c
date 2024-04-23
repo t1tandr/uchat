@@ -17,7 +17,13 @@ bool add_members_to_chat(t_chat* chat, t_uchat* uchat) {
 
         request = create_request(METHOD_POST, "/chat-members", data, headers);
 
-        response = send_request(uchat->servsock, request);
+        int status = send_request(uchat->servsock, request);
+
+        if (status != REQUEST_SUCCESS) {
+            handle_error(REQUEST_ERROR, "\'POST /chat-members\'");
+        }
+
+        response = g_async_queue_pop(uchat->responses);
 
         if (response != NULL && cJSON_HasObjectItem(response, "status")) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
@@ -29,7 +35,7 @@ bool add_members_to_chat(t_chat* chat, t_uchat* uchat) {
             cJSON_Delete(response);
         }
         else {
-            handle_error("uchat: error \'POST /chat-members\' response from server");
+            handle_error(RESPONSE_ERROR, "\'POST /chat-members\'");
         }
     }
 
@@ -53,10 +59,16 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
 
     request = create_request(METHOD_POST, "/chats", data, headers);
 
-    response = send_request(uchat->servsock, request);
+    int status = send_request(uchat->servsock, request);
+
+    if (status != REQUEST_SUCCESS) {
+        handle_error(REQUEST_ERROR, "POST /chats");
+    }
+
+    response = g_async_queue_pop(uchat->responses);
 
     if (response != NULL && cJSON_HasObjectItem(response, "status")) {
-        int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+        status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
         if (status == 201) {
             GtkListBox* list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "new-chat-members-list"));
@@ -85,7 +97,7 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
         cJSON_Delete(response);
     }
     else {
-        handle_error("uchat: error \'POST /chats\' response from server");
+        handle_error(RESPONSE_ERROR, "POST /chats");
     }
 
     gtk_widget_hide(dialog);
