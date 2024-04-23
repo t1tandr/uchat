@@ -2,7 +2,7 @@
 #define UCHAT_CHAT_BOX_H
 
 #include <gtk/gtk.h>
-#include "chat.h"
+#include "models/chat.h"
 
 G_BEGIN_DECLS
 

@@ -17,6 +17,7 @@ struct s_chat {
     const char* img;
     const char* created_at;
     t_list* members;
+    t_list* messages;
     t_message* last_message;
 };
 

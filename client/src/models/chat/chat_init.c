@@ -12,6 +12,7 @@ t_chat* chat_init(void) {
     chat->img = NULL;
     chat->created_at = NULL;
     chat->members = NULL;
+    chat->messages = NULL;
     chat->last_message = NULL;
 
     return chat;

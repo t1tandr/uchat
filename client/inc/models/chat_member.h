@@ -19,6 +19,7 @@ struct s_chat_member {
     int chat_id;
     int user_id;
     int role;
+    const char* username;
 };
 
 t_chat_member* chat_member_init(void);

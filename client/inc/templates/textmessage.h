@@ -2,7 +2,7 @@
 #define UCHAT_TEXT_MESSAGE_H
 
 #include <gtk/gtk.h>
-#include "message.h"
+#include "models/message.h"
 
 G_BEGIN_DECLS
 

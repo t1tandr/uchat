@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
     <template class="UchatChatBox" parent="GtkWidget">
+        <signal name="realize" handler="chat_box_realize_cb"/>
         <child>
             <object class="GtkBox">
                 <property name="margin-start">20</property>

@@ -1,5 +1,30 @@
 #include "uchat.h"
 
+static void handle_message_response(cJSON* data) {
+    printf("new message!");
+}
+
+static void handle_chat_member_response(cJSON* data) {
+    printf("new chat!");
+}
+
+static void handle_response(cJSON* response) {
+    if (response == NULL
+        || !cJSON_HasObjectItem(response, "status") 
+        || !cJSON_HasObjectItem(response, "data")) {
+            handle_error(RESPONSE_ERROR, "socket");
+    }
+
+    cJSON* data = cJSON_GetObjectItemCaseSensitive(response, "data");
+    
+    if (cJSON_GetObjectItemCaseSensitive(response, "type") && cJSON_GetObjectItemCaseSensitive(response, "content")) {
+        handle_message_response(data);
+    }
+    else if (cJSON_GetObjectItemCaseSensitive(response, "role")) {
+        handle_chat_member_response(data);
+    }
+}
+
 void* listen_for_response(void* arg) {
     while (true) {
         cJSON* response = recv_response(uchat->servsock);
@@ -9,10 +34,13 @@ void* listen_for_response(void* arg) {
                 char* type = cJSON_GetObjectItemCaseSensitive(response, "type")->valuestring;
 
                 if (strcmp(type, "regular") == 0) {
+                    // mx_printstr(cJSON_Print(response));
+                    // mx_printstr("\n\n");
                     g_async_queue_push(uchat->responses, response);
                 }
                 if (strcmp(type, "socket") == 0) {
                     mx_printstr(cJSON_Print(response));
+                    mx_printstr("\n\n");
                 }
             }
         }

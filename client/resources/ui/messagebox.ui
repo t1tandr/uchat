@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding=""?>
 <interface>
     <template class="UchatMessageBox" parent="GtkWidget">
+        <signal name="realize" handler="message_box_realize_cb"/>
         <child>
             <object class="GtkCenterBox">
                 <property name="orientation">vertical</property>

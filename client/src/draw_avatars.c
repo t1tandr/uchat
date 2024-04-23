@@ -92,3 +92,4 @@ void open_file_chooser(GtkButton* self, gpointer user_data) {
     g_signal_connect(dialog, "response", G_CALLBACK(on_open_response), user_data);
     gtk_widget_show(GTK_WIDGET(dialog));
 }
+

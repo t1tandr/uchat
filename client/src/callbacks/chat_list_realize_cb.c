@@ -1,5 +1,52 @@
 #include "uchat.h"
 
+static char* chat_member_get_username_by_id(int id) {
+    cJSON* request = NULL;
+    cJSON* response = NULL;
+    cJSON* data = NULL;
+    cJSON* headers = NULL;
+    char route[128];
+
+    sprintf(route, "/users/%d", id);
+
+    headers = cJSON_CreateObject();
+    cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
+
+    data = cJSON_CreateObject();
+
+    request = create_request(METHOD_GET, route, data, headers);
+
+    int status = send_request(uchat->servsock, request);
+
+    if (status != REQUEST_SUCCESS) {
+        handle_error(REQUEST_ERROR, "GET /users/{id}");
+    }
+
+    response = g_async_queue_pop(uchat->responses);
+
+    if (response != NULL && cJSON_HasObjectItem(response, "status")) {
+        status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+
+        if (status == 200) {
+            cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
+            char* username = cJSON_GetObjectItemCaseSensitive(response_data, "username")->valuestring;
+
+            cJSON_Delete(response);
+
+            return username;
+        }
+
+        cJSON_Delete(response);
+
+        return NULL;
+    }
+    else {
+        handle_error(RESPONSE_ERROR, "GET /messages/{id}");
+    }
+
+    return NULL;
+}
+
 static void add_members_to_chat(t_chat* chat) {
     cJSON* request = NULL;
     cJSON* response = NULL;
@@ -104,9 +151,11 @@ void chat_list_realize_cb(GtkListBox* self, gpointer user_data) {
             
             for (t_list* i = uchat->user->chats; i != NULL; i = i->next) {
                 t_chat* chat = (t_chat *)i->data;
+
                 UchatChatBox* box = uchat_chat_box_new(chat);
 
                 add_members_to_chat(chat);
+
                 gtk_list_box_append(self, GTK_WIDGET(box));
             }
 

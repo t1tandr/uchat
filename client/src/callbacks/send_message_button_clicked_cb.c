@@ -26,7 +26,7 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
         int status = send_request(uchat->servsock, request);
 
         if (status != REQUEST_SUCCESS) {
-            handle_error(REQUEST_ERROR, "\'POST /messages\'");
+            handle_error(REQUEST_ERROR, "POST /messages");
         }
 
         response = g_async_queue_pop(uchat->responses);

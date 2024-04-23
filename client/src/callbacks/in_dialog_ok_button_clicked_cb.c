@@ -20,3 +20,4 @@ void on_login_clicked_cb(GtkButton* self, gpointer user_data) {
         gtk_revealer_set_reveal_child(login_revealer, TRUE);
     }
 }
+

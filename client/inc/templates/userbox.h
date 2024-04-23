@@ -2,7 +2,7 @@
 #define UCHAT_USER_BOX_H
 
 #include <gtk/gtk.h>
-#include "user.h"
+#include "models/user.h"
 
 G_BEGIN_DECLS
 

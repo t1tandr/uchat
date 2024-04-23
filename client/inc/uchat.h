@@ -16,11 +16,12 @@
 
 #include "password.h"
 #include "utils.h"
-#include "user.h"
-#include "chat.h"
-#include "chat_member.h"
-#include "message.h"
 #include "error.h"
+
+#include "models/user.h"
+#include "models/chat.h"
+#include "models/chat_member.h"
+#include "models/message.h"
 
 #include "templates/chatbox.h"
 #include "templates/textmessage.h"
