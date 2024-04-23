@@ -1,12 +1,13 @@
 #include "uchat.h"
 
-void log_out_button_click_cb(GtkWidget *self, gpointer user_data){
+void logout_button_click_cb(GtkWidget *self, gpointer user_data){
     cJSON* request = NULL;
     cJSON* response = NULL;
     cJSON* data = NULL;
     cJSON* headers = NULL;
 
     headers = cJSON_CreateObject();
+    cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
     data = cJSON_CreateObject();
 

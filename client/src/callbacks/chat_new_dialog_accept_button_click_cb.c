@@ -77,7 +77,7 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
             guint index = 0;
             t_chat* chat = NULL;
 
-            chat = get_chat_from_json(cJSON_GetObjectItemCaseSensitive(response, "data"));
+            chat = chat_parse_from_json(cJSON_GetObjectItemCaseSensitive(response, "data"));
 
             while ((row = gtk_list_box_get_row_at_index(list, index++)) != NULL) {
                 user_box = UCHAT_USER_BOX(gtk_list_box_row_get_child(row));

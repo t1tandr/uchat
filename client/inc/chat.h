@@ -16,13 +16,14 @@ struct s_chat {
     const char* name;
     const char* img;
     const char* created_at;
-    int size;
     t_list* members;
     t_message* last_message;
 };
 
-t_chat* get_chat_from_json(cJSON* json);
+t_chat* chat_init(void);
 
-t_list* get_chats_from_json_arr(cJSON* arr);
+t_chat* chat_parse_from_json(cJSON* json);
+
+t_list* chat_parse_from_json_arr(cJSON* arr);
 
 #endif

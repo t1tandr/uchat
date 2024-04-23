@@ -63,7 +63,7 @@ uchat_chat_box_get_name(UchatChatBox* self) {
 void
 uchat_chat_box_set_message(UchatChatBox* self, t_message* message) {
     if (message == NULL) {
-        gtk_label_set_label(GTK_LABEL(self->message), "The chat is created");
+        gtk_label_set_label(GTK_LABEL(self->message), "Chat is created");
     }
     else {
         char* content = NULL;

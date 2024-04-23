@@ -3,34 +3,6 @@
 int servsock;
 t_uchat* uchat;
 
-void* listen_for_response(void* arg) {
-    while (true) {
-        cJSON* response = recv_response(uchat->servsock);
-
-        if (response != NULL) {
-            mx_printstr(cJSON_Print(response));
-            g_async_queue_push(uchat->responses, response);
-        }
-    }
-
-    pthread_exit(NULL);
-}
-
-void init_listener_thread() {
-    int status = 0;
-    pthread_t id;
-
-    status = pthread_create(&id, NULL, listen_for_response, NULL);
-    if (status != 0) {
-        handle_error(PTHREAD_ERROR, strerror(errno));
-    }
-
-    status = pthread_detach(id);
-    if (status != 0) {
-        handle_error(PTHREAD_ERROR, strerror(errno));
-    }
-}
-
 static void app_activate_cb(GtkApplication *app, gpointer user_data) {
     uchat = uchat_create(servsock, app);
 

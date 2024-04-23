@@ -152,7 +152,7 @@
                                                 </child>
                                                 <child>
                                                     <object class="GtkButton">
-                                                        <signal name="clicked" handler="log_out_button_click_cb"/>
+                                                        <signal name="clicked" handler="logout_button_click_cb"/>
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">sign-out</property>

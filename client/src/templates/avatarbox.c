@@ -80,6 +80,15 @@ uchat_avatar_box_get_property(GObject *object, guint property_id, GValue *value,
 }
 
 static void
+uchat_avatar_box_finalize(GtkWidget* self) {
+    UchatAvatarBox* box = UCHAT_AVATAR_BOX(self);
+
+    g_object_unref(box->area);
+
+    g_object_unref(self);
+}
+
+static void
 uchat_avatar_box_class_init(UchatAvatarBoxClass *klass) {
     GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
 
@@ -101,6 +110,8 @@ uchat_avatar_box_class_init(UchatAvatarBoxClass *klass) {
     g_object_class_install_properties(G_OBJECT_CLASS(widget_class), N_PROPS, properties);
 
     gtk_widget_class_bind_template_child(widget_class, UchatAvatarBox, area);
+
+    G_OBJECT_CLASS(klass)->finalize = uchat_avatar_box_finalize;
 }
 
 void 

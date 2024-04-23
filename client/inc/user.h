@@ -34,9 +34,12 @@ struct s_user {
     const char* username;
     const char* name;
     const char* bio;
+    const char* img;
 };
 
-t_user* get_user_from_json(cJSON* json);
+t_user* user_init(void);
+
+t_user* user_parse_from_json(cJSON* json);
 
 #endif
 

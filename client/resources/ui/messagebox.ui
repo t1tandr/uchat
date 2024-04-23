@@ -19,7 +19,7 @@
                             </object>
                         </child>
                         <child>
-                            <object class="GtkLabel" id="nmembers">
+                            <object class="GtkLabel" id="num_of_members">
                                 <property name="halign">center</property>
                                 <property name="valign">center</property>
                             </object>

@@ -35,10 +35,9 @@ void user_search_entry_started_cb(GtkSearchEntry* self, gpointer user_data) {
                 for (int i = 0 ; i < size; i++) {
                     cJSON* user_json = cJSON_GetArrayItem(users_arr, i);
                     const char* username = cJSON_GetObjectItemCaseSensitive(user_json, "username")->valuestring;
-                    t_user* user = NULL;
 
                     if (strcmp(entry_value, username) == 0 && strcmp(entry_value, uchat->user->username) != 0) {
-                        user = get_user_from_json(user_json);
+                        t_user* user = user_parse_from_json(user_json);
 
                         if (user != NULL) {
                             GtkListBox* list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "new-chat-members-list"));

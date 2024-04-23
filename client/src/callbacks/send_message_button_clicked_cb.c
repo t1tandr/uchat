@@ -36,7 +36,7 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
 
             if (status == 201) {
                 cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
-                t_message* message = get_message_from_json(response_data);
+                t_message* message = message_parse_from_json(response_data);
 
                 uchat_message_box_add_message(chat, message, true);
             }

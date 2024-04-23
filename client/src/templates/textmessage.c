@@ -52,6 +52,7 @@ uchat_text_message_new(t_message* message, bool own) {
     UchatTextMessage* obj = g_object_new(UCHAT_TYPE_TEXT_MESSAGE, NULL);
 
     gtk_widget_set_visible(obj->avatar, !own);
+    gtk_widget_set_halign(GTK_WIDGET(obj), own ? GTK_ALIGN_END : GTK_ALIGN_START);
     uchat_text_message_set_message(obj, message->content);
     uchat_text_message_set_time(obj, strndup(&(message->time[11]), 5));
 

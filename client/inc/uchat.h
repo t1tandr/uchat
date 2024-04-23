@@ -18,6 +18,7 @@
 #include "utils.h"
 #include "user.h"
 #include "chat.h"
+#include "chat_member.h"
 #include "message.h"
 #include "error.h"
 
@@ -51,6 +52,8 @@ int connect_to_server(const char* ip, const char* port);
 cJSON* create_request(const char* method, const char* route, cJSON* data, cJSON* headers);
 int send_request(int sockfd, cJSON* request);
 cJSON* recv_response(int sockfd);
+
+void init_listener_thread(void);
 
 #endif
 
