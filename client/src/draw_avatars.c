@@ -49,7 +49,6 @@ static void on_open_response (GtkDialog *dialog, int response, gpointer user_dat
 
         g_autoptr(GFile) file = gtk_file_chooser_get_file (chooser);
         const gchar *path = g_file_get_path(file);
-        user->ava_path = strdup(path);
         uchat->user = user;
         g_free((gpointer)path);
         GtkBox* box_in_setting = GTK_BOX(gtk_builder_get_object(uchat->builder, "box_for_image_in_settings"));
@@ -62,7 +61,7 @@ static void on_open_response (GtkDialog *dialog, int response, gpointer user_dat
                                         draw_from_path,
                                         user_data, NULL);
         gtk_widget_queue_draw(area1);
-        ///////////////
+
         GtkWidget *area = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "avatar-in-overlay"));
         gtk_drawing_area_set_content_width (GTK_DRAWING_AREA (area),90);
         gtk_drawing_area_set_content_height (GTK_DRAWING_AREA (area), 90);

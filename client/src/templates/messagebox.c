@@ -76,7 +76,7 @@ static gboolean gesture_released_cb(GtkGestureClick* self, gint n_press, gdouble
         int status = send_request(uchat->servsock, request);
 
         if (status != REQUEST_SUCCESS) {
-            handle_error(REQUEST_ERROR, "GET /users\{id}");
+            handle_error(REQUEST_ERROR, "GET /users/{id}");
         }
 
         response = g_async_queue_pop(uchat->responses);
@@ -95,7 +95,7 @@ static gboolean gesture_released_cb(GtkGestureClick* self, gint n_press, gdouble
             cJSON_Delete(response);
         }
         else {
-            handle_error(RESPONSE_ERROR, "GET /users\{id}");
+            handle_error(RESPONSE_ERROR, "GET /users/{id}");
         }
     }
 
