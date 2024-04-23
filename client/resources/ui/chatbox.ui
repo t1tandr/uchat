@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
     <template class="UchatChatBox" parent="GtkWidget">
+    <property name="name">uchat-box-bg</property>
         <child>
             <object class="GtkBox">
                 <property name="margin-start">20</property>
-                <property name="margin-bottom">10</property>
-                <property name="margin-top">10</property>
-                <property name="margin-end">20</property>
+                <property name="margin-bottom">20</property>
+                <property name="margin-top">20</property>
+                <property name="margin-end">30</property>
                 <child>
                     <object class="GtkCenterBox">
                         <property name="orientation">horizontal</property>
-                        <property name="height-request">100</property>
+                        <property name="height-request">90</property>
                         <property name="hexpand">true</property>
                         <child type="start">
                             <object class="GtkFixed">
                                 <property name="hexpand">true</property>
                                 <child>
                                     <object class="UchatAvatarBox">
-                                        <property name="width-request">90</property>
-                                        <property name="height-request">90</property>
+                                        <property name="width-request">100</property>
+                                        <property name="height-request">100</property>
                                         <property name="size">90</property>
                                         <style>
                                             <class name="avatar"/>
@@ -29,11 +30,12 @@
                                     <object class="GtkCenterBox">
                                         <property name="orientation">vertical</property>
                                         <property name="margin-top">0</property>
-                                        <property name="margin-start">100</property>
+                                        <property name="margin-start">120</property>
                                         <property name="width-request">100</property>
-                                        <property name="height-request">100</property>
+                                        <property name="height-request">90</property>
                                         <child type="start">
                                             <object class="GtkLabel" id="name">
+                                                <property name="name">uchat-box-name</property>
                                                 <property name="halign">start</property>
                                                 <property name="max-width-chars">15</property>
                                                 <property name="label">name</property>
@@ -41,6 +43,7 @@
                                         </child>
                                         <child type="end">
                                             <object class="GtkLabel" id="message">
+                                                <property name="name">uchat-box-last-message</property>
                                                 <property name="halign">start</property>
                                             </object>
                                         </child>
@@ -50,9 +53,11 @@
                         </child>
                         <child type="end">
                             <object class="GtkCenterBox">
+
                                 <property name="orientation">vertical</property>
                                 <child type="start">
                                     <object class="GtkButton" id="delete_btn">
+                                        <property name="name">uchat-box-button</property>
                                         <property name="icon-name">edit-delete</property>
                                     </object>
                                 </child>

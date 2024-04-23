@@ -4,24 +4,28 @@
         <child>
             <object class="GtkCenterBox">
                 <property name="orientation">vertical</property>
-                <property name="width-request">1160</property>
+                <property name="width-request">760</property>
                 <property name="hexpand">true</property>
                 <child type="start">
-                    <object class="GtkBox">
+                    <object class="GtkBox" id="header">
                         <property name="orientation">vertical</property>
                         <property name="hexpand">true</property>
                         <property name="height-request">100</property>
-                        <property name="name">name</property>
+                        <property name="name">message-box-header</property>
                         <child>
                             <object class="GtkLabel" id="name">
                                 <property name="halign">center</property>
+                                <property name="margin-top">20</property>
                                 <property name="valign">center</property>
+                                <property name="name">message-box-name</property>
                             </object>
                         </child>
                         <child>
                             <object class="GtkLabel" id="num_of_members">
                                 <property name="halign">center</property>
+                                <property name="margin-top">20</property>
                                 <property name="valign">center</property>
+                                <property name="name">message-box-numbers</property>
                             </object>
                         </child>
                     </object>
