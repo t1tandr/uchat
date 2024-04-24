@@ -54,7 +54,7 @@ cd client/
 
 To shutdown server execute next command:
 ```bash
-kill <server PID>
+kill server-pid
 ```
 
 ## Credits
