@@ -4,10 +4,10 @@
         <child>
             <object class="GtkCenterBox">
                 <property name="orientation">vertical</property>
-                <property name="width-request">1160</property>
+                <property name="width-request">760</property>
                 <property name="hexpand">true</property>
                 <child type="start">
-                    <object class="GtkBox">
+                    <object class="GtkBox" id="header">
                         <property name="orientation">vertical</property>
                         <property name="hexpand">true</property>
                         <property name="height-request">100</property>
@@ -47,6 +47,16 @@
                 <child type="end">
                     <object class="GtkBox">
                         <property name="orientation">horizontal</property>
+                        <child>
+                            <object class="GtkButton">
+                                <property name="label">File</property>
+                                <property name="margin-start">10</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="margin-end">15</property>
+                                <signal name="clicked" handler="send_file_button_clicked_cb"/>
+                            </object>
+                        </child>
                         <child>
                             <object class="GtkScrolledWindow">
                                 <property name="hscrollbar-policy">never</property>

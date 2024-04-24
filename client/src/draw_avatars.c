@@ -1,9 +1,12 @@
 #include "uchat.h"
 
+char* ava_path = NULL;
+
 static void draw_from_path(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer user_data) {
     unsigned long size;
-    unsigned char *from_bytes = g_base64_decode(uchat->user->ava_path,&size);
-    const char* path = "output.txt";
+    unsigned char *from_bytes = g_base64_decode(ava_path,&size);
+    int result = mkdir("storage/chat12", 0777);
+    const char* path = "storage/chat12/12";
     bytes_to_file(from_bytes,size,path);
 
     GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(path, NULL);
@@ -49,7 +52,9 @@ static void on_open_response (GtkDialog *dialog, int response, gpointer user_dat
 
         g_autoptr(GFile) file = gtk_file_chooser_get_file (chooser);
         const gchar *path = g_file_get_path(file);
-        uchat->user = user;
+        long size;
+        unsigned char* p = file_to_bytes(path,&size);
+        ava_path = g_base64_encode(p,size);
         g_free((gpointer)path);
         GtkBox* box_in_setting = GTK_BOX(gtk_builder_get_object(uchat->builder, "box_for_image_in_settings"));
 

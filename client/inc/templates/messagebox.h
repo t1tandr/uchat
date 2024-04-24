@@ -22,6 +22,9 @@ uchat_message_box_add_message(UchatMessageBox* self, t_message* message, bool ow
 gchar *
 uchat_message_box_get_text(UchatMessageBox* self);
 
+void
+uchat_message_box_add_image(UchatMessageBox* self, t_message* message, bool own);
+
 G_END_DECLS
 
 #endif

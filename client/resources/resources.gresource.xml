@@ -6,5 +6,6 @@
         <file>ui/userbox.ui</file>
         <file>ui/avatarbox.ui</file>
         <file>ui/messagebox.ui</file>
+        <file>ui/imagemessage.ui</file>
     </gresource>
 </gresources>

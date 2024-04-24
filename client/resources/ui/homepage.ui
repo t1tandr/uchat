@@ -197,7 +197,7 @@
                 <child>
                     <object class="GtkCenterBox" id="start-messaging">
                         <property name="orientation">vertical</property>
-                        <property name="width-request">1160</property>
+                        <property name="width-request">760</property>
                         <property name="height-request">900</property>
                         <property name="vexpand">true</property>
                         <child type="center">

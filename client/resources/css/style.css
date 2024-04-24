@@ -154,3 +154,12 @@ entry {
     color: black;
     border-radius: 5px;
 }
+
+.image_message{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#after-save-window{
+    background-color: rgb(74, 75, 74);
+    border-radius: 5px;
+}

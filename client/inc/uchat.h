@@ -9,6 +9,8 @@
 #include <string.h>
 #include <time.h>
 #include <pthread.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <gtk/gtk.h>
 #include <cJSON.h>
@@ -27,6 +29,7 @@
 #include "templates/userbox.h"
 #include "templates/avatarbox.h"
 #include "templates/messagebox.h"
+#include "templates/imagemessage.h"
 
 #define METHOD_GET      "GET"
 #define METHOD_POST     "POST"

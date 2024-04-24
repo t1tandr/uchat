@@ -16,7 +16,8 @@ static gchar* text_view_get_full_text(GtkTextView* view) {
 
 struct _UchatMessageBox {
   GtkWidget parent_instance;
-
+  
+  GtkWidget* header;
   t_chat* chat;
   GtkWidget* textview;
   GtkWidget* container;
@@ -123,6 +124,7 @@ uchat_message_box_class_init(UchatMessageBoxClass *klass) {
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, name);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, num_of_members);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, textview);
+    gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, header);
 }
 
 gchar *
@@ -147,6 +149,12 @@ uchat_message_box_add_message(UchatMessageBox* self, t_message* message, bool ow
     gtk_box_append(GTK_BOX(self->container), GTK_WIDGET(msg));
 }
 
+void
+uchat_message_box_add_image(UchatMessageBox* self, t_message* message, bool own) {
+    UchatImageMessage* msg = uchat_image_message_new(message, own);
+    gtk_box_append(GTK_BOX(self->container), GTK_WIDGET(msg));
+}
+
 static void
 uchat_message_box_init(UchatMessageBox *self) {
     gtk_widget_init_template(GTK_WIDGET(self));
@@ -165,7 +173,7 @@ uchat_message_box_new(t_chat* chat) {
 
     g_signal_connect(gesture, "pressed", G_CALLBACK(gesture_released_cb), chat);
 
-    gtk_widget_add_controller(GTK_WIDGET(obj), GTK_EVENT_CONTROLLER(gesture));
+    gtk_widget_add_controller(GTK_WIDGET(obj->header), GTK_EVENT_CONTROLLER(gesture));
 
     return obj;
 }

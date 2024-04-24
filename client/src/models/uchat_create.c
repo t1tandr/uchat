@@ -4,7 +4,9 @@ static const char* files[] = {
     "resources/ui/login.ui",
     "resources/ui/homepage.ui",
     "resources/ui/chatnewdialog.ui",
+    "resources/ui/settings.ui",
     "resources/ui/afteregisterdialog.ui",
+    "resources/ui/aftersavedialog.ui",
     NULL
 };
 

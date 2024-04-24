@@ -1,5 +1,17 @@
 #include "uchat.h"
 
+
+void on_button_in_after_save_window_clicked_cb(GtkButton* self, gpointer user_data){
+    GtkBox* homepage = GTK_BOX(gtk_builder_get_object(uchat->builder, "homepage"));
+    GtkNotebook* right_side = GTK_NOTEBOOK(gtk_builder_get_object(uchat->builder, "message-container"));
+    GtkScrolledWindow* settings = GTK_SCROLLED_WINDOW(gtk_builder_get_object(uchat->builder, "settings"));
+    GtkWindow* dialog = GTK_WINDOW(gtk_builder_get_object(uchat->builder, "after-save"));
+
+    gtk_box_remove(homepage, GTK_WIDGET(settings));
+    gtk_box_append(homepage, GTK_WIDGET(right_side));
+    gtk_window_destroy(dialog);
+}
+
 char *get_text_from_text_view(GtkTextView *text_view) {
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(text_view);
     GtkTextIter start, end;
@@ -9,6 +21,8 @@ char *get_text_from_text_view(GtkTextView *text_view) {
 }
 
 void save_button_click_cb(GtkButton* self, gpointer user_data) {
+    GtkRevealer* username_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "username-is-taken-revealer-in-settings"));
+    GtkRevealer* unmatch_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "password-unmatch-revealer-in-settings"));
     const char* username = NULL;
     const char* name = NULL;
     const char* password = NULL;
@@ -19,27 +33,33 @@ void save_button_click_cb(GtkButton* self, gpointer user_data) {
     cJSON* data = NULL;
     cJSON* headers = NULL;
 
-
     username = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "settings-get-username")));
     name = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "settings-get-name")));
     password = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "settings-get-password")));
     confirm_password = gtk_editable_get_text(GTK_EDITABLE(gtk_builder_get_object(uchat->builder, "settings-get-password-confrim")));
     biography = get_text_from_text_view(GTK_TEXT_VIEW(gtk_builder_get_object(uchat->builder, "settings-get-biography")));
 
-    if(username != NULL && password != NULL && confirm_password != NULL && biography != NULL && name != NULL) {   
-        headers = cJSON_CreateObject();
-        cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
+    gtk_revealer_set_reveal_child(unmatch_revealer, strcmp(password, confirm_password) != 0);
 
-        data = cJSON_CreateObject();
+    headers = cJSON_CreateObject();
+    cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
+
+    data = cJSON_CreateObject();
+    if(strlen(username) > 0){
         cJSON_AddStringToObject(data, "username", username);
-        cJSON_AddStringToObject(data, "bio", biography);
+    }
+    if(strlen(name) > 0){
         cJSON_AddStringToObject(data, "name", name);
+    }
+    if(strlen(biography) > 0){
+        cJSON_AddStringToObject(data, "bio", biography);
+    }
+    if(strlen(password) > 0){
+        cJSON_AddStringToObject(data, "password", password);
+    }   
 
-        int len = strlen(mx_itoa(uchat->user->id));
-        char str[9 + len];
-        sprintf(str,"/users/%d", uchat->user->id);
-
-        request = create_request(METHOD_PUT, str, data, headers);
+    if(data != NULL){
+        request = create_request(METHOD_PUT, mx_strjoin("/users/", mx_itoa(uchat->user->id)), data, headers);
 
         int status = send_request(uchat->servsock, request);
 
@@ -53,12 +73,17 @@ void save_button_click_cb(GtkButton* self, gpointer user_data) {
             int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
             if (status == 201) {
-                GtkBox* homepage = GTK_BOX(gtk_builder_get_object(uchat->builder, "homepage"));
-                GtkCenterBox* right_side = GTK_CENTER_BOX(gtk_builder_get_object(uchat->builder, "right-side"));
-                GtkScrolledWindow* settings = GTK_SCROLLED_WINDOW(gtk_builder_get_object(uchat->builder, "settings"));
+                gtk_revealer_set_reveal_child(username_revealer, FALSE);
+                // uchat->user = get_current_user_from_json(cJSON_GetObjectItemCaseSensitive(response, "data"));
 
-                gtk_box_remove(homepage, GTK_WIDGET(settings));
-                gtk_box_append(homepage, GTK_WIDGET(right_side));
+                // create_session_file("session.json", cJSON_GetObjectItemCaseSensitive(response, "data"));
+                uchat->user->bio = biography;
+                GtkWidget* dialog = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "after-save"));
+                gtk_window_set_transient_for(GTK_WINDOW(dialog), gtk_application_get_active_window(uchat->app));
+                gtk_widget_show(dialog);
+            }
+            else{
+                gtk_revealer_set_reveal_child(username_revealer, TRUE);
             }
             
             cJSON_Delete(response);
@@ -68,3 +93,4 @@ void save_button_click_cb(GtkButton* self, gpointer user_data) {
         }
     }
 }
+

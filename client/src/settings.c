@@ -2,7 +2,7 @@
 
 void return_from_settings_button_click_cb(GtkButton* self, gpointer user_data) {
     GtkBox* homepage = GTK_BOX(gtk_builder_get_object(uchat->builder, "homepage"));
-    GtkCenterBox* right_side = GTK_CENTER_BOX(gtk_builder_get_object(uchat->builder, "right-side"));
+    GtkNotebook* right_side = GTK_NOTEBOOK(gtk_builder_get_object(uchat->builder, "message-container"));
     GtkScrolledWindow* settings = GTK_SCROLLED_WINDOW(gtk_builder_get_object(uchat->builder, "settings"));
 
     gtk_box_remove(homepage, GTK_WIDGET(settings));
@@ -34,13 +34,4 @@ void open_color_chooser(GtkButton* self, gpointer user_data) {
     gtk_window_set_transient_for(GTK_WINDOW(dialog),GTK_WINDOW(window));
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), user_data);
     gtk_widget_show(GTK_WIDGET(dialog));
-}
-
-void settings_button_click_cb(GtkButton* self, gpointer user_data) {
-    GtkBox* homepage = GTK_BOX(gtk_builder_get_object(uchat->builder, "homepage"));
-    GtkCenterBox* right_side = GTK_CENTER_BOX(gtk_builder_get_object(uchat->builder, "right-side"));
-    GtkScrolledWindow* settings = GTK_SCROLLED_WINDOW(gtk_builder_get_object(uchat->builder, "settings"));
-
-    gtk_box_remove(homepage, GTK_WIDGET(right_side));
-    gtk_box_append(homepage, GTK_WIDGET(settings));
 }
