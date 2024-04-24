@@ -155,6 +155,67 @@ entry {
     border-radius: 5px;
 }
 
+/* UchatBox */
+#uchat-box-bg{
+    background-color: rgb(206, 210, 214);
+    border: 1px solid @purple-button-bg;
+    color: @bg-color;
+    border-radius: 5px;
+}
+
+#uchat-box-bg:hover{
+    background-color: rgb(190, 194, 199);
+    border: 1px solid @purple-button-bg;
+}
+
+#uchat-box-name{
+    font-size: 22px;
+    font-weight: 700;
+}
+
+#uchat-box-button{
+    background-color: @purple-button-bg;
+}
+
+#uchat-box-last-message{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+
+
+/* MessageBox */
+
+#message-box-header{
+    background-color: rgb(206, 210, 214);
+    color: @bg-color;
+}
+
+#message-box-name{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#message-box-numbers{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* UserBox */
+
+.userbox-chat-name{
+    font-size: 18px;
+    font-weight: 700;
+}
+.userbox-chat-description{
+    font-size: 16px;
+    font-weight: 400;
+}
+#userbox-chat-member-name{
+    font-size: 16px;
+    font-weight: 600;
+}
+
 .image_message{
     background-color: rgba(0, 0, 0, 0);
 }

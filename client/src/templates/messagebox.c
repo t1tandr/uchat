@@ -54,15 +54,20 @@ static gboolean gesture_released_cb(GtkGestureClick* self, gint n_press, gdouble
     gtk_widget_set_margin_bottom(content_area, 20);
 
     GtkWidget* header = gtk_fixed_new();
+    gtk_widget_set_margin_bottom(header, 20);
 
     char* label = mx_strjoin(mx_itoa(mx_list_size(chat->members)), " members");
     GtkWidget* members_num = gtk_label_new(label);
+    gtk_widget_set_margin_top(members_num, 10);
+    gtk_widget_add_css_class(members_num, "userbox-chat-description");
     GtkWidget* name = gtk_label_new(chat->name);
+    gtk_widget_set_margin_top(name, 10);
+    gtk_widget_add_css_class(name, "userbox-chat-name");
     GtkWidget* avatar = GTK_WIDGET(uchat_avatar_box_new(g_file_new_for_path("resources/img/logo.png"), 100));
 
     gtk_fixed_put(GTK_FIXED(header), avatar, 0, 0);
-    gtk_fixed_put(GTK_FIXED(header), name, 110, 0);
-    gtk_fixed_put(GTK_FIXED(header), members_num, 110, 20);
+    gtk_fixed_put(GTK_FIXED(header), name, 120, 0);
+    gtk_fixed_put(GTK_FIXED(header), members_num, 120, 30);
 
     GtkWidget* scrolled_window = gtk_scrolled_window_new();
     GtkWidget* members_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -134,7 +139,6 @@ uchat_message_box_class_init(UchatMessageBoxClass *klass) {
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, num_of_members);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, textview);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, header);
-    gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, chooser);
 }
 
 gchar *

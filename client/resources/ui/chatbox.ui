@@ -36,6 +36,7 @@
                                         <property name="height-request">80</property>
                                         <child type="start">
                                             <object class="GtkLabel" id="name">
+                                                <property name="name">uchat-box-name</property>
                                                 <property name="halign">start</property>
                                                 <property name="max-width-chars">15</property>
                                                 <property name="label">name</property>
@@ -43,6 +44,7 @@
                                         </child>
                                         <child type="end">
                                             <object class="GtkLabel" id="message">
+                                                <property name="name">uchat-box-last-message</property>
                                                 <property name="halign">start</property>
                                             </object>
                                         </child>
@@ -52,6 +54,7 @@
                         </child>
                         <child type="end">
                             <object class="GtkCenterBox">
+
                                 <property name="orientation">vertical</property>
                                 <child type="start">
                                     <object class="GtkButton" id="delete">
