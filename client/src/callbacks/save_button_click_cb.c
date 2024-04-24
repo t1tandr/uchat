@@ -5,11 +5,11 @@ void on_button_in_after_save_window_clicked_cb(GtkButton* self, gpointer user_da
     GtkBox* homepage = GTK_BOX(gtk_builder_get_object(uchat->builder, "homepage"));
     GtkNotebook* right_side = GTK_NOTEBOOK(gtk_builder_get_object(uchat->builder, "message-container"));
     GtkScrolledWindow* settings = GTK_SCROLLED_WINDOW(gtk_builder_get_object(uchat->builder, "settings"));
-    GtkWindow* dialog = GTK_WINDOW(gtk_builder_get_object(uchat->builder, "after-save"));
+    GtkWidget* dialog = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "after-save"));
 
     gtk_box_remove(homepage, GTK_WIDGET(settings));
     gtk_box_append(homepage, GTK_WIDGET(right_side));
-    gtk_window_destroy(dialog);
+    gtk_widget_hide(dialog);
 }
 
 char *get_text_from_text_view(GtkTextView *text_view) {

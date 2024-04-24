@@ -59,6 +59,7 @@
                                 <child type="start">
                                     <object class="GtkButton" id="delete">
                                         <property name="label">×</property>
+                                        <property name="name">chat-delete-button</property>
                                     </object>
                                 </child>
                                 <child type="end">

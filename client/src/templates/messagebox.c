@@ -139,6 +139,7 @@ uchat_message_box_class_init(UchatMessageBoxClass *klass) {
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, num_of_members);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, textview);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, header);
+    gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, chooser);
 }
 
 gchar *
@@ -159,8 +160,16 @@ uchat_message_box_set_num_of_members(UchatMessageBox* self, int n) {
 
 void
 uchat_message_box_add_message(UchatMessageBox* self, t_message* message, bool own) {
-    UchatTextMessage* msg = uchat_text_message_new(message, own);
-    gtk_box_append(GTK_BOX(self->container), GTK_WIDGET(msg));
+    GtkWidget* msg = NULL;
+    
+    if (message->type = MSG_TYPE_TXT) {
+        msg = GTK_WIDGET(uchat_text_message_new(message, own));
+    }
+    if (message->type = MSG_TYPE_IMG) {
+        msg = GTK_WIDGET(uchat_image_message_new(message, own));
+    }
+
+    gtk_box_append(GTK_BOX(self->container), msg);
 }
 
 void

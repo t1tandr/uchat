@@ -7,26 +7,16 @@ struct _UchatChatBox {
     GtkWidget* name;
     GtkWidget* message;
     GtkWidget* time;
+    GtkWidget* delete;
 };
 
 G_DEFINE_TYPE(UchatChatBox, uchat_chat_box, GTK_TYPE_WIDGET)
 
-// static gboolean gesture_released_cb(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data) {
-//     GtkWidget* menu = gtk_popover_new();
-//     GtkWidget* items = gtk_list_box_new();
-//     GtkWidget* delete = gtk_label_new("Leave chat");
-//     GdkRectangle rec = { x, y, 0 , 0 };
-//     gtk_list_box_append(GTK_LIST_BOX(items), delete);
+static void
+delete_button_clicked_cb(GtkButton* self, gpointer user_data) {
+    t_chat* chat = (t_chat *)user_data;
+}
 
-//     gtk_popover_set_position(GTK_POPOVER(menu), GTK_POS_RIGHT);
-//     //gtk_popover_set_pointing_to(GTK_POPOVER(menu), &rec);
-
-//     gtk_popover_set_child(GTK_POPOVER(menu), items);
-
-//     gtk_popover_popup(GTK_POPOVER(menu));
-
-//     return GDK_EVENT_STOP;
-// }
 
 static void
 uchat_chat_box_class_init(UchatChatBoxClass *klass) {
@@ -38,6 +28,7 @@ uchat_chat_box_class_init(UchatChatBoxClass *klass) {
     gtk_widget_class_bind_template_child(widget_class, UchatChatBox, name);
     gtk_widget_class_bind_template_child(widget_class, UchatChatBox, message);
     gtk_widget_class_bind_template_child(widget_class, UchatChatBox, time);
+    gtk_widget_class_bind_template_child(widget_class, UchatChatBox, delete);
 }
 
 void
@@ -120,11 +111,9 @@ uchat_chat_box_new(t_chat* chat) {
     uchat_chat_box_set_name(obj, chat->name);
     uchat_chat_box_set_message(obj, chat->last_message);
 
-    // GtkGesture* gesture = gtk_gesture_click_new();
-    // gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), GDK_BUTTON_SECONDARY);
-    // g_signal_connect(gesture, "pressed", G_CALLBACK(gesture_released_cb), obj);
-    // gtk_widget_add_controller(GTK_WIDGET(obj), GTK_EVENT_CONTROLLER(gesture));
+    // g_signal_connect(obj->delete, "clicked", G_CALLBACK(delete_button_clicked_cb), chat);
 
     return obj;
 }
+
 
