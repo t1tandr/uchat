@@ -11,12 +11,12 @@
 MonkeyChat! is a simple client-server chat written in pure C and GTK4 using sockets for data exchange between client and server
 
 ## Table of contents
-[Dependencies](https://github.com/t1tandr/uchat#dependencies)/
-[Building](https://github.com/t1tandr/uchat#buiding)/
-[Usage](https://github.com/t1tandr/uchat#usage)/
-[Credits](https://github.com/t1tandr/uchat#credits)/
-[Screenshots](https://github.com/t1tandr/uchat#screenshots)
-[Links](https://github.com/t1tandr/uchat#links)/
+[Dependencies](https://github.com/t1tandr/uchat#dependencies)\
+[Building](https://github.com/t1tandr/uchat#buiding)\
+[Usage](https://github.com/t1tandr/uchat#usage)\
+[Credits](https://github.com/t1tandr/uchat#credits)\
+[Screenshots](https://github.com/t1tandr/uchat#screenshots)\
+[Links](https://github.com/t1tandr/uchat#links)\
 [License](https://github.com/t1tandr/uchat#license)
 
 ## Dependencies
@@ -33,6 +33,9 @@ make
 ```
 
 ## Usage
+
+> [!WARNING]  
+> App runs only on Linux OS.
 
 ```bash
 git clone https://github.com/t1tandr/uchat.git
@@ -54,7 +57,7 @@ cd client/
 
 To shutdown server execute next command:
 ```bash
-kill server-pid
+kill [server-pid]
 ```
 
 ## Credits
