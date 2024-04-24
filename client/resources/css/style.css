@@ -155,6 +155,15 @@ entry {
     border-radius: 5px;
 }
 
+.image_message{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#after-save-window{
+    background-color: rgb(74, 75, 74);
+    border-radius: 5px;
+}
+
 .round .image-button {
     border-radius: 50%;
     /* background-color: rgba(204, 214, 97, 0.5); */

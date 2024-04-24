@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding=""?>
+<interface>
+    <template class="UchatImageMessage" parent="GtkWidget">
+        <child>
+            <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                    <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">10</property>
+                        <property name="height-request">60</property>
+                        <property name="width-request">150</property>
+                        <style>
+                                    <class name="image_message"/>
+                        </style>
+                        <child>
+                            <object class="UchatAvatarBox" id="avatar">
+                                <property name="height-request">60</property>
+                                <property name="width-request">60</property>
+                                <property name="valign">start</property>
+                                <property name="size">60</property>
+                                <style>
+                                    <class name="avatar"/>
+                                </style>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkPicture" id="image">
+                                <property name="height-request">120</property>
+                                <property name="width-request">120</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkCenterBox">
+                        <property name="orientation">horizontal</property>
+                        <child type="end">
+                            <object class="GtkLabel" id="time">
+                                <property name="margin-end">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="valign">end</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>

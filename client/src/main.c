@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 
     servsock = connect_to_server(argv[1], argv[2]);
 
-    app = gtk_application_new("ua.ucode-connect.uchat", G_APPLICATION_HANDLES_OPEN);
+    app = gtk_application_new("ua.ucode-connect.uchat1", G_APPLICATION_HANDLES_OPEN);
 
     g_signal_connect(app, "open", G_CALLBACK(app_activate_cb), NULL);
 

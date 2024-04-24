@@ -1,25 +1,5 @@
 #include "uchat.h"
 
-// static void register_dialog_response_cb(GtkDialog* self, int response_id, gpointer user_data) {
-//     GtkRevealer* login_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "login-revealer"));
-//     GtkRevealer* register_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "register-revealer"));
-
-//     gtk_window_close(GTK_WINDOW(self));
-
-//     if(gtk_revealer_get_child_revealed(login_revealer)) {
-//         login_form_clear(uchat->builder);
-
-//         gtk_revealer_set_reveal_child(register_revealer, TRUE);
-//         gtk_revealer_set_reveal_child(login_revealer, FALSE);
-//     }
-//     else {
-//         register_form_clear(uchat->builder);
-
-//         gtk_revealer_set_reveal_child(register_revealer, FALSE);
-//         gtk_revealer_set_reveal_child(login_revealer, TRUE);
-//     }
-// }
-
 void register_button_click_cb(GtkButton* self, gpointer user_data) {
     GtkRevealer* username_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "username-is-taken-revealer"));
     GtkRevealer* unmatch_revealer = GTK_REVEALER(gtk_builder_get_object(uchat->builder, "password-unmatch-revealer"));

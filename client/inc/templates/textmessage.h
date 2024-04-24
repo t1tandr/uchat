@@ -3,6 +3,7 @@
 
 #include <gtk/gtk.h>
 #include "models/message.h"
+#include <uchat.h>
 
 G_BEGIN_DECLS
 
