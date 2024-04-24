@@ -43,7 +43,6 @@ void handle_message_response(cJSON* json) {
 
 void handle_chat_member_response(cJSON* json) {
     t_chat_member* member = chat_member_parse_from_json(json);
-    t_chat* chat = NULL;
     GtkListBox* chat_list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "chat-list"));
 
     cJSON* request = NULL;
@@ -74,7 +73,11 @@ void handle_chat_member_response(cJSON* json) {
 
         if (status == 200) {
             cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
-            chat = chat_parse_from_json(response_data);
+
+            t_chat* chat = chat_parse_from_json(response_data);
+            mx_push_back(&(uchat->user->chats), chat);
+                
+            gtk_list_box_prepend(chat_list, GTK_WIDGET(uchat_chat_box_new(chat)));
         }
 
         cJSON_Delete(response);
@@ -82,8 +85,6 @@ void handle_chat_member_response(cJSON* json) {
     else {
         handle_error(RESPONSE_ERROR, "GET /chats/{id}");
     }
-
-    gtk_list_box_prepend(chat_list, GTK_WIDGET(uchat_chat_box_new(chat)));
 }
 
 static void handle_response(cJSON* response) {
