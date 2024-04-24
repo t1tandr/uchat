@@ -29,19 +29,7 @@ NAME = uchat-server
 
 .PHONY: all clean uninstall reinstall
 
-all: $(LIBMX) $(LIB_JSON) $(LIB_SQLITE) $(LIB_BCRYPT) $(NAME)
-
-$(LIBMX):
-	make -sC $(LIBMX_DIR)
-
-$(LIB_JSON):
-	make -sC $(LIB_JSON_DIR)
-
-$(LIB_SQLITE):
-	make -sC $(LIB_SQLITE_DIR)
-
-$(LIB_BCRYPT):
-	make -sC $(LIB_BCRYPT_DIR)
+all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJ)
 	$(CC) $(CCFLAGS) $(OBJ) $(LDFLAGS) -o $@
@@ -55,16 +43,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC) $(LIB)
 
 clean:
 	rm -rf $(OBJ_DIR)
-	make -sC $(LIBMX_DIR) clean
-	make -sC $(LIB_JSON_DIR) clean
-	make -sC $(LIB_SQLITE_DIR) clean
-	make -sC $(LIB_BCRYPT_DIR) clean
 
 uninstall: clean
 	rm -rf $(NAME)
-	make -sC $(LIBMX_DIR) uninstall
-	make -sC $(LIB_JSON_DIR) clean
-	make -sC $(LIB_SQLITE_DIR) uninstall
-	make -sC $(LIB_BCRYPT_DIR) clean
 
 reinstall: uninstall all

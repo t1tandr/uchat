@@ -1,7 +1,7 @@
 CC = clang
-CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic `pkg-config --cflags gtk4`
+CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 LDFLAGS = `pkg-config --libs gtk4 gmodule-export-2.0` -L $(LIBMX_DIR) -l:$(LIBMX) -L $(LIB_JSON_DIR) -l:$(LIB_JSON)
-INCLUDES = -I $(LIBMX_DIR)/$(INC_DIR) -I $(INC_DIR) -I $(LIB_JSON_DIR)
+INCLUDES = `pkg-config --cflags gtk4` -I $(LIBMX_DIR)/$(INC_DIR) -I $(INC_DIR) -I $(LIB_JSON_DIR)
 
 INC_DIR = inc
 SRC_DIR = src
@@ -23,13 +23,7 @@ TARGET = uchat
 
 .PHONY: all clean uninstall reinstall
 
-all: $(LIBMX) $(LIB_JSON) $(TARGET)
-
-$(LIBMX):
-	make -sC $(LIBMX_DIR)
-
-$(LIB_JSON):
-	make -sC $(LIB_JSON_DIR)
+all: $(TARGET)
 
 $(TARGET): $(OBJ_DIR) $(OBJ)
 	$(CC) $(CCFLAGS) $(OBJ) $(LDFLAGS) -o $@
@@ -43,12 +37,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC) $(LIB)
 
 clean:
 	rm -rf $(OBJ_DIR)
-	make -sC $(LIBMX_DIR) clean
-	make -sC $(LIB_JSON_DIR) clean
 
 uninstall: clean
 	rm -rf $(TARGET)
-	make -sC $(LIBMX_DIR) uninstall
-	make -sC $(LIB_JSON_DIR) clean
 
 reinstall: uninstall all
