@@ -56,12 +56,13 @@
                             <object class="GtkCenterBox">
 
                                 <property name="orientation">vertical</property>
-                                <child type="start">
+                                <!-- <child type="start">
                                     <object class="GtkButton" id="delete">
                                         <property name="label">×</property>
                                         <property name="name">chat-delete-button</property>
+                                        <property name="visibility">false</property>
                                     </object>
-                                </child>
+                                </child> -->
                                 <child type="end">
                                     <object class="GtkLabel" id="time">
                                         <property name="label">time</property>
