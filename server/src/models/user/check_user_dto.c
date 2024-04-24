@@ -10,21 +10,9 @@ int check_user_dto(cJSON *user, int sock_fd) {
     }
 
     char *username = cJSON_GetObjectItem(user, "username")->valuestring;
-    char *name = cJSON_GetObjectItem(user, "name")->valuestring;
-    char *password = cJSON_GetObjectItem(user, "password")->valuestring;
 
-    if (strlen(username) < 3 || strlen(username) > 32 || contains_space(username)) {
+    if (contains_space(username)) {
         error_handler(sock_fd, "Invalid username", 400);
-        return -1;
-    }
-
-    if (strlen(name) < 3 || strlen(name) > 32) {
-        error_handler(sock_fd, "Invalid name", 400);
-        return -1;
-    }
-
-    if (strlen(password) < 3) {
-        error_handler(sock_fd, "Invalid password", 400);
         return -1;
     }
 

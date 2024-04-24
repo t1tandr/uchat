@@ -19,7 +19,7 @@ static void on_open_responsed(GtkDialog *dialog, int response, gpointer user_dat
         long size;
         unsigned char* p = file_to_bytes(path,&size);
         char* encode = g_base64_encode(p,size);
-        g_free((gpointer)path);
+
 
         cJSON* request = NULL;
         cJSON* response = NULL;
@@ -50,7 +50,7 @@ static void on_open_responsed(GtkDialog *dialog, int response, gpointer user_dat
             if (status == 201) {
                 cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
                 t_message* message = message_parse_from_json(response_data);
-
+                message->content = path;
                 uchat_message_box_add_image(chat, message, true);
             }
 
@@ -59,6 +59,7 @@ static void on_open_responsed(GtkDialog *dialog, int response, gpointer user_dat
         else {
             handle_error(RESPONSE_ERROR, "POST /messages");
         }
+        g_free((gpointer)path);
     }
     gtk_window_destroy(GTK_WINDOW (dialog));
 }

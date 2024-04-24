@@ -16,15 +16,15 @@ void settings_button_click_cb(GtkButton* self, gpointer user_data) {
     gtk_entry_set_placeholder_text(name,uchat->user->name);
     gtk_editable_set_text(password_entry, "");
     gtk_editable_set_text(confirm_entry, "");
-     gtk_revealer_set_reveal_child(is_taken_revealer, FALSE);
+    gtk_revealer_set_reveal_child(is_taken_revealer, FALSE);
     gtk_revealer_set_reveal_child(unmatch_revealer, FALSE);
     
 
-    if(uchat->user->bio != NULL){
-        GtkTextBuffer* buffer = gtk_text_buffer_new(gtk_text_tag_table_new());
-        gtk_text_buffer_set_text (buffer,uchat->user->bio,strlen(uchat->user->bio)+1);
-        gtk_text_view_set_buffer (bio,buffer);
-    }
+    // if(uchat->user->bio != NULL){
+    //     GtkTextBuffer* buffer = gtk_text_buffer_new(gtk_text_tag_table_new());
+    //     gtk_text_buffer_set_text (buffer,uchat->user->bio,strlen(uchat->user->bio)+1);
+    //     gtk_text_view_set_buffer (bio,buffer);
+    // }
 
     gtk_box_remove(homepage, GTK_WIDGET(right_side));
     gtk_box_append(homepage, GTK_WIDGET(settings));

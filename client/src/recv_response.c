@@ -3,8 +3,8 @@
 cJSON* recv_response(int sockfd) {   
     cJSON* response = NULL;
     char* res_str = NULL;
-    int length = 0;
-    int nbytes = 0;
+    unsigned long length = 0;
+    long nbytes = 0;
 
     nbytes = recv(sockfd, &length, sizeof(length), 0);
 
