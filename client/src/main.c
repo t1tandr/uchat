@@ -34,13 +34,13 @@ int main(int argc, char *argv[]) {
     }
     GtkApplication* app = NULL;
     int status = 0;
+    char appid[128];
 
     servsock = connect_to_server(argv[1], argv[2]);
-    char route[128];
 
-    sprintf(route, "ua.ucode-connect.uchat%d", getpid());
-    mx_printstr(route);
-    app = gtk_application_new(route, G_APPLICATION_HANDLES_OPEN);
+    sprintf(appid, "ua.ucode-connect.uchat%d", getpid());
+
+    app = gtk_application_new(appid, G_APPLICATION_HANDLES_OPEN);
 
     g_signal_connect(app, "open", G_CALLBACK(app_activate_cb), NULL);
 

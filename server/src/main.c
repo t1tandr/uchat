@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    // start_daemon_process();
+    start_daemon_process();
 
     clients = g_hash_table_new(g_str_hash, g_str_equal);
 
