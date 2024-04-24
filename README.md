@@ -43,13 +43,13 @@ make
 Start server:
 ```bash
 cd server/
-./uchat-server <port-number>
+./uchat-server 8080
 ```
 
 Start client:
 ```bash
 cd client/
-./uchat <ip> <port>
+./uchat localhost 8080
 ```
 
 To shutdown server execute next command:
