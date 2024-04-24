@@ -145,6 +145,7 @@ char *find_session_by_sock(int sock_fd);
 
 void delete_image(char *image_id);
 char *create_image(char *base64);
+unsigned char *get_image(char *image_id, long *size);
 
 cJSON *extract_query_params(char *route);
 void query_params_handler(cJSON *req, char *route);

@@ -25,6 +25,25 @@ char *create_image(char *base64) {
     return mx_strdup(file_id_str);
 }
 
+unsigned char *get_image(char *image_id, long *size) {
+    char file_path[250];
+
+    snprintf(file_path, sizeof(file_path), "%s/%s.png", IMAGES_PATH, image_id);
+
+    FILE* file = fopen(file_path, "rb");
+
+    fseek(file, 0, SEEK_END);
+    *size = ftell(file);
+    rewind(file);
+
+    unsigned char *buffer = (unsigned char *) malloc(*size);
+
+    fread(buffer, 1, *size, file);
+
+    fclose(file);
+    return buffer;
+}
+
 void delete_image(char *image_id) {
     char file_path[250];
 

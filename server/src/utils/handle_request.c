@@ -5,7 +5,7 @@ void *handle_request(void *arg) {
     sqlite3 *db = database_connect(); // Maybe switch to connection pool
 
     while (1) {
-        int length, n;
+        unsigned long length, n; // sooner or later this shit will blow
 
         n = recv(sock_fd, &length, sizeof(length), 0);
 
@@ -17,7 +17,7 @@ void *handle_request(void *arg) {
             break;
         }
 
-        int received_bytes = 0;
+        unsigned long received_bytes = 0;
         char *res_str = malloc(length + 1);
 
         while (received_bytes < length) {

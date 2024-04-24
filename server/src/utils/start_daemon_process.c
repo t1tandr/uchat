@@ -32,16 +32,18 @@ void start_daemon_process() {
 	}
 
 	umask(0);
-	if(chdir("/") < 0) {
-		perror("chdir");
-		exit(EXIT_FAILURE);
-	}
 
-	// struct rlimit lim;
-	// getrlimit(RLIMIT_NOFILE, &lim);
+	int fd = open("/dev/null", O_RDWR);
 
-	for (int fd = sysconf(_SC_OPEN_MAX); fd > 0; fd--) {
-		close(fd);
-	}
+    if (fd < 0) {
+        exit(EXIT_FAILURE);
+    }
+	
+    dup2(fd, STDIN_FILENO);
+    dup2(fd, STDOUT_FILENO);
+    dup2(fd, STDERR_FILENO);
+    close(fd);
+
+	signal(SIGTERM, SIG_DFL);
 }
 
