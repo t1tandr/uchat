@@ -36,8 +36,11 @@ int main(int argc, char *argv[]) {
     int status = 0;
 
     servsock = connect_to_server(argv[1], argv[2]);
+    char route[128];
 
-    app = gtk_application_new("ua.ucode-connect.uchat1", G_APPLICATION_HANDLES_OPEN);
+    sprintf(route, "ua.ucode-connect.uchat%d", getpid());
+    mx_printstr(route);
+    app = gtk_application_new(route, G_APPLICATION_HANDLES_OPEN);
 
     g_signal_connect(app, "open", G_CALLBACK(app_activate_cb), NULL);
 

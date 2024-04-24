@@ -1,7 +1,6 @@
 @import url("colors.css");
 
 #after-register-window{
-    /* background-color: @bg-color; */
     background-image: url(../img/gorilla.jpg);
     background-size: contain;
     background-position: center;
@@ -29,8 +28,6 @@
 }
 
 #login-page {
-    /* background-color: @bg-color; */
-    /* background-image: url(../img/background.png); */
     background-color: rgb(133, 3, 165);
     background-size: contain;
     background-position: center;
@@ -81,15 +78,6 @@ entry {
     animation: reveal 0.5s forwards;
 }
 
-@keyframes reveal {
-    0% {
-        transform: translateX(-380px);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
-
 #homepage{
     background-color: rgb(45, 30, 64);
 }
@@ -112,18 +100,6 @@ entry {
 .side-bar-btn:hover{
     background-color: @purple-button-bg-hover;
 }
-
-/* #menu-options {
-    background-color: @bg-color;
-} */
-
-/* #menu-options row {
-    background-color: rgb(100, 96, 96);
-} */
-
-/* #menu-options row:hover {
-    color: rgb(70, 68, 68);
-} */
 
 #name {
     background-color:rgb(70, 68, 68);
@@ -168,8 +144,8 @@ entry {
     border: 1px solid @purple-button-bg;
 }
 
-#uchat-box-name{
-    font-size: 22px;
+#uchat-box-name {
+    font-size: 18px;
     font-weight: 700;
 }
 
@@ -181,8 +157,6 @@ entry {
     font-size: 16px;
     font-weight: 400;
 }
-
-
 
 /* MessageBox */
 
@@ -201,16 +175,16 @@ entry {
     font-weight: 400;
 }
 
-/* UserBox */
-
 .userbox-chat-name{
     font-size: 18px;
     font-weight: 700;
 }
+
 .userbox-chat-description{
     font-size: 16px;
     font-weight: 400;
 }
+
 #userbox-chat-member-name{
     font-size: 16px;
     font-weight: 600;
@@ -227,18 +201,18 @@ entry {
 
 .round .image-button {
     border-radius: 50%;
-    /* background-color: rgba(204, 214, 97, 0.5); */
-    /* box-shadow: none;
-    border-width: 2px;
-    border-color: rgb(165, 178, 10); */
 }
 
 #message-view.view {
     border-radius: 5px;
-    background-color: rgba(204, 211, 129, 0.5);
+    background-color: rgba(255, 255, 255, 1);
+    color: black;
 }
 
-/* #message-view.view border.top, border.left, border.right, border.bottom {
-    border-color: rgb(0, 0, 0);
-    border-width: 3px;
-} */
+#chat-delete-button {
+    border-radius: 50%;
+}
+
+#start-label {
+    font-size: 32px;
+}

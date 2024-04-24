@@ -42,6 +42,10 @@ cJSON *create_message_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock
     }
 
     cJSON *message = stmt_to_message_json(stmt);
+    cJSON *user = get_user_by_id_service(user_id, db, sock_fd);
+    char *username = cJSON_GetObjectItem(user, "username")->valuestring;
+
+    cJSON_AddStringToObject(message, "username", mx_strdup(username));
     
     if (strcmp(type, "photo") == 0) {
         char *image_id = cJSON_GetObjectItem(message, "content")->valuestring;
@@ -53,6 +57,7 @@ cJSON *create_message_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock
         cJSON_ReplaceItemInObject(message, "content", cJSON_CreateString(base64));
     }
 
+    cJSON_Delete(user);
     cJSON_Delete(chat_members);
     sqlite3_finalize(stmt);
     sqlite3_free(sql);

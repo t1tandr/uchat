@@ -127,9 +127,6 @@ void chat_list_realize_cb(GtkListBox* self, gpointer user_data) {
             
             for (t_list* i = uchat->user->chats; i != NULL; i = i->next) {
                 t_chat* chat = (t_chat *)i->data;
-
-                // chat_get_messages(chat);
-
                 UchatChatBox* box = uchat_chat_box_new(chat);
 
                 chat_add_members(chat);

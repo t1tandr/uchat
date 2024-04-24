@@ -21,13 +21,6 @@ void handle_message_response(cJSON* json) {
         UchatChatBox* chatbox = UCHAT_CHAT_BOX(gtk_list_box_row_get_child(row));
         t_chat* chat = uchat_chat_box_get_chat(chatbox);
 
-        for (t_list* j = chat->members; j != NULL; j = j->next) {
-            t_chat_member* member = (t_chat_member *)j->data;
-            if (message->user_id == member->user_id) {
-                message->author = strdup(member->username);
-                break;
-            }
-        }
         if (message->chat_id == chat->id) {
             uchat_chat_box_set_message(chatbox, message);
             gtk_list_box_invalidate_sort(list);
