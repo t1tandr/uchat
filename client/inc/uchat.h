@@ -61,5 +61,7 @@ void init_listener_thread(void);
 unsigned char* file_to_bytes(const char *file_name, long *file_size);
 void bytes_to_file(const unsigned char *bytes, unsigned long size, const char *output_file_name);
 
+void handle_message_response(cJSON* json);
+
 #endif
 

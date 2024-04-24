@@ -1,6 +1,6 @@
 #include "uchat.h"
 
-static void handle_message_response(cJSON* json) {
+void handle_message_response(cJSON* json) {
     t_message* message = message_parse_from_json(json);
 
     for (t_list* i = uchat->user->chats; i != NULL; i = i->next) {
@@ -13,22 +13,42 @@ static void handle_message_response(cJSON* json) {
         }
     }
 
-    GtkWidget* list = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "chat-list"));
-    GtkWidget* child = NULL;
+    GtkListBox* list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "chat-list"));
+    GtkListBoxRow* row = NULL;
+    int index = 0;
 
-    while((child = gtk_widget_get_first_child(list)) != NULL) {
-        UchatChatBox* chatbox = UCHAT_CHAT_BOX(child);
+    while ((row = gtk_list_box_get_row_at_index(list, index++)) != NULL) {
+        UchatChatBox* chatbox = UCHAT_CHAT_BOX(gtk_list_box_row_get_child(row));
         t_chat* chat = uchat_chat_box_get_chat(chatbox);
 
+        for (t_list* j = chat->members; j != NULL; j = j->next) {
+            t_chat_member* member = (t_chat_member *)j->data;
+            if (message->user_id == member->user_id) {
+                message->author = strdup(member->username);
+                break;
+            }
+        }
         if (message->chat_id == chat->id) {
             uchat_chat_box_set_message(chatbox, message);
-            gtk_list_box_invalidate_sort(GTK_LIST_BOX(list));
+            gtk_list_box_invalidate_sort(list);
+            break;
+        }
+    }
+
+    GtkNotebook* notebook = GTK_NOTEBOOK(gtk_builder_get_object(uchat->builder, "message-container"));
+    int n_pages = gtk_notebook_get_n_pages(notebook);
+
+    for(int i = 1; i < n_pages; i++) {
+        GtkWidget* chat = gtk_notebook_get_nth_page(notebook, i);
+        
+        if (message->chat_id == uchat_message_box_get_chat(UCHAT_MESSAGE_BOX(chat))->id) {
+            uchat_message_box_add_message(chat, message, true);
             break;
         }
     }
 }
 
-static void handle_chat_member_response(cJSON* json) {
+void handle_chat_member_response(cJSON* json) {
     t_chat_member* member = chat_member_parse_from_json(json);
     t_chat* chat = NULL;
     GtkListBox* chat_list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "chat-list"));
@@ -79,13 +99,12 @@ static void handle_response(cJSON* response) {
         || !cJSON_HasObjectItem(response, "data")) {
             handle_error(RESPONSE_ERROR, "socket");
     }
-
     cJSON* data = cJSON_GetObjectItemCaseSensitive(response, "data");
     
-    if (cJSON_GetObjectItemCaseSensitive(response, "type") && cJSON_GetObjectItemCaseSensitive(response, "content")) {
+    if (cJSON_HasObjectItem(data, "type") && cJSON_HasObjectItem(data, "content")) {
         handle_message_response(data);
     }
-    else if (cJSON_GetObjectItemCaseSensitive(response, "role")) {
+    else if (cJSON_HasObjectItem(data, "role")) {
         handle_chat_member_response(data);
     }
 }
@@ -99,13 +118,10 @@ void* listen_for_response(void* arg) {
                 char* type = cJSON_GetObjectItemCaseSensitive(response, "type")->valuestring;
 
                 if (strcmp(type, "regular") == 0) {
-                    // mx_printstr(cJSON_Print(response));
-                    // mx_printstr("\n\n");
                     g_async_queue_push(uchat->responses, response);
                 }
                 if (strcmp(type, "socket") == 0) {
-                    mx_printstr(cJSON_Print(response));
-                    mx_printstr("\n\n");
+                    handle_response(response);
                 }
             }
         }

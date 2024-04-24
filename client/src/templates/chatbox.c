@@ -1,4 +1,4 @@
-#include "templates/chatbox.h"
+#include "uchat.h"
 
 struct _UchatChatBox {
     GtkWidget parent_instance;
@@ -64,24 +64,26 @@ void
 uchat_chat_box_set_message(UchatChatBox* self, t_message* message) {
     char* label = NULL;
     char* content = NULL;
+    char* author = NULL;
 
     if (message == NULL) {
         uchat_chat_box_set_time(self, self->chat->created_at);
         gtk_label_set_label(GTK_LABEL(self->message), "Chat is created");
     }
     else {
+        author = (message->user_id == uchat->user->id) ? "You" : message->author;
+
         if (message->type == MSG_TYPE_TXT) {
             if (strlen(message->content) > 40) {
                 content = mx_strjoin(mx_strndup(message->content, 30), " ...");
-
-                label = mx_strjoin(message->author, mx_strjoin(": ", content));
+                label = mx_strjoin(author, mx_strjoin(": ", content));
             }
             else {
-                label = mx_strjoin(message->author, mx_strjoin(": ", message->content));
+                label = mx_strjoin(author, mx_strjoin(": ", message->content));
             }
         }
         else if (message->type == MSG_TYPE_IMG) {
-            label = mx_strjoin(message->author, ": sends an image");
+            label = mx_strjoin(author, ": sends an image");
         }
         
         gtk_label_set_label(GTK_LABEL(self->message), label);
@@ -97,7 +99,7 @@ uchat_chat_box_get_message(UchatChatBox* self) {
 
 void
 uchat_chat_box_set_time(UchatChatBox* self, const gchar* time) {
-    gtk_label_set_label(GTK_LABEL(self->time), strndup(&(time[11]), 5));
+    gtk_label_set_label(GTK_LABEL(self->time), /* strndup(&(time[11]), 5) */ time);
 }
 
 const gchar *
