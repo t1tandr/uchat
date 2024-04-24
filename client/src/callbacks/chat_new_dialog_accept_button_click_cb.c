@@ -46,6 +46,7 @@ static void add_members_to_chat(t_chat* chat, t_uchat* uchat) {
 void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data) {
     GtkWidget* dialog = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "chat-new-dialog"));
     GtkEntry* chatname_entry = GTK_ENTRY(gtk_builder_get_object(uchat->builder, "chat-new-name-entry"));
+    UchatAvatarBox* avatar = UCHAT_AVATAR_BOX(gtk_builder_get_object(uchat->builder, "chat-new-avatar"));
     const char* chatname = gtk_editable_get_text(GTK_EDITABLE(chatname_entry));
     cJSON* request = NULL;
     cJSON* response = NULL;
@@ -55,8 +56,12 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
     headers = cJSON_CreateObject();
     cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
+    char *filename = uchat_avatar_box_get_file(avatar);
     data = cJSON_CreateObject();
     cJSON_AddStringToObject(data, "name", chatname);
+    if(uchat_avatar_box_get_file(avatar) != NULL){
+        cJSON_AddStringToObject(data, "img", filename);
+    }
 
     request = create_request(METHOD_POST, "/chats", data, headers);
 

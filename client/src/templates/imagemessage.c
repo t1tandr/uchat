@@ -77,21 +77,19 @@ uchat_image_message_new(t_message* message, bool own) {
 
     // if (cJSON_HasObjectItem(response, "status")) {
     //     status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+    //     mx_printint(80);
     //     if (status == 200) {
     //         cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
     //         unsigned long size;
-    //         mx_printstr(cJSON_Print(response_data));
-    //         for(int i = 0; i < cJSON_GetArraySize(response_data);i++){
-    //             cJSON* msg = cJSON_GetArrayItem(response_data,i);
-    //             char* image = strdup(cJSON_GetObjectItemCaseSensitive(msg, "content")->valuestring);
-    //             unsigned char* from_bytes = g_base64_decode(image,&size);
-    //             mx_printint(86);
-    //             char* dir = mx_strjoin("storage/chat", mx_itoa(message->chat_id));
-    //             int result = mkdir(dir, 0777);
-    //             path = mx_strjoin(dir, mx_strjoin("/",mx_itoa(message->id)));
-    //             mx_printint(91);
-    //             bytes_to_file(from_bytes,size,path);
-    //         }
+    //         mx_printint(84);
+    //         char* image = strdup(cJSON_GetObjectItemCaseSensitive(response_data, "content")->valuestring);
+    //         unsigned char* from_bytes = g_base64_decode(image,&size);
+    //         mx_printint(86);
+    //         char* dir = mx_strjoin("storage/chat", mx_itoa(message->chat_id));
+    //         int result = mkdir(dir, 0777);
+    //         path = mx_strjoin(dir, mx_strjoin("/",mx_itoa(message->id)));
+    //         mx_printint(91);
+    //         bytes_to_file(from_bytes,size,path);
     //     }
     //     cJSON_Delete(response);
     // }

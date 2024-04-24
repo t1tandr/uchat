@@ -3,8 +3,8 @@
     <requires lib="gtk" version="4.0"/>
         <object class ="GtkScrolledWindow" id="settings">
             <property name="vexpand">true</property>
-            <property name="height-request">900</property>
-            <property name="width-request">760</property>
+            <property name="height-request">675</property>
+            <property name="width-request">870</property>
             <child>
                 <object class="GtkBox" id="settings-box">
                     <property name="orientation">vertical</property>
@@ -14,22 +14,19 @@
                     <object class="GtkFixed">
                         <child>
                             <object class="GtkBox" id="box_for_image_in_settings">
-                                <property name="height-request">136</property>
+                                <property name="height-request">100</property>
                                 <property name="margin-start">30</property>
                                 <property name="margin-top">75</property>
-                                <property name="width-request">136</property>
+                                <property name="width-request">100</property>
                                 <property name="name">box_for_image</property>
                                 <property name="overflow">hidden</property>
-                                    <child>
-                                        <object class = "GtkDrawingArea" id="avatar-in-settings">
-                                            <property name="margin-top">5</property>
-                                            <property name="margin-bottom">5</property>
-                                            <property name="margin-start">5</property>
-                                            <property name="margin-end">5</property>
-                                            <property name="halign">start</property>
-                                            <property name="valign">start</property>
-                                        </object>
-                                    </child>
+                                <child>
+                                    <object class="UchatAvatarBox" id="settings-avatar">
+                                        <property name="width-request">136</property>
+                                        <property name="height-request">136</property>
+                                        <property name="size">136</property>
+                                    </object>
+                                </child>
                             </object>
                         </child>
                         <child>
@@ -49,7 +46,7 @@
                                 <property name="margin-top">98</property>
                                 <property name="width-request">130</property>
                                 <property name="name">Change</property>
-                                <signal name="clicked" handler="open_color_chooser"/>
+                                <!-- <signal name="clicked" handler="open_color_chooser"/> -->
                             </object>
                         </child>
                         <child>
@@ -60,7 +57,7 @@
                                 <property name="margin-top">151</property>
                                 <property name="width-request">130</property>
                                 <property name="name">Change</property>
-                                <!-- <signal name="clicked" handler="open_file_chooser"/> -->
+                                <signal name="clicked" handler="open_file_chooser"/>
                             </object>
                         </child>
                         <child>
@@ -221,106 +218,6 @@
                                 <signal name="clicked" handler="save_button_click_cb"/>
                             </object>
                         </child>
-                        <!-- <child>
-                            <object class="GtkLabel">
-                                <property name="label">Select chat theme:</property>
-                                <property name="height-request">50</property>
-                                <property name="margin-start">50</property>
-                                <property name="margin-top">800</property>
-                                <property name="width-request">120</property>
-                                <property name="name">names_in_setting</property>
-                            </object>
-                        </child> -->
-                        <!-- <child>
-                            <object class="GtkButton">
-                                <property name="height-request">100</property>
-                                <property name="margin-start">50</property>
-                                <property name="margin-top">850</property>
-                                <property name="width-request">120</property>
-                                <property name="name">theme_button_in_setting</property>
-                                <child>
-                                    <object class="GtkImage">
-                                        <property name="height-request">80</property>
-                                        <property name="width-request">80</property>
-                                        <property name="paintable">../img/classic.jpg</property>
-                                        <property name="vexpand">true</property>
-                                        <property name="hexpand">true</property>
-                                        <property name="name">avatar</property>
-                                        <property name ="overflow">hidden</property>
-                                    </object>
-                                </child>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkButton">
-                                <property name="height-request">100</property>
-                                <property name="margin-start">200</property>
-                                <property name="margin-top">850</property>
-                                <property name="width-request">120</property>
-                                <property name="name">theme_button_in_setting</property>
-                                <child>
-                                    <object class="GtkPicture">
-                                        <property name="height-request">80</property>
-                                        <property name="width-request">80</property>
-                                        <property name="vexpand">true</property>
-                                        <property name="hexpand">true</property>
-                                        <property name="paintable">../img/dark.jpg</property>
-                                        <property name="name">avatar</property>
-                                        <property name ="overflow">hidden</property>
-                                    </object>
-                                </child>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkButton">
-                                <property name="height-request">100</property>
-                                <property name="margin-start">350</property>
-                                <property name="margin-top">850</property>
-                                <property name="width-request">120</property>
-                                <property name="name">theme_button_in_setting</property>
-                                <child>
-                                    <object class="GtkImage">
-                                        <property name="height-request">80</property>
-                                        <property name="width-request">80</property>
-                                        <property name="vexpand">true</property>
-                                        <property name="hexpand">true</property>
-                                        <property name="paintable">../img/light.jpg</property>
-                                        <property name="name">avatar</property>
-                                        <property name ="overflow">hidden</property>
-                                    </object>
-                                </child>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkLabel">
-                                <property name="height-request">50</property>
-                                <property name="margin-start">50</property>
-                                <property name="margin-top">960</property>
-                                <property name="width-request">120</property>
-                                <property name="label">Classic</property>
-                                <property name="name">names_for_theme</property>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkLabel">
-                                <property name="height-request">50</property>
-                                <property name="margin-start">200</property>
-                                <property name="margin-top">960</property>
-                                <property name="width-request">120</property>
-                                <property name="label">Dark</property>
-                                <property name="name">names_for_theme</property>
-                            </object>
-                        </child>
-                        <child>
-                            <object class="GtkLabel">
-                                <property name="height-request">50</property>
-                                <property name="margin-start">350</property>
-                                <property name="margin-top">960</property>
-                                <property name="width-request">120</property>
-                                <property name="label">Light</property>
-                                <property name="name">names_for_theme</property>
-                            </object>
-                        </child> -->
                         <child>
                             <object class="GtkBox">
                                 <property name="height-request">25</property>
