@@ -58,6 +58,16 @@ cJSON *update_message_service(int message_id, cJSON *data, cJSON *headers, sqlit
     
     sqlite3_finalize(stmt);
 
+    if (strcmp(type, "photo") == 0) {
+        char *image_id = cJSON_GetObjectItem(new_message, "content")->valuestring;
+        long size;
+        unsigned char *image = get_image(image_id, &size);
+
+        char *base64 = g_base64_encode(image, size);
+
+        cJSON_ReplaceItemInObject(new_message, "content", cJSON_CreateString(base64));
+    }
+
     return new_message;
 }
 

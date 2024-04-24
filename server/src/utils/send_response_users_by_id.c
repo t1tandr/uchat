@@ -13,12 +13,12 @@ void send_response_users_by_id(GHashTable *user_ids, cJSON *data, int status, in
     cJSON_AddStringToObject(res, "type", "regular");
 
     char *src_res_str = cJSON_Print(res);
-    int src_length = strlen(src_res_str);
+    unsigned long src_length = strlen(src_res_str);
 
-     cJSON_ReplaceItemInObject(res, "type", cJSON_CreateString("socket"));
+    cJSON_ReplaceItemInObject(res, "type", cJSON_CreateString("socket"));
 
     char *res_str = cJSON_Print(res);
-    int length = strlen(res_str);
+    unsigned long length = strlen(res_str);
 
     GHashTableIter iter;
     gpointer value;
@@ -27,7 +27,7 @@ void send_response_users_by_id(GHashTable *user_ids, cJSON *data, int status, in
     while(g_hash_table_iter_next (&iter, NULL, &value)) {
         connection_data *conn = (connection_data *) value;
         char *user_id = mx_itoa(conn->user_id);
-        int nbytes = 0;
+        long nbytes = 0;
 
         if(g_hash_table_contains(user_ids, (const void *) user_id)) {
             if (conn->sock_fd == src_sock_fd) {

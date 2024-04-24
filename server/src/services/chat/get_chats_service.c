@@ -22,6 +22,17 @@ cJSON *get_chats_service(cJSON *headers, sqlite3 *db, int sock_fd) {
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         cJSON *chat = stmt_to_chat_json(stmt);
+
+        if (cJSON_HasObjectItem(chat, "img")) {
+            char *image_id = cJSON_GetObjectItem(chat, "img")->valuestring;
+            long size;
+            unsigned char *image = get_image(image_id, &size);
+
+            char *base64 = g_base64_encode(image, size);
+
+            cJSON_ReplaceItemInObject(chat, "img", cJSON_CreateString(base64));
+        }
+
         cJSON_AddItemToArray(chats, chat);
     }
 

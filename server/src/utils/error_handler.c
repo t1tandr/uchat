@@ -7,8 +7,8 @@ void error_handler(int sock_fd, char* message, int status) {
     cJSON_AddStringToObject(err_res, "type", "regular");
 
     char *err_json_str = cJSON_Print(err_res);
-    int length = strlen(err_json_str);
-    int nbytes = 0;
+    unsigned long length = strlen(err_json_str);
+    long nbytes = 0;
      
     nbytes = send(sock_fd, &length, sizeof(length), MSG_NOSIGNAL);
 

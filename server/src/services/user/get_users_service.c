@@ -16,6 +16,17 @@ cJSON *get_users_service(sqlite3 *db, int sock_fd) {
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         cJSON *user = stmt_to_user_json(stmt);
+
+        if (cJSON_HasObjectItem(user, "avatar")) {
+            char *image_id = cJSON_GetObjectItem(user, "avatar")->valuestring;
+            long size;
+            unsigned char *image = get_image(image_id, &size);
+
+            char *base64 = g_base64_encode(image, size);
+
+            cJSON_ReplaceItemInObject(user, "avatar", cJSON_CreateString(base64));
+        }
+        
         cJSON_AddItemToArray(users, user);
     }
 
