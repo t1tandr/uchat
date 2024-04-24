@@ -69,6 +69,24 @@
                             </object>
                         </child>
                         <child>
+                            <object class="GtkMenuButton">
+                                <property name="icon-name">face-monkey</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="margin-end">5</property>
+                                <property name="valign">end</property>
+                                <property name="popover">
+                                    <object class="GtkEmojiChooser" id="chooser">
+                                        <property name="position">top</property>
+                                    </object>
+                                </property>
+                                <!-- <signal name="activate" handler="emoji_button_activate_cb"/> -->
+                                <style>
+                                    <class name="round"/>
+                                </style>
+                            </object>
+                        </child>
+                        <child>
                             <object class="GtkButton" id="send-message">
                                 <property name="label">Send</property>
                                 <property name="margin-start">10</property>

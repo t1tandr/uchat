@@ -154,3 +154,7 @@ entry {
     color: black;
     border-radius: 5px;
 }
+
+.round {
+    border-radius: 50%;
+}

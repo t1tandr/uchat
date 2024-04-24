@@ -23,9 +23,17 @@ struct _UchatMessageBox {
   GtkWidget* container;
   GtkWidget* name;
   GtkWidget* num_of_members;
+  GtkWidget* chooser;
 };
 
 G_DEFINE_TYPE(UchatMessageBox, uchat_message_box, GTK_TYPE_WIDGET)
+
+static void emoji_chooser_picked_cb(GtkEmojiChooser* self, gchar* text, gpointer user_data) {
+    GtkTextView* view = GTK_TEXT_VIEW(user_data);
+    GtkTextBuffer* buffer = gtk_text_view_get_buffer(view);
+
+    gtk_text_buffer_insert_at_cursor(buffer, text, strlen(text));
+}
 
 static gboolean gesture_released_cb(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data) {
     t_chat* chat = (t_chat *)user_data;
@@ -125,6 +133,7 @@ uchat_message_box_class_init(UchatMessageBoxClass *klass) {
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, name);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, num_of_members);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, textview);
+    gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, chooser);
 }
 
 gchar *
@@ -161,6 +170,8 @@ uchat_message_box_new(t_chat* chat) {
     obj->chat = chat;
     gtk_label_set_label(GTK_LABEL(obj->name), chat->name);
     uchat_message_box_set_num_of_members(obj, mx_list_size(chat->members));
+
+    g_signal_connect(obj->chooser, "emoji-picked", G_CALLBACK(emoji_chooser_picked_cb), obj->textview);
 
     GtkGesture* gesture = gtk_gesture_click_new();
     gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), GDK_BUTTON_PRIMARY);
