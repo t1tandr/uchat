@@ -55,7 +55,13 @@ cJSON *update_message_service(int message_id, cJSON *data, cJSON *headers, sqlit
     }
 
     cJSON *new_message = stmt_to_message_json(stmt);
-    
+    cJSON *user = get_user_by_id_service(user_id, db, sock_fd);
+    char *username = cJSON_GetObjectItem(user, "username")->valuestring;
+
+    cJSON_AddStringToObject(new_message, "username", mx_strdup(username));
+
+    cJSON_Delete(user);
+
     sqlite3_finalize(stmt);
 
     if (strcmp(type, "photo") == 0) {
