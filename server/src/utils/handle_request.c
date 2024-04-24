@@ -1,11 +1,13 @@
 #include "server.h"
 
 void *handle_request(void *arg) {
-    int sock_fd = *(int*)arg;
+    SSL *ssl = (SSL *) arg;
+    int sock_fd = SSL_get_fd(ssl);
     sqlite3 *db = database_connect(); // Maybe switch to connection pool
 
     while (1) {
-        unsigned long length, n; // sooner or later this shit will blow
+        unsigned long length; // sooner or later this shit will blow
+        long n;
 
         n = recv(sock_fd, &length, sizeof(length), 0);
 

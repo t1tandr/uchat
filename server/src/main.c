@@ -18,7 +18,33 @@ int main(int argc, char *argv[]) {
 
     init_database();
     sock_fd = start_server_socket(port);
-    accept_clients(sock_fd);
+
+    SSL_library_init();
+    OpenSSL_add_all_algorithms();
+    SSL_load_error_strings();
+
+    SSL_CTX *ctx = SSL_CTX_new(TLS_server_method());
+    if (!SSL_CTX_use_certificate_file(ctx, "server.crt", SSL_FILETYPE_PEM)) {
+        mx_printstr("hello9");
+        perror(strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    if (!SSL_CTX_use_PrivateKey_file(ctx, "server.key", SSL_FILETYPE_PEM)) {
+        mx_printstr("hello10");
+        perror(strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    if (!SSL_CTX_check_private_key(ctx)) {
+        mx_printstr("hello12");
+        perror(strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    accept_clients(sock_fd, ctx);
+
+    SSL_CTX_free(ctx);
 
     close(sock_fd);
 }

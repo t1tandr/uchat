@@ -20,6 +20,7 @@
 #include <bcrypt.h>
 #include <uuid/uuid.h>
 #include <glib.h>
+#include <openssl/ssl.h>
 
 #define BUFF_SIZE 1024
 
@@ -117,7 +118,7 @@ int check_update_message_dto(cJSON *message, int sock_fd);
 void *handle_request(void *arg);
 void handle_routes(cJSON *req, sqlite3 *db, int sock_fd);
 int start_server_socket(int port);
-void accept_clients(int sock_fd);
+void accept_clients(int sock_fd, SSL_CTX *ctx);
 void init_database();
 sqlite3 *database_connect();
 void error_handler(int sock_fd, char* message, int status);
