@@ -151,14 +151,33 @@
             <object class="GtkNotebook" id="message-container">
                 <property name="show-tabs">false</property>
                 <child>
-                    <object class="GtkCenterBox" id="start-messaging">
-                        <property name="orientation">vertical</property>
+                    <object class="GtkFixed" id="start-messaging">
                         <property name="width-request">870</property>
                         <property name="height-request">675</property>
                         <property name="vexpand">true</property>
-                        <child type="center">
+                        <child>
                             <object class="GtkLabel">
-                                <property name="label">Select chat to start messaging!</property>
+                                <property name="margin-top">370</property>
+                                <property name="margin-start">205</property>
+                                <property name="label">Select chat to start</property>
+                                <property name="name">start-label</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="margin-top">395</property>
+                                <property name="margin-start">495</property>
+                                <property name="label">messaging!</property>
+                                <property name="name">start-label</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkPicture">
+                                <property name="margin-top">7</property>
+                                <property name="margin-start">255</property>
+                                <property name="height-request">480</property>
+                                <property name="width-request">480</property>
+                                <property name="paintable">../img/monkey.png</property>
                             </object>
                         </child>
                     </object>

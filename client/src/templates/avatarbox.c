@@ -7,7 +7,8 @@ enum {
 
 static GParamSpec *properties[N_PROPS] = { NULL, };
 
-static void draw_from_path(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer user_data) {
+static void 
+draw_from_path(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer user_data) {
     GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(user_data, NULL);
 
     int img_width = gdk_pixbuf_get_width(pixbuf);

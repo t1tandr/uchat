@@ -7,7 +7,7 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
 
     gchar* text = uchat_message_box_get_text(chat);
 
-    if (strlen(mx_strtrim(text)) > 0) {
+    if (strlen(text) > 0) {
         cJSON* request = NULL;
         cJSON* response = NULL;
         cJSON* data = NULL;
@@ -36,7 +36,7 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
 
             if (status == 201) {
                 cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
-                printf("hello\n");
+                printf("%s\n", text);
                 handle_message_response(response_data);
             }
 

@@ -6,6 +6,7 @@
 
 bool widget_has_css_class(GtkWidget* self, const char* class);
 void window_switch_child(GtkBuilder* builder, char* prev_id, char* next_id);
+gchar* text_view_get_full_text(GtkTextView* view);
 
 void add_css_stylesheet(const char* path);
 void add_icon_theme(const char* path);

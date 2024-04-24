@@ -23,7 +23,7 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
     int status = send_request(uchat->servsock, request);
 
     if (status != REQUEST_SUCCESS) {
-        handle_error(REQUEST_ERROR, "\'POST /login\'");
+        handle_error(REQUEST_ERROR, "POST /login");
     }
 
     response = g_async_queue_pop(uchat->responses);
