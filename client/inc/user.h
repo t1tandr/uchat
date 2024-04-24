@@ -1,25 +1,17 @@
 #ifndef USER_H
 #define USER_H
 
-#include "uchat.h"
+#include <cJSON.h>
+#include "libmx.h"
+#include "chat.h"
 
 /*
- * CHAT UTILS
+ * CURRENT USER UTILS
 */
 
-typedef struct s_chat {
-    int id;
-    const char* name;
-    t_list* members;
-} t_chat;
+typedef struct s_current_user t_current_user;
 
-t_chat* get_chat_from_json(cJSON* json);
-
-/*
- * USER UTILS
-*/
-
-typedef struct s_user {
+struct s_current_user {
     int id;
     const char* username;
     const char* name;
@@ -28,19 +20,27 @@ typedef struct s_user {
     char* ava_path;
     t_chat* current_chat;
     t_list* chats;
-} t_user;
+};
 
-t_user* get_user_from_json(cJSON* json);
+t_current_user* get_current_user_from_json(cJSON* json);
 
 /*
- * MESSAGE UTILS (?)
+ * CURRENT USER UTILS
 */
 
-typedef struct s_message {
-    int user_id;
-    const char* message;
-} t_message;
+typedef struct s_user t_user;
 
-t_message* get_message_from_json(cJSON* json);
+struct s_user {
+    int id;
+    const char* username;
+    const char* name;
+    const char* bio;
+    const char* img;
+};
+
+t_user* user_init(void);
+
+t_user* user_parse_from_json(cJSON* json);
 
 #endif
+

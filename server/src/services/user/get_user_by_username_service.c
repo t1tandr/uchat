@@ -17,7 +17,7 @@ cJSON *get_user_by_username_service(char* username, sqlite3 *db, int sock_fd) {
     }
 
     if (sqlite3_step(stmt) != SQLITE_ROW) {
-        // error_handler(sock_fd, "User not found", 400);
+        // error_handler(sock_fd, "Invalid input data", 422);
         return NULL;
     }
 

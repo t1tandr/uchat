@@ -10,33 +10,28 @@
                 <child>
                     <object class="GtkCenterBox">
                         <property name="orientation">horizontal</property>
-                        <property name="height-request">130</property>
+                        <property name="height-request">100</property>
                         <property name="hexpand">true</property>
                         <child type="start">
-                            <object class="GtkBox">
-                                <property name="orientation">horizontal</property>
+                            <object class="GtkFixed">
                                 <property name="hexpand">true</property>
                                 <child>
-                                    <object class="GtkBox">
-                                        <property name="overflow">hidden</property>
+                                    <object class="UchatAvatarBox">
                                         <property name="width-request">90</property>
                                         <property name="height-request">90</property>
+                                        <property name="size">90</property>
                                         <style>
                                             <class name="avatar"/>
                                         </style>
-                                        <child>
-                                            <object class="GtkPicture" id="avatar">
-                                                <property name="paintable">resources/img/logo.png</property>
-                                                <property name="halign">center</property>
-                                                <property name="valign">center</property>
-                                                <property name="keep-aspect-ratio">false</property>
-                                            </object>
-                                        </child>
                                     </object>
                                 </child>
                                 <child>
                                     <object class="GtkCenterBox">
                                         <property name="orientation">vertical</property>
+                                        <property name="margin-top">0</property>
+                                        <property name="margin-start">100</property>
+                                        <property name="width-request">100</property>
+                                        <property name="height-request">100</property>
                                         <child type="start">
                                             <object class="GtkLabel" id="name">
                                                 <property name="halign">start</property>
@@ -57,13 +52,13 @@
                             <object class="GtkCenterBox">
                                 <property name="orientation">vertical</property>
                                 <child type="start">
-                                    <object class="GtkLabel" id="time">
-                                        <property name="label">time</property>
+                                    <object class="GtkButton" id="delete_btn">
+                                        <property name="icon-name">edit-delete</property>
                                     </object>
                                 </child>
                                 <child type="end">
-                                    <object class="GtkLabel" id="seen">
-                                        <property name="label">\\//</property>
+                                    <object class="GtkLabel" id="time">
+                                        <property name="label">time</property>
                                     </object>
                                 </child>
                             </object>

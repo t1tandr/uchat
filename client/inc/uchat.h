@@ -8,37 +8,55 @@
 #include <netdb.h>
 #include <string.h>
 #include <time.h>
+#include <pthread.h>
 
 #include <gtk/gtk.h>
 #include <cJSON.h>
 #include "libmx.h"
 
-#include "templates/uchatchatbox.h"
-#include "templates/uchatmessagebox.h"
 #include "password.h"
 #include "utils.h"
 #include "user.h"
+#include "chat.h"
+#include "chat_member.h"
+#include "message.h"
+#include "error.h"
+
+#include "templates/chatbox.h"
+#include "templates/textmessage.h"
+#include "templates/userbox.h"
+#include "templates/avatarbox.h"
+#include "templates/messagebox.h"
 
 #define METHOD_GET      "GET"
 #define METHOD_POST     "POST"
 #define METHOD_PUT      "PUT"
 #define METHOD_DELETE   "DELETE"
 
-#define USAGE_ERROR "usage: uchat <server-ip> <server-port>"
+#define REQUEST_SUCCESS 0
 
-typedef struct s_uchat_app {
+typedef struct s_uchat {
     int servsock;
     GtkBuilder* builder;
     GtkApplication* app;
-    t_user* user;
-} t_uchat_app;
+    t_current_user* user;
+    GAsyncQueue* responses;
+} t_uchat;
+
+extern t_uchat* uchat;
+
+t_uchat* uchat_create(int sockfd, GtkApplication* app);
 
 int connect_to_server(const char* ip, const char* port);
 
 cJSON* create_request(const char* method, const char* route, cJSON* data, cJSON* headers);
-cJSON* send_request(int sockfd, cJSON* request);
-static void draw_from_path(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer user_data);
-static void on_open_response (GtkDialog *dialog, int response, gpointer user_data);
+int send_request(int sockfd, cJSON* request);
+cJSON* recv_response(int sockfd);
+
+void init_listener_thread(void);
+
+unsigned char* file_to_bytes(const char *file_name, long *file_size);
+void bytes_to_file(const unsigned char *bytes, unsigned long size, const char *output_file_name);
 
 #endif
 

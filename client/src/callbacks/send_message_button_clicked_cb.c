@@ -1,28 +1,12 @@
 #include "uchat.h"
 
-static gchar* text_view_get_full_text(GtkTextView* view) {
-    GtkTextBuffer* buffer = gtk_text_view_get_buffer(view);
-    GtkTextIter start, end;
-    gchar* text = NULL;
-
-    gtk_text_buffer_get_bounds(buffer, &start, &end);
-
-    text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-
-    gtk_text_buffer_delete(buffer, &start, &end);
-
-    return text;
-}
-
 void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
-    t_uchat_app* uchat = (t_uchat_app *)g_object_get_data(user_data, "uchat");
-    GtkTextView* view = GTK_TEXT_VIEW(gtk_builder_get_object(uchat->builder, "message-entry"));
-    GtkScrolledWindow* window = GTK_SCROLLED_WINDOW(gtk_builder_get_object(uchat->builder, "message-container-scrolled"));
-    GtkAdjustment* vadj = NULL;
+    GtkNotebook* chats = GTK_NOTEBOOK(gtk_builder_get_object(uchat->builder, "message-container"));
+    int id = gtk_notebook_get_current_page(chats);
+    UchatMessageBox* chat = UCHAT_MESSAGE_BOX(gtk_notebook_get_nth_page(chats, id));
 
-    gchar* text = text_view_get_full_text(view);
+    gchar* text = uchat_message_box_get_text(chat);
 
-    g_print("%s\n", text);
     if (strlen(mx_strtrim(text)) > 0) {
         cJSON* request = NULL;
         cJSON* response = NULL;
@@ -33,48 +17,37 @@ void send_message_button_clicked_cb(GtkButton* self, gpointer user_data) {
         cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
         data = cJSON_CreateObject();
-        cJSON_AddNumberToObject(data, "chat_id", uchat->user/*->current_chat*/->id);
-        cJSON_AddStringToObject(data, "text", text);
+        cJSON_AddNumberToObject(data, "chat_id", uchat->user->current_chat->id);
+        cJSON_AddStringToObject(data, "type", "text");
+        cJSON_AddStringToObject(data, "content", text);
 
-        request = create_request(METHOD_POST, "/message", data, headers);
+        request = create_request(METHOD_POST, "/messages", data, headers);
 
-        response = send_request(uchat->servsock, request);
+        int status = send_request(uchat->servsock, request);
 
-        printf("%s", cJSON_Print(response));
+        if (status != REQUEST_SUCCESS) {
+            handle_error(REQUEST_ERROR, "\'POST /messages\'");
+        }
 
-        cJSON_Delete(request);
-
-        if (response != NULL && cJSON_HasObjectItem(response, "status") && cJSON_HasObjectItem(response, "data")) {
-            int status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+        response = g_async_queue_pop(uchat->responses);
+        
+        if (cJSON_HasObjectItem(response, "status")) {
+            status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
             if (status == 201) {
-                time_t current_time = time(NULL);
-                GtkWidget* message = GTK_WIDGET(uchat_message_box_new(text, localtime(&current_time)));
-                GtkWidget* message_container = GTK_WIDGET(gtk_builder_get_object(uchat->builder, "message-container"));
+                cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
+                t_message* message = message_parse_from_json(response_data);
 
-                gtk_widget_insert_before(message, message_container, NULL);
+                uchat_message_box_add_message(chat, message, true);
             }
 
             cJSON_Delete(response);
         }
         else {
-            cJSON_Delete(response);
-            handle_error("uchat: error getting response from server");
+            handle_error(RESPONSE_ERROR, "POST /messages");
         }
-
-        /*
-        vadj = gtk_scrolled_window_get_vadjustment(window);
-
-        g_print("lower - %f\n", gtk_adjustment_get_lower(vadj));
-        g_print("upper - %f\n", gtk_adjustment_get_upper(vadj));
-        g_print("page size - %f\n", gtk_adjustment_get_page_size(vadj));
-        g_print("value - %f\n", gtk_adjustment_get_value(vadj));
-
-        gtk_adjustment_set_value(vadj, gtk_adjustment_get_upper(vadj) - gtk_adjustment_get_page_size(vadj));
-
-        g_print("new value - %f\n\n", gtk_adjustment_get_value(vadj));
-        */
     }
 
-    g_free((gpointer)text);
+    free(text);
 }
+

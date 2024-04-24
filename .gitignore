@@ -9,6 +9,7 @@
 !*.ui
 !*.css
 !*.png
+!*.jpg
 !*.theme
 !*.xml
 !LICENSE
