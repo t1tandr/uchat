@@ -31,8 +31,6 @@ char* chat_member_get_username_by_id(int id) {
             cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
             char* username = cJSON_GetObjectItemCaseSensitive(response_data, "username")->valuestring;
 
-            cJSON_Delete(response);
-
             return username;
         }
 
@@ -46,4 +44,5 @@ char* chat_member_get_username_by_id(int id) {
 
     return NULL;
 }
+
 

@@ -1,7 +1,7 @@
 #include "uchat.h"
 
-static void handle_message_response(cJSON* data) {
-    t_message* message = message_parse_from_json(data);
+static void handle_message_response(cJSON* json) {
+    t_message* message = message_parse_from_json(json);
 
     for (t_list* i = uchat->user->chats; i != NULL; i = i->next) {
         t_chat* chat = (t_chat *)i->data;
@@ -22,13 +22,55 @@ static void handle_message_response(cJSON* data) {
 
         if (message->chat_id == chat->id) {
             uchat_chat_box_set_message(chatbox, message);
+            gtk_list_box_invalidate_sort(GTK_LIST_BOX(list));
             break;
         }
     }
 }
 
-static void handle_chat_member_response(cJSON* data) {
-    t_chat_member* member = chat_member_parse_from_json(data);
+static void handle_chat_member_response(cJSON* json) {
+    t_chat_member* member = chat_member_parse_from_json(json);
+    t_chat* chat = NULL;
+    GtkListBox* chat_list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "chat-list"));
+
+    cJSON* request = NULL;
+    cJSON* response = NULL;
+    cJSON* data = NULL;
+    cJSON* headers = NULL;
+    char route[128];
+
+    sprintf(route, "/chats/%d", member->chat_id);
+
+    headers = cJSON_CreateObject();
+    cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
+
+    data = cJSON_CreateObject();
+
+    request = create_request(METHOD_GET, "/chats", data, headers);
+
+    int status = send_request(uchat->servsock, request);
+
+    if (status != REQUEST_SUCCESS) {
+        handle_error(REQUEST_ERROR, "GET /chats/{id}");
+    }
+
+    response = g_async_queue_pop(uchat->responses);
+
+    if (response != NULL && cJSON_HasObjectItem(response, "status")) {
+        status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+
+        if (status == 200) {
+            cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
+            chat = chat_parse_from_json(response_data);
+        }
+
+        cJSON_Delete(response);
+    }
+    else {
+        handle_error(RESPONSE_ERROR, "GET /chats/{id}");
+    }
+
+    gtk_list_box_prepend(chat_list, GTK_WIDGET(uchat_chat_box_new(chat)));
 }
 
 static void handle_response(cJSON* response) {
