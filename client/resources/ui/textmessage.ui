@@ -6,7 +6,6 @@
                 <property name="orientation">horizontal</property>
                 <property name="spacing">10</property>
                 <property name="height-request">60</property>
-                <property name="width-request">150</property>
                 <child>
                     <object class="UchatAvatarBox" id="avatar">
                         <property name="height-request">60</property>

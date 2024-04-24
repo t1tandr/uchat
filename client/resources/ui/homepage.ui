@@ -9,7 +9,7 @@
                 <child>
                     <object class="GtkBox" id="sidebar">
                         <property name="orientation">vertical</property>
-                        <property name="width-request">760</property>
+                        <property name="width-request">330</property>
                         <property name="vexpand">true</property>
                         <property name="hexpand">true</property>
                         <child>
@@ -59,7 +59,8 @@
                     <object class="GtkBox" id="sidebar-box">
                         <property name="halign">start</property>
                         <property name="valign">start</property>
-                        <property name="width-request">380</property>
+                        <property name="width-request">330</property>
+                        <property name="height-request">675</property>
                         <property name="visible">false</property>
                         <property name="name">revealer</property>
                         <child>
@@ -103,79 +104,34 @@
                                                 <property name="orientation">horizontal</property>
                                                 <property name="hexpand">false</property>
                                                 <property name="margin-top">20</property>
-                                                <property name="margin-start">140</property>
+                                                <property name="margin-start">90</property>
                                                 <child>
-                                                    <object class="GtkBox">
-                                                        <property name="overflow">hidden</property>
+                                                    <object class="UchatAvatarBox" id="sidebar-avatar">
                                                         <property name="width-request">100</property>
                                                         <property name="height-request">100</property>
-                                                        <style>
-                                                            <class name="avatar"/>
-                                                        </style>
-                                                        <child>
-                                                            <object class = "GtkDrawingArea" id="avatar-in-overlay">
-                                                                <property name="margin-top">5</property>
-                                                                <property name="margin-bottom">5</property>
-                                                                <property name="margin-start">5</property>
-                                                                <property name="margin-end">5</property>
-                                                                <property name="halign">start</property>
-                                                                <property name="valign">start</property>
-                                                            </object>
-                                                        </child>
+                                                        <property name="size">100</property>
                                                     </object>
                                                 </child>
                                             </object>
                                         </child>
                                         <child>
-                                            <object class="GtkListBox" id="menu-options">
-                                                <property name="margin-top">20</property>
-                                                <property name="name">menu-options</property>
-                                                <property name="activate-on-single-click">TRUE</property>
-                                                <child>
-                                                    <object class="GtkButton">
-                                                        <style>
-                                                            <class name="side-bar-btn"/>
-                                                        </style>
-                                                        <child>
-                                                            <object class="GtkLabel">
-                                                                <property name="label">Contacts</property>
-                                                            </object>
-                                                        </child>
-                                                    </object>
-                                                </child>
-                                                <child>
-                                                    <object class="GtkButton">
-                                                    <property name="margin-top">5</property>
-                                                        <style>
-                                                            <class name="side-bar-btn"/>
-                                                        </style>
-                                                        <signal name="clicked" handler="settings_button_click_cb"/>
-                                                            <child>
-                                                                <object class="GtkLabel">
-                                                                    <property name="label">Settings</property>
-                                                                </object>
-                                                            </child>
-                                                    </object>
-                                                </child>
-                                                <child>
-                                                    <object class="GtkButton">
-                                                    <property name="margin-top">5</property>
-                                                        <style>
-                                                            <class name="side-bar-btn"/>
-                                                        </style>
-                                                        <signal name="clicked" handler="logout_button_click_cb"/>
-                                                        <child>
-                                                            <object class="GtkImage">
-                                                                <property name="icon-name">sign-out</property>
-                                                            </object>
-                                                        </child>
-                                                        <child>
-                                                            <object class="GtkLabel">
-                                                                <property name="label">Sign out</property>
-                                                            </object>
-                                                        </child>
-                                                    </object>
-                                                </child>
+                                            <object class="GtkButton">
+                                                <property name="label">Settings</property>
+                                                <property name="margin-top">5</property>
+                                                <style>
+                                                    <class name="side-bar-btn"/>
+                                                </style>
+                                                <signal name="clicked" handler="settings_button_click_cb"/>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkButton">
+                                                <property name="label">Sign out</property>
+                                                <property name="margin-top">5</property>
+                                                <style>
+                                                    <class name="side-bar-btn"/>
+                                                </style>
+                                                <signal name="clicked" handler="logout_button_click_cb"/>
                                             </object>
                                         </child>
                                     </object>
@@ -197,8 +153,8 @@
                 <child>
                     <object class="GtkCenterBox" id="start-messaging">
                         <property name="orientation">vertical</property>
-                        <property name="width-request">1160</property>
-                        <property name="height-request">900</property>
+                        <property name="width-request">870</property>
+                        <property name="height-request">675</property>
                         <property name="vexpand">true</property>
                         <child type="center">
                             <object class="GtkLabel">

@@ -2,8 +2,8 @@
 
 int send_request(int sockfd, cJSON *request) {
     char* req_str = NULL;
-    int length = 0;
-    int nbytes = 0;
+    unsigned long length = 0;
+    long nbytes = 0;
 
     req_str = cJSON_PrintUnformatted(request);
     cJSON_Delete(request);

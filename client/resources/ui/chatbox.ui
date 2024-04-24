@@ -4,23 +4,24 @@
         <signal name="realize" handler="chat_box_realize_cb"/>
         <child>
             <object class="GtkBox">
-                <property name="margin-start">20</property>
+                <property name="margin-start">10</property>
                 <property name="margin-bottom">10</property>
                 <property name="margin-top">10</property>
                 <property name="margin-end">20</property>
                 <child>
                     <object class="GtkCenterBox">
                         <property name="orientation">horizontal</property>
-                        <property name="height-request">100</property>
+                        <property name="height-request">80</property>
                         <property name="hexpand">true</property>
                         <child type="start">
                             <object class="GtkFixed">
                                 <property name="hexpand">true</property>
                                 <child>
                                     <object class="UchatAvatarBox">
-                                        <property name="width-request">90</property>
-                                        <property name="height-request">90</property>
-                                        <property name="size">90</property>
+                                        <property name="width-request">70</property>
+                                        <property name="height-request">70</property>
+                                        <property name="size">70</property>
+                                        <property name="margin-top">5</property>
                                         <style>
                                             <class name="avatar"/>
                                         </style>
@@ -29,10 +30,10 @@
                                 <child>
                                     <object class="GtkCenterBox">
                                         <property name="orientation">vertical</property>
-                                        <property name="margin-top">0</property>
-                                        <property name="margin-start">100</property>
+                                        <property name="margin-top">5</property>
+                                        <property name="margin-start">80</property>
                                         <property name="width-request">100</property>
-                                        <property name="height-request">100</property>
+                                        <property name="height-request">80</property>
                                         <child type="start">
                                             <object class="GtkLabel" id="name">
                                                 <property name="halign">start</property>
@@ -53,8 +54,8 @@
                             <object class="GtkCenterBox">
                                 <property name="orientation">vertical</property>
                                 <child type="start">
-                                    <object class="GtkButton" id="delete_btn">
-                                        <property name="icon-name">edit-delete</property>
+                                    <object class="GtkButton" id="delete">
+                                        <property name="label">×</property>
                                     </object>
                                 </child>
                                 <child type="end">

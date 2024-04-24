@@ -11,22 +11,22 @@ struct _UchatChatBox {
 
 G_DEFINE_TYPE(UchatChatBox, uchat_chat_box, GTK_TYPE_WIDGET)
 
-static gboolean gesture_released_cb(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data) {
-    GtkWidget* menu = gtk_popover_new();
-    GtkWidget* items = gtk_list_box_new();
-    GtkWidget* delete = gtk_label_new("Leave chat");
-    GdkRectangle rec = { x, y, 0 , 0 };
-    gtk_list_box_append(GTK_LIST_BOX(items), delete);
+// static gboolean gesture_released_cb(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data) {
+//     GtkWidget* menu = gtk_popover_new();
+//     GtkWidget* items = gtk_list_box_new();
+//     GtkWidget* delete = gtk_label_new("Leave chat");
+//     GdkRectangle rec = { x, y, 0 , 0 };
+//     gtk_list_box_append(GTK_LIST_BOX(items), delete);
 
-    gtk_popover_set_position(GTK_POPOVER(menu), GTK_POS_RIGHT);
-    //gtk_popover_set_pointing_to(GTK_POPOVER(menu), &rec);
+//     gtk_popover_set_position(GTK_POPOVER(menu), GTK_POS_RIGHT);
+//     //gtk_popover_set_pointing_to(GTK_POPOVER(menu), &rec);
 
-    gtk_popover_set_child(GTK_POPOVER(menu), items);
+//     gtk_popover_set_child(GTK_POPOVER(menu), items);
 
-    gtk_popover_popup(GTK_POPOVER(menu));
+//     gtk_popover_popup(GTK_POPOVER(menu));
 
-    return GDK_EVENT_STOP;
-}
+//     return GDK_EVENT_STOP;
+// }
 
 static void
 uchat_chat_box_class_init(UchatChatBoxClass *klass) {
@@ -64,7 +64,7 @@ void
 uchat_chat_box_set_message(UchatChatBox* self, t_message* message) {
     char* label = NULL;
     char* content = NULL;
-    char* author = NULL;
+    const char* author = NULL;
 
     if (message == NULL) {
         uchat_chat_box_set_time(self, self->chat->created_at);
@@ -74,8 +74,8 @@ uchat_chat_box_set_message(UchatChatBox* self, t_message* message) {
         author = (message->user_id == uchat->user->id) ? "You" : message->author;
 
         if (message->type == MSG_TYPE_TXT) {
-            if (strlen(message->content) > 40) {
-                content = mx_strjoin(mx_strndup(message->content, 30), " ...");
+            if (strlen(message->content) > 15) {
+                content = mx_strjoin(mx_strndup(message->content, 15), "...");
                 label = mx_strjoin(author, mx_strjoin(": ", content));
             }
             else {
@@ -99,7 +99,7 @@ uchat_chat_box_get_message(UchatChatBox* self) {
 
 void
 uchat_chat_box_set_time(UchatChatBox* self, const gchar* time) {
-    gtk_label_set_label(GTK_LABEL(self->time), /* strndup(&(time[11]), 5) */ time);
+    gtk_label_set_label(GTK_LABEL(self->time), strndup(&(time[11]), 5));
 }
 
 const gchar *

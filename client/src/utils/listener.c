@@ -42,7 +42,7 @@ void handle_message_response(cJSON* json) {
         GtkWidget* chat = gtk_notebook_get_nth_page(notebook, i);
         
         if (message->chat_id == uchat_message_box_get_chat(UCHAT_MESSAGE_BOX(chat))->id) {
-            uchat_message_box_add_message(chat, message, true);
+            uchat_message_box_add_message(UCHAT_MESSAGE_BOX(chat), message, true);
             break;
         }
     }

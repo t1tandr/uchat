@@ -5,14 +5,13 @@
         <child>
             <object class="GtkCenterBox">
                 <property name="orientation">vertical</property>
-                <property name="width-request">1160</property>
+                <property name="width-request">870</property>
                 <property name="hexpand">true</property>
                 <child type="start">
                     <object class="GtkBox" id="header">
                         <property name="orientation">vertical</property>
                         <property name="hexpand">true</property>
                         <property name="height-request">100</property>
-                        <property name="name">name</property>
                         <child>
                             <object class="GtkLabel" id="name">
                                 <property name="halign">center</property>
@@ -39,8 +38,8 @@
                                 <property name="height-request">650</property>
                                 <property name="margin-top">20</property>
                                 <property name="margin-bottom">20</property>
-                                <property name="margin-start">40</property>
-                                <property name="margin-end">40</property>
+                                <property name="margin-start">15</property>
+                                <property name="margin-end">15</property>
                             </object>
                         </child>
                     </object>
