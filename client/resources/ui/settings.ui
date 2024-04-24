@@ -60,7 +60,7 @@
                                 <property name="margin-top">151</property>
                                 <property name="width-request">130</property>
                                 <property name="name">Change</property>
-                                <signal name="clicked" handler="open_file_chooser"/>
+                                <!-- <signal name="clicked" handler="open_file_chooser"/> -->
                             </object>
                         </child>
                         <child>

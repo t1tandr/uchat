@@ -17,7 +17,6 @@ static gchar* text_view_get_full_text(GtkTextView* view) {
 struct _UchatMessageBox {
   GtkWidget parent_instance;
   
-  GtkWidget* header;
   t_chat* chat;
   GtkWidget* header;
   GtkWidget* textview;
@@ -186,7 +185,6 @@ uchat_message_box_new(t_chat* chat) {
 
     g_signal_connect(gesture, "pressed", G_CALLBACK(gesture_released_cb), chat);
 
-    gtk_widget_add_controller(GTK_WIDGET(obj->header), GTK_EVENT_CONTROLLER(gesture));
     gtk_widget_add_controller(GTK_WIDGET(obj->header), GTK_EVENT_CONTROLLER(gesture));
 
     return obj;

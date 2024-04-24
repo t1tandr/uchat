@@ -1,9 +1,8 @@
 #ifndef UCHAT_TEXT_MESSAGE_H
 #define UCHAT_TEXT_MESSAGE_H
 
-#include <gtk/gtk.h>
 #include "models/message.h"
-#include <uchat.h>
+#include "uchat.h"
 
 G_BEGIN_DECLS
 

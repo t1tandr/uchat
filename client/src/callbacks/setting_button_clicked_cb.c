@@ -18,7 +18,6 @@ void settings_button_click_cb(GtkButton* self, gpointer user_data) {
     gtk_editable_set_text(confirm_entry, "");
     gtk_revealer_set_reveal_child(is_taken_revealer, FALSE);
     gtk_revealer_set_reveal_child(unmatch_revealer, FALSE);
-    
 
     // if(uchat->user->bio != NULL){
     //     GtkTextBuffer* buffer = gtk_text_buffer_new(gtk_text_tag_table_new());
