@@ -21,8 +21,9 @@ MonkeyChat! is a simple client-server chat written in pure C and GTK4 using sock
 
 ## Dependencies
 
-MonkeyChat! is licensed under the **[MIT]( "The best search engine for privacy")** license.
-Copyright © 2024, OGURCI Team
+|Lib   |Version |
+|---	|---	|
+| GTK 	| 4.0+ 	|
 
 ## Buiding
 
@@ -62,13 +63,10 @@ kill [server-pid]
 
 ## Credits
 
-Our team
-|Name   |GitHub |
-|---	|---	|
-| prov 	| https://github.com/Prov258 	|
-| neffarrty 	| https://github.com/neffarrty 	|
-| batushka 	| https://github.com/batushka11 	|
-| t1tandr 	| https://github.com/t1tandr 	|
+* [prov](https://github.com/Prov258)
+* [neffarrty](https://github.com/neffarrty)
+* [batushka](https://github.com/batushka11)
+* [t1tandr](https://github.com/t1tandr)
 
 ## Screenshots
 
