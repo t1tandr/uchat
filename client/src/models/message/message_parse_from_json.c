@@ -28,7 +28,7 @@ t_message* message_parse_from_json(cJSON* json) {
     msg->chat_id = cJSON_GetObjectItemCaseSensitive(json, "chat_id")->valueint;
     msg->user_id = cJSON_GetObjectItemCaseSensitive(json, "user_id")->valueint;
     msg->content = strdup(cJSON_GetObjectItemCaseSensitive(json, "content")->valuestring);
-    msg->type = get_message_type(cJSON_GetObjectItemCaseSensitive(json, "content")->valuestring);
+    msg->type = get_message_type(cJSON_GetObjectItemCaseSensitive(json, "type")->valuestring);
     msg->time = strdup(cJSON_GetObjectItemCaseSensitive(json, "created_at")->valuestring);
 
     return msg;

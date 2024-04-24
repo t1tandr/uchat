@@ -17,6 +17,7 @@ struct s_chat {
     const char* img;
     const char* created_at;
     t_list* members;
+    t_list* messages;
     t_message* last_message;
 };
 
@@ -25,5 +26,7 @@ t_chat* chat_init(void);
 t_chat* chat_parse_from_json(cJSON* json);
 
 t_list* chat_parse_from_json_arr(cJSON* arr);
+
+void chat_add_members(t_chat* chat);
 
 #endif

@@ -2,6 +2,7 @@
 #define MESSAGE_H
 
 #include <cJSON.h>
+#include "libmx.h"
 
 /*
  * MESSAGE UTILS
@@ -30,6 +31,8 @@ struct s_message {
 t_message* message_init(void);
 
 t_message* message_parse_from_json(cJSON* json);
+
+t_list* message_parse_from_json_arr(cJSON* arr);
 
 #endif
 

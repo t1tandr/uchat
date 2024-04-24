@@ -19,6 +19,7 @@ struct s_chat_member {
     int chat_id;
     int user_id;
     int role;
+    const char* username;
 };
 
 t_chat_member* chat_member_init(void);
@@ -26,5 +27,7 @@ t_chat_member* chat_member_init(void);
 t_chat_member* chat_member_parse_from_json(cJSON* json);
 
 t_list* chat_member_parse_from_json_arr(cJSON* arr);
+
+char* chat_member_get_username_by_id(int id);
 
 #endif

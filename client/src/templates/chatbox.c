@@ -1,4 +1,4 @@
-#include "templates/chatbox.h"
+#include "uchat.h"
 
 struct _UchatChatBox {
     GtkWidget parent_instance;
@@ -62,20 +62,33 @@ uchat_chat_box_get_name(UchatChatBox* self) {
 
 void
 uchat_chat_box_set_message(UchatChatBox* self, t_message* message) {
+    char* label = NULL;
+    char* content = NULL;
+    char* author = NULL;
+
     if (message == NULL) {
+        uchat_chat_box_set_time(self, self->chat->created_at);
         gtk_label_set_label(GTK_LABEL(self->message), "Chat is created");
     }
     else {
-        char* content = NULL;
+        author = (message->user_id == uchat->user->id) ? "You" : message->author;
 
         if (message->type == MSG_TYPE_TXT) {
-            content = mx_strjoin(message->author, mx_strjoin(": ", message->content));
+            if (strlen(message->content) > 40) {
+                content = mx_strjoin(mx_strndup(message->content, 30), " ...");
+                label = mx_strjoin(author, mx_strjoin(": ", content));
+            }
+            else {
+                label = mx_strjoin(author, mx_strjoin(": ", message->content));
+            }
         }
         else if (message->type == MSG_TYPE_IMG) {
-            content = mx_strjoin(message->author, ": sends an image");
+            label = mx_strjoin(author, ": sends an image");
         }
         
-        gtk_label_set_label(GTK_LABEL(self->message), content);
+        gtk_label_set_label(GTK_LABEL(self->message), label);
+
+        uchat_chat_box_set_time(self, message->time);
     }
 }
 
@@ -86,7 +99,7 @@ uchat_chat_box_get_message(UchatChatBox* self) {
 
 void
 uchat_chat_box_set_time(UchatChatBox* self, const gchar* time) {
-    gtk_label_set_label(GTK_LABEL(self->time), time);
+    gtk_label_set_label(GTK_LABEL(self->time), /* strndup(&(time[11]), 5) */ time);
 }
 
 const gchar *
@@ -106,13 +119,6 @@ uchat_chat_box_new(t_chat* chat) {
     obj->chat = chat;
     uchat_chat_box_set_name(obj, chat->name);
     uchat_chat_box_set_message(obj, chat->last_message);
-
-    if (chat->last_message == NULL) {
-        uchat_chat_box_set_time(obj, strndup(&(chat->created_at[11]), 5));
-    }
-    else {
-        uchat_chat_box_set_time(obj, strndup(&(chat->last_message->time[11]), 5));
-    }
 
     // GtkGesture* gesture = gtk_gesture_click_new();
     // gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), GDK_BUTTON_SECONDARY);

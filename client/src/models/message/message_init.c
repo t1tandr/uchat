@@ -13,6 +13,7 @@ t_message* message_init(void) {
     msg->type = MSG_TYPE_UNKNOWN;
     msg->content = NULL;
     msg->time = NULL;
+    msg->author = NULL;
 
     return msg;
 }

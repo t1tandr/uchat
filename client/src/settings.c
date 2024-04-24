@@ -44,3 +44,4 @@ void settings_button_click_cb(GtkButton* self, gpointer user_data) {
     gtk_box_remove(homepage, GTK_WIDGET(right_side));
     gtk_box_append(homepage, GTK_WIDGET(settings));
 }
+

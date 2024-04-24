@@ -16,11 +16,12 @@
 
 #include "password.h"
 #include "utils.h"
-#include "user.h"
-#include "chat.h"
-#include "chat_member.h"
-#include "message.h"
 #include "error.h"
+
+#include "models/user.h"
+#include "models/chat.h"
+#include "models/chat_member.h"
+#include "models/message.h"
 
 #include "templates/chatbox.h"
 #include "templates/textmessage.h"
@@ -45,6 +46,8 @@ typedef struct s_uchat {
 
 extern t_uchat* uchat;
 
+t_uchat* uchat_init(void);
+
 t_uchat* uchat_create(int sockfd, GtkApplication* app);
 
 int connect_to_server(const char* ip, const char* port);
@@ -57,6 +60,8 @@ void init_listener_thread(void);
 
 unsigned char* file_to_bytes(const char *file_name, long *file_size);
 void bytes_to_file(const unsigned char *bytes, unsigned long size, const char *output_file_name);
+
+void handle_message_response(cJSON* json);
 
 #endif
 

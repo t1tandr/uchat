@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding=""?>
 <interface>
     <template class="UchatMessageBox" parent="GtkWidget">
+        <signal name="realize" handler="message_box_realize_cb"/>
         <child>
             <object class="GtkCenterBox">
                 <property name="orientation">vertical</property>
                 <property name="width-request">1160</property>
                 <property name="hexpand">true</property>
                 <child type="start">
-                    <object class="GtkBox">
+                    <object class="GtkBox" id="header">
                         <property name="orientation">vertical</property>
                         <property name="hexpand">true</property>
                         <property name="height-request">100</property>
@@ -35,7 +36,7 @@
                                 <property name="orientation">vertical</property>
                                 <property name="spacing">20</property>
                                 <property name="vexpand">true</property>
-                                <property name="height-request">600</property>
+                                <property name="height-request">650</property>
                                 <property name="margin-top">20</property>
                                 <property name="margin-bottom">20</property>
                                 <property name="margin-start">40</property>
@@ -47,9 +48,11 @@
                 <child type="end">
                     <object class="GtkBox">
                         <property name="orientation">horizontal</property>
+                        <property name="height-request">45</property>
                         <child>
                             <object class="GtkScrolledWindow">
                                 <property name="hscrollbar-policy">never</property>
+                                <property name="vscrollbar-policy">never</property>
                                 <child>
                                     <object class="GtkTextView" id="textview">
                                         <property name="top-margin">10</property>
@@ -62,9 +65,27 @@
                                         <property name="margin-bottom">10</property>
                                         <property name="margin-start">15</property>
                                         <property name="margin-end">15</property>
-                                        <property name="height-request">45</property>
+                                        <property name="height-request">35</property>
+                                        <property name="name">message-view</property>
                                     </object>
                                 </child>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkMenuButton">
+                                <property name="icon-name">face-monkey</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="margin-end">5</property>
+                                <property name="valign">end</property>
+                                <property name="popover">
+                                    <object class="GtkEmojiChooser" id="chooser">
+                                        <property name="position">top</property>
+                                    </object>
+                                </property>
+                                <style>
+                                    <class name="round"/>
+                                </style>
                             </object>
                         </child>
                         <child>
