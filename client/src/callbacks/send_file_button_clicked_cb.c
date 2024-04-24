@@ -37,7 +37,7 @@ static void on_open_responsed(GtkDialog *dialog, int response, gpointer user_dat
         int status = send_request(uchat->servsock, request);
 
         if (status != REQUEST_SUCCESS) {
-            handle_error(REQUEST_ERROR, "\'POST /messages\'");
+            handle_error(REQUEST_ERROR, "POST /messages");
         }
         
         response = g_async_queue_pop(uchat->responses);
@@ -60,7 +60,7 @@ static void on_open_responsed(GtkDialog *dialog, int response, gpointer user_dat
 
         g_free((gpointer)path);
     }
-    
+
     gtk_window_destroy(GTK_WINDOW (dialog));
 }
 

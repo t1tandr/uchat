@@ -1,19 +1,5 @@
 #include "templates/messagebox.h"
 
-static gchar* text_view_get_full_text(GtkTextView* view) {
-    GtkTextBuffer* buffer = gtk_text_view_get_buffer(view);
-    GtkTextIter start, end;
-    gchar* text = NULL;
-
-    gtk_text_buffer_get_bounds(buffer, &start, &end);
-
-    text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-
-    gtk_text_buffer_delete(buffer, &start, &end);
-
-    return text;
-}
-
 struct _UchatMessageBox {
   GtkWidget parent_instance;
   
@@ -21,6 +7,7 @@ struct _UchatMessageBox {
   GtkWidget* header;
   GtkWidget* textview;
   GtkWidget* container;
+  GtkWidget* wrapper;
   GtkWidget* name;
   GtkWidget* num_of_members;
   GtkWidget* chooser;
@@ -28,14 +15,25 @@ struct _UchatMessageBox {
 
 G_DEFINE_TYPE(UchatMessageBox, uchat_message_box, GTK_TYPE_WIDGET)
 
-static void emoji_chooser_picked_cb(GtkEmojiChooser* self, gchar* text, gpointer user_data) {
+void
+scroll_value_changed (GtkAdjustment* self, gpointer user_data) {
+    double value = gtk_adjustment_get_value(self);
+    double upper = gtk_adjustment_get_upper(self);
+    double page_size = gtk_adjustment_get_page_size(self);
+
+    gtk_adjustment_set_value(self, upper - page_size);
+}
+
+static void 
+emoji_chooser_picked_cb(GtkEmojiChooser* self, gchar* text, gpointer user_data) {
     GtkTextView* view = GTK_TEXT_VIEW(user_data);
     GtkTextBuffer* buffer = gtk_text_view_get_buffer(view);
 
     gtk_text_buffer_insert_at_cursor(buffer, text, strlen(text));
 }
 
-static gboolean gesture_released_cb(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data) {
+static gboolean 
+gesture_released_cb(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data) {
     t_chat* chat = (t_chat *)user_data;
     
     GtkWindow* dialog = GTK_WINDOW(gtk_window_new());
@@ -140,6 +138,7 @@ uchat_message_box_class_init(UchatMessageBoxClass *klass) {
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, textview);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, header);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, chooser);
+    gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, wrapper);
 }
 
 gchar *
@@ -154,7 +153,15 @@ uchat_message_box_get_chat(UchatMessageBox* self) {
 
 void
 uchat_message_box_set_num_of_members(UchatMessageBox* self, int n) {
-    char* label = mx_strjoin(mx_itoa(n), " members");
+    char* label = NULL;
+    
+    if (n > 1) {
+        label = mx_strjoin(mx_itoa(n), " members");
+    }
+    else {
+        label = mx_strjoin(mx_itoa(n), " members");
+    }
+
     gtk_label_set_label(GTK_LABEL(self->num_of_members), label);
 }
 
@@ -162,10 +169,10 @@ void
 uchat_message_box_add_message(UchatMessageBox* self, t_message* message, bool own) {
     GtkWidget* msg = NULL;
     
-    if (message->type = MSG_TYPE_TXT) {
+    if (message->type == MSG_TYPE_TXT) {
         msg = GTK_WIDGET(uchat_text_message_new(message, own));
     }
-    if (message->type = MSG_TYPE_IMG) {
+    if (message->type == MSG_TYPE_IMG) {
         msg = GTK_WIDGET(uchat_image_message_new(message, own));
     }
 
@@ -191,14 +198,15 @@ uchat_message_box_new(t_chat* chat) {
     gtk_label_set_label(GTK_LABEL(obj->name), chat->name);
     uchat_message_box_set_num_of_members(obj, mx_list_size(chat->members));
 
-    g_signal_connect(obj->chooser, "emoji-picked", G_CALLBACK(emoji_chooser_picked_cb), obj->textview);
-
     GtkGesture* gesture = gtk_gesture_click_new();
     gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), GDK_BUTTON_PRIMARY);
 
-    g_signal_connect(gesture, "pressed", G_CALLBACK(gesture_released_cb), chat);
-
     gtk_widget_add_controller(GTK_WIDGET(obj->header), GTK_EVENT_CONTROLLER(gesture));
+
+    GtkAdjustment* vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(obj->wrapper));
+    g_signal_connect (vadj, "changed", G_CALLBACK(scroll_value_changed), NULL);
+    g_signal_connect(gesture, "pressed", G_CALLBACK(gesture_released_cb), chat);
+    g_signal_connect(obj->chooser, "emoji-picked", G_CALLBACK(emoji_chooser_picked_cb), obj->textview);
 
     return obj;
 }

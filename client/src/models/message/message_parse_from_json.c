@@ -30,8 +30,7 @@ t_message* message_parse_from_json(cJSON* json) {
     msg->content = strdup(cJSON_GetObjectItemCaseSensitive(json, "content")->valuestring);
     msg->type = get_message_type(cJSON_GetObjectItemCaseSensitive(json, "type")->valuestring);
     msg->time = strdup(cJSON_GetObjectItemCaseSensitive(json, "created_at")->valuestring);
-    // msg->author = strdup(cJSON_GetObjectItemCaseSensitive(json, "username")->valuestring);
-    msg->author = strdup("hello");
+    msg->author = strdup(cJSON_GetObjectItemCaseSensitive(json, "username")->valuestring);
 
     return msg;
 }

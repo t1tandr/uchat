@@ -13,7 +13,6 @@ void chat_list_row_selected_cb(GtkListBox* self, GtkListBoxRow* row, gpointer us
         if (chat->id == uchat_message_box_get_chat(UCHAT_MESSAGE_BOX(page))->id) {
             gtk_notebook_set_current_page(notebook, i);
             uchat->user->current_chat = chat;
-            printf("current chat: %s\n", chat->name);
             return;
         }
     }
@@ -22,6 +21,5 @@ void chat_list_row_selected_cb(GtkListBox* self, GtkListBoxRow* row, gpointer us
     gtk_notebook_append_page(notebook, GTK_WIDGET(box), gtk_label_new(chat->name));
     gtk_notebook_set_current_page(notebook, -1);
     uchat->user->current_chat = chat;
-    printf("current chat: %s num of messages - %d\n", chat->name, mx_list_size(chat->messages));
 }
 

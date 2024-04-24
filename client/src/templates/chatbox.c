@@ -12,9 +12,135 @@ struct _UchatChatBox {
 
 G_DEFINE_TYPE(UchatChatBox, uchat_chat_box, GTK_TYPE_WIDGET)
 
+bool 
+cmp(void* a, void* b) {
+    return ((t_chat *)a)->id == ((t_chat *)b)->id;
+}
+
+static void 
+delete_chat_from_notebook(int id) {
+    GtkNotebook* notebook = GTK_NOTEBOOK(gtk_builder_get_object(uchat->builder, "message-container"));
+    int n_pages = gtk_notebook_get_n_pages(notebook);
+
+    for(int i = 1; i < n_pages; i++) {
+        GtkWidget* page = gtk_notebook_get_nth_page(notebook, i);
+        
+        if (id == uchat_message_box_get_chat(UCHAT_MESSAGE_BOX(page))->id) {
+            if (gtk_notebook_get_current_page(notebook) == i) {
+                gtk_notebook_set_current_page(notebook, 0);
+            }
+
+            gtk_notebook_remove_page(notebook, i);
+            break;;
+        }
+    }
+}
+
+static void 
+delete_chat_from_chat_list(int id) {
+    GtkListBox* list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "chat-list"));
+    GtkListBoxRow* row = NULL;
+    guint j = 0;
+
+    while ((row = gtk_list_box_get_row_at_index(list, j++)) != NULL) {
+        UchatChatBox* box = UCHAT_CHAT_BOX(gtk_list_box_row_get_child(row));
+        t_chat* chat = uchat_chat_box_get_chat(box);
+
+        if (chat->id == id) {
+            gtk_list_box_remove(list, GTK_WIDGET(row));
+            break;
+        }
+    }
+}
+
 static void
 delete_button_clicked_cb(GtkButton* self, gpointer user_data) {
     t_chat* chat = (t_chat *)user_data;
+
+    for (t_list* i = chat->members; i != NULL; i = i->next) {
+        t_chat_member* member = (t_chat_member *)i->data;
+
+        if (member->user_id == uchat->user->id) {
+            if (member->role == ROLE_ADMIN) {
+                cJSON* request = NULL;
+                cJSON* response = NULL;
+                cJSON* data = NULL;
+                cJSON* headers = NULL;
+                char route[128];
+
+                sprintf(route, "/chats/%d", member->chat_id);
+
+                headers = cJSON_CreateObject();
+                cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
+
+                data = cJSON_CreateObject();
+
+                request = create_request(METHOD_DELETE, route, data, headers);
+
+                int status = send_request(uchat->servsock, request);
+
+                if (status != REQUEST_SUCCESS) {
+                    handle_error(REQUEST_ERROR, "DELETE /chats/{id}");
+                }
+
+                response = g_async_queue_pop(uchat->responses);
+                
+                if (cJSON_HasObjectItem(response, "status")) {
+                    status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+
+                    if (status == 200) {
+                        delete_chat_from_notebook(chat->id);
+                        delete_chat_from_chat_list(chat->id);
+                        // mx_del_node_if(&(uchat->user->chats), chat, cmp);
+                    }
+
+                    cJSON_Delete(response);
+                }
+                else {
+                    handle_error(RESPONSE_ERROR, "DELETE /chats/{id}");
+                }
+            }
+            else if (member->role == ROLE_USER) {
+                cJSON* request = NULL;
+                cJSON* response = NULL;
+                cJSON* data = NULL;
+                cJSON* headers = NULL;
+                char route[128];
+
+                sprintf(route, "/chat-members/%d", member->id);
+
+                headers = cJSON_CreateObject();
+                cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
+
+                data = cJSON_CreateObject();
+
+                request = create_request(METHOD_DELETE, route, data, headers);
+
+                int status = send_request(uchat->servsock, request);
+
+                if (status != REQUEST_SUCCESS) {
+                    handle_error(REQUEST_ERROR, "DELETE /chat-members/{id}");
+                }
+
+                response = g_async_queue_pop(uchat->responses);
+                
+                if (cJSON_HasObjectItem(response, "status")) {
+                    status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+
+                    if (status == 200) {
+                        delete_chat_from_notebook(chat->id);
+                        delete_chat_from_chat_list(chat->id);
+                        // mx_del_node_if(&(uchat->user->chats), chat, cmp);
+                    }
+
+                    cJSON_Delete(response);
+                }
+                else {
+                    handle_error(RESPONSE_ERROR, "DELETE /chat-members/{id}");
+                }
+            }
+        }
+    }
 }
 
 
@@ -111,7 +237,7 @@ uchat_chat_box_new(t_chat* chat) {
     uchat_chat_box_set_name(obj, chat->name);
     uchat_chat_box_set_message(obj, chat->last_message);
 
-    // g_signal_connect(obj->delete, "clicked", G_CALLBACK(delete_button_clicked_cb), chat);
+    g_signal_connect(obj->delete, "clicked", G_CALLBACK(delete_button_clicked_cb), chat);
 
     return obj;
 }
