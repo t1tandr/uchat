@@ -1,22 +1,23 @@
 # Ucode-Connect Track C uchat - MonkeyChat!
 
 ---
-
+<p style="text-align: center;">
 ![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![JSON](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white) 
 ![GIT](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 ![SQLite](https://img.shields.io/badge/Sqlite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+</p>
 
 MonkeyChat! is a simple client-server chat written in pure C and GTK4 using sockets for data exchange between client and server
 
 ## Table of contents
-### [Dependencies](https://github.com/t1tandr/uchat#dependencies)\
-### [Building](https://github.com/t1tandr/uchat#buiding)\
-### [Usage](https://github.com/t1tandr/uchat#usage)\
-### [Credits](https://github.com/t1tandr/uchat#credits)\
-### [Links](https://github.com/t1tandr/uchat#links)\
-### [License](https://github.com/t1tandr/uchat#license)
+##### [Dependencies](https://github.com/t1tandr/uchat#dependencies)
+##### [Building](https://github.com/t1tandr/uchat#buiding)
+##### [Usage](https://github.com/t1tandr/uchat#usage)
+##### [Credits](https://github.com/t1tandr/uchat#credits)
+##### [Links](https://github.com/t1tandr/uchat#links)
+##### [License](https://github.com/t1tandr/uchat#license)
 
 ## Dependencies
 
