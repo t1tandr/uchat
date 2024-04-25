@@ -60,7 +60,7 @@ uchat_text_message_set_avatar(UchatTextMessage* self, const gchar* path) {
 }
 
 const gchar *
-uchat_message_box_get_avatar(UchatTextMessage* self) {
+uchat_text_message_get_avatar(UchatTextMessage* self) {
     return uchat_avatar_box_get_file(UCHAT_AVATAR_BOX(self->avatar));
 }
 

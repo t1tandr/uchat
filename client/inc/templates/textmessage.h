@@ -34,7 +34,7 @@ void
 uchat_text_message_set_avatar(UchatTextMessage* self, const gchar* path);
 
 const gchar *
-uchat_message_box_get_avatar(UchatTextMessage* self);
+uchat_text_message_get_avatar(UchatTextMessage* self);
 
 G_END_DECLS
 

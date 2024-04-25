@@ -22,7 +22,11 @@ gchar *
 uchat_message_box_get_text(UchatMessageBox* self);
 
 void
-uchat_message_box_add_image(UchatMessageBox* self, t_message* message, bool own);
+uchat_message_box_set_avatar(UchatMessageBox* self, const gchar* path);
+
+const gchar *
+uchat_message_box_get_avatar(UchatMessageBox* self);
+
 
 G_END_DECLS
 

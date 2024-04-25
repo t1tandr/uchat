@@ -9,24 +9,38 @@
                 <property name="hexpand">true</property>
                 <child type="start">
                     <object class="GtkBox" id="header">
-                        <property name="orientation">vertical</property>
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">20</property>
                         <property name="hexpand">true</property>
                         <property name="height-request">100</property>
                         <property name="name">message-box-header</property>
                         <child>
-                            <object class="GtkLabel" id="name">
-                                <property name="halign">center</property>
-                                <property name="margin-top">20</property>
+                            <object class="UchatAvatarBox" id="avatar">
+                                <property name="margin-start">20</property>
+                                <property name="halign">start</property>
                                 <property name="valign">center</property>
-                                <property name="name">message-box-name</property>
+                                <property name="size">70</property>
                             </object>
                         </child>
                         <child>
-                            <object class="GtkLabel" id="num_of_members">
-                                <property name="halign">center</property>
-                                <property name="margin-top">20</property>
-                                <property name="valign">center</property>
-                                <property name="name">message-box-numbers</property>
+                            <object class="GtkBox">
+                                <property name="orientation">vertical</property>
+                                <child>
+                                    <object class="GtkLabel" id="name">
+                                        <property name="halign">start</property>
+                                        <property name="margin-top">20</property>
+                                        <property name="valign">center</property>
+                                        <property name="name">message-box-name</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkLabel" id="num_of_members">
+                                        <property name="halign">start</property>
+                                        <property name="margin-top">10</property>
+                                        <property name="valign">center</property>
+                                        <property name="name">message-box-numbers</property>
+                                    </object>
+                                </child>
                             </object>
                         </child>
                     </object>
@@ -40,7 +54,7 @@
                                 <property name="orientation">vertical</property>
                                 <property name="spacing">20</property>
                                 <property name="vexpand">true</property>
-                                <property name="height-request">450</property>
+                                <property name="height-request">430</property>
                                 <property name="margin-top">20</property>
                                 <property name="margin-bottom">20</property>
                                 <property name="margin-start">15</property>

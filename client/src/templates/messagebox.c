@@ -1,16 +1,17 @@
 #include "templates/messagebox.h"
 
 struct _UchatMessageBox {
-  GtkWidget parent_instance;
+    GtkWidget parent_instance;
   
-  t_chat* chat;
-  GtkWidget* header;
-  GtkWidget* textview;
-  GtkWidget* container;
-  GtkWidget* wrapper;
-  GtkWidget* name;
-  GtkWidget* num_of_members;
-  GtkWidget* chooser;
+    t_chat* chat;
+    GtkWidget* header;
+    GtkWidget* textview;
+    GtkWidget* container;
+    GtkWidget* wrapper;
+    GtkWidget* name;
+    GtkWidget* num_of_members;
+    GtkWidget* chooser;
+    GtkWidget* avatar;
 };
 
 G_DEFINE_TYPE(UchatMessageBox, uchat_message_box, GTK_TYPE_WIDGET)
@@ -139,6 +140,7 @@ uchat_message_box_class_init(UchatMessageBoxClass *klass) {
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, header);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, chooser);
     gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, wrapper);
+    gtk_widget_class_bind_template_child(widget_class, UchatMessageBox, avatar);
 }
 
 gchar *
@@ -159,7 +161,7 @@ uchat_message_box_set_num_of_members(UchatMessageBox* self, int n) {
         label = mx_strjoin(mx_itoa(n), " members");
     }
     else {
-        label = mx_strjoin(mx_itoa(n), " members");
+        label = mx_strjoin(mx_itoa(n), " member");
     }
 
     gtk_label_set_label(GTK_LABEL(self->num_of_members), label);
@@ -185,6 +187,16 @@ uchat_message_box_add_image(UchatMessageBox* self, t_message* message, bool own)
     gtk_box_append(GTK_BOX(self->container), GTK_WIDGET(msg));
 }
 
+void
+uchat_message_box_set_avatar(UchatMessageBox* self, const gchar* path) {
+    uchat_avatar_box_set_file(UCHAT_AVATAR_BOX(self->avatar), path);
+}
+
+const gchar *
+uchat_message_box_get_avatar(UchatMessageBox* self) {
+    return uchat_avatar_box_get_file(UCHAT_AVATAR_BOX(self->avatar));
+}
+
 static void
 uchat_message_box_init(UchatMessageBox *self) {
     gtk_widget_init_template(GTK_WIDGET(self));
@@ -197,6 +209,7 @@ uchat_message_box_new(t_chat* chat) {
     obj->chat = chat;
     gtk_label_set_label(GTK_LABEL(obj->name), chat->name);
     uchat_message_box_set_num_of_members(obj, mx_list_size(chat->members));
+    uchat_message_box_set_avatar(obj, chat->img);
 
     GtkGesture* gesture = gtk_gesture_click_new();
     gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), GDK_BUTTON_PRIMARY);
