@@ -11,6 +11,7 @@ t_chat_member* chat_member_init(void) {
     member->chat_id = 0;
     member->user_id = 0;
     member->role = ROLE_USER;
+    member->avatar = NULL;
 
     return member;
 }

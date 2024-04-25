@@ -1,7 +1,7 @@
 #ifndef UCHAT_AVATAR_BOX_H
 #define UCHAT_AVATAR_BOX_H
 
-#include <gtk/gtk.h>
+#include "uchat.h"
 
 G_BEGIN_DECLS
 
@@ -10,12 +10,12 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(UchatAvatarBox, uchat_avatar_box, UCHAT, AVATAR_BOX, GtkWidget)
 
 UchatAvatarBox *
-uchat_avatar_box_new(GFile* file, int size);
+uchat_avatar_box_new(const gchar* path, int size);
 
 void
-uchat_avatar_box_set_file(UchatAvatarBox* self, GFile* file);
+uchat_avatar_box_set_file(UchatAvatarBox* self, const gchar* path);
 
-GFile *
+const gchar *
 uchat_avatar_box_get_file(UchatAvatarBox* self);
 
 G_END_DECLS

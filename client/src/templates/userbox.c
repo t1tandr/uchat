@@ -5,6 +5,7 @@ struct _UchatUserBox {
 
     t_user* user;
     GtkWidget* username;
+    GtkWidget* avatar;
 };
 
 G_DEFINE_TYPE(UchatUserBox, uchat_user_box, GTK_TYPE_WIDGET)
@@ -17,6 +18,7 @@ uchat_user_box_class_init(UchatUserBoxClass *klass) {
     gtk_widget_class_set_layout_manager_type(widget_class, GTK_TYPE_BOX_LAYOUT);
 
     gtk_widget_class_bind_template_child(widget_class, UchatUserBox, username);
+    gtk_widget_class_bind_template_child(widget_class, UchatUserBox, avatar);
 }
 
 void
@@ -39,6 +41,16 @@ uchat_user_box_get_username(UchatUserBox* self) {
     return gtk_label_get_label(GTK_LABEL(self->username));
 }
 
+void
+uchat_user_box_set_avatar(UchatUserBox* self, const gchar* path) {
+    uchat_avatar_box_set_file(UCHAT_AVATAR_BOX(self->avatar), path);
+}
+
+const gchar *
+uchat_user_box_get_avatar(UchatUserBox* self) {
+    return uchat_avatar_box_get_file(UCHAT_AVATAR_BOX(self->avatar));
+}
+
 static void
 uchat_user_box_init(UchatUserBox *self) {
     gtk_widget_init_template(GTK_WIDGET(self));
@@ -50,6 +62,7 @@ uchat_user_box_new(t_user* user) {
 
     uchat_user_box_set_user(obj, user);
     uchat_user_box_set_username(obj, user->username);
+    uchat_user_box_set_avatar(obj, user->avatar);
 
     return obj;
 }

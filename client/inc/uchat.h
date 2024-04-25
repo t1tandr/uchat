@@ -25,10 +25,10 @@
 #include "models/chat_member.h"
 #include "models/message.h"
 
+#include "templates/avatarbox.h"
 #include "templates/chatbox.h"
 #include "templates/textmessage.h"
 #include "templates/userbox.h"
-#include "templates/avatarbox.h"
 #include "templates/messagebox.h"
 #include "templates/imagemessage.h"
 

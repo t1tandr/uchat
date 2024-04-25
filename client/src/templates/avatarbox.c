@@ -42,7 +42,7 @@ struct _UchatAvatarBox {
     GtkWidget parent_instance;
 
     int size;
-    GFile* file;
+    const gchar* path;
     GtkWidget* area;
 };
 
@@ -105,15 +105,17 @@ uchat_avatar_box_class_init(UchatAvatarBoxClass *klass) {
 }
 
 void 
-uchat_avatar_box_set_file(UchatAvatarBox* self, GFile* file) {
-    self->file = file;
-    gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(self->area), draw_from_path, g_file_get_path(file), NULL);
-    gtk_widget_queue_draw(self->area);
+uchat_avatar_box_set_file(UchatAvatarBox* self, const gchar* path) {
+    if (path != NULL) {
+        self->path = g_strdup(path);
+        gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(self->area), draw_from_path, (gpointer) path, NULL);
+        gtk_widget_queue_draw(self->area);
+    }
 }
 
-GFile * 
+const gchar * 
 uchat_avatar_box_get_file(UchatAvatarBox* self) {
-    return self->file;
+    return self->path;
 }
 
 static void
@@ -122,10 +124,10 @@ uchat_avatar_box_init(UchatAvatarBox *self) {
 }
 
 UchatAvatarBox *
-uchat_avatar_box_new(GFile* file, int size) {
+uchat_avatar_box_new(const gchar* path, int size) {
     UchatAvatarBox* obj = g_object_new(UCHAT_TYPE_AVATAR_BOX, NULL);
 
-    uchat_avatar_box_set_file(obj, file);
+    uchat_avatar_box_set_file(obj, path);
 
     gtk_widget_set_size_request(GTK_WIDGET(obj), size, size);
     gtk_drawing_area_set_content_width(GTK_DRAWING_AREA(obj->area), size);

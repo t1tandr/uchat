@@ -11,7 +11,7 @@
                         <property name="height-request">60</property>
                         <property name="width-request">150</property>
                         <style>
-                                    <class name="image_message"/>
+                            <class name="image-message"/>
                         </style>
                         <child>
                             <object class="UchatAvatarBox" id="avatar">

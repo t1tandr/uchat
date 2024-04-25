@@ -61,7 +61,7 @@ gesture_released_cb(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, g
     GtkWidget* name = gtk_label_new(chat->name);
     gtk_widget_set_margin_top(name, 10);
     gtk_widget_add_css_class(name, "userbox-chat-name");
-    GtkWidget* avatar = GTK_WIDGET(uchat_avatar_box_new(g_file_new_for_path("resources/img/logo.png"), 100));
+    GtkWidget* avatar = GTK_WIDGET(uchat_avatar_box_new("resources/img/logo.png", 100));
 
     gtk_fixed_put(GTK_FIXED(header), avatar, 0, 0);
     gtk_fixed_put(GTK_FIXED(header), name, 120, 0);

@@ -32,6 +32,10 @@ t_message* message_parse_from_json(cJSON* json) {
     msg->time = strdup(cJSON_GetObjectItemCaseSensitive(json, "created_at")->valuestring);
     msg->author = strdup(cJSON_GetObjectItemCaseSensitive(json, "username")->valuestring);
 
+    if (cJSON_HasObjectItem(json, "avatar")) {
+        msg->avatar = strdup(cJSON_GetObjectItemCaseSensitive(json, "avatar")->valuestring);
+    }
+
     return msg;
 }
 

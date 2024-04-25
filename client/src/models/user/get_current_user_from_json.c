@@ -15,6 +15,9 @@ t_current_user* get_current_user_from_json(cJSON* json) {
     if (cJSON_HasObjectItem(json, "bio")) {
         user->bio = strdup(cJSON_GetObjectItemCaseSensitive(json, "bio")->valuestring);
     }
+    if (cJSON_HasObjectItem(json, "avatar")) {
+        user->avatar = strdup(cJSON_GetObjectItemCaseSensitive(json, "avatar")->valuestring);
+    }
    
     return user;
 }

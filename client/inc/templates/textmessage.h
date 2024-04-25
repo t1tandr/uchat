@@ -1,7 +1,6 @@
 #ifndef UCHAT_TEXT_MESSAGE_H
 #define UCHAT_TEXT_MESSAGE_H
 
-#include "models/message.h"
 #include "uchat.h"
 
 G_BEGIN_DECLS
@@ -30,6 +29,12 @@ uchat_text_message_set_time(UchatTextMessage* self, const gchar* time);
 
 const gchar *
 uchat_text_message_get_time(UchatTextMessage* self);
+
+void
+uchat_text_message_set_avatar(UchatTextMessage* self, const gchar* path);
+
+const gchar *
+uchat_message_box_get_avatar(UchatTextMessage* self);
 
 G_END_DECLS
 

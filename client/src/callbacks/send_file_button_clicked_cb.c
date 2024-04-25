@@ -15,9 +15,9 @@ static void on_open_responsed(GtkDialog *dialog, int response, gpointer user_dat
         gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
         g_autoptr(GFile) file = gtk_file_chooser_get_file (chooser);
         const gchar *path = g_file_get_path(file);
-        long size;
-        unsigned char* p = file_to_bytes(path, &size);
-        char* encode = g_base64_encode(p, size);
+        // long size;
+        // unsigned char* p = file_to_bytes(path, &size);
+        // char* encode = g_base64_encode(p, size);
 
         cJSON* request = NULL;
         cJSON* response = NULL;
@@ -30,7 +30,7 @@ static void on_open_responsed(GtkDialog *dialog, int response, gpointer user_dat
         data = cJSON_CreateObject();
         cJSON_AddNumberToObject(data, "chat_id", uchat->user->current_chat->id);
         cJSON_AddStringToObject(data, "type", "photo");
-        cJSON_AddStringToObject(data, "content", encode);
+        cJSON_AddStringToObject(data, "content", path);
 
         request = create_request(METHOD_POST, "/messages", data, headers);
 
@@ -48,7 +48,7 @@ static void on_open_responsed(GtkDialog *dialog, int response, gpointer user_dat
             if (status == 201) {
                 cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
                 t_message* message = message_parse_from_json(response_data);
-                uchat_message_box_add_image(chat, message, true);
+                uchat_message_box_add_message(chat, message, true);
             }
 
             cJSON_Delete(response);
@@ -64,12 +64,11 @@ static void on_open_responsed(GtkDialog *dialog, int response, gpointer user_dat
 }
 
 void send_file_button_clicked_cb(GtkButton* self, gpointer user_data) {
-    GtkWindow* window = GTK_WINDOW(gtk_builder_get_object(uchat->builder, "main-window"));
     GtkWidget *dialog;
     GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
 
     dialog = gtk_file_chooser_dialog_new ("Open File",
-                                      window,
+                                      gtk_application_get_active_window(uchat->app),
                                       action,
                                       ("_Cancel"),
                                       GTK_RESPONSE_CANCEL,

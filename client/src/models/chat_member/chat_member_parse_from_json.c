@@ -23,6 +23,10 @@ t_chat_member* chat_member_parse_from_json(cJSON* json) {
     member->user_id = cJSON_GetObjectItemCaseSensitive(json, "user_id")->valueint;
     member->role = get_member_role(cJSON_GetObjectItemCaseSensitive(json, "role")->valuestring);
 
+    if (cJSON_HasObjectItem(json, "avatar")) {
+        member->avatar = strdup(cJSON_GetObjectItemCaseSensitive(json, "avatar")->valuestring);
+    }
+
     return member;
 }
 

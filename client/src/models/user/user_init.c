@@ -11,6 +11,7 @@ t_user* user_init(void) {
     user->username = NULL;
     user->name = NULL;
     user->bio = NULL;
+    user->avatar = NULL;
 
     return user;
 }

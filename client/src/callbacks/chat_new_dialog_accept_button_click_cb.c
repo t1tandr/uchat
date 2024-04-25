@@ -56,9 +56,10 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
     headers = cJSON_CreateObject();
     cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
-    char *filename = uchat_avatar_box_get_file(avatar);
+    const char *filename = uchat_avatar_box_get_file(avatar);
     data = cJSON_CreateObject();
     cJSON_AddStringToObject(data, "name", chatname);
+
     if(uchat_avatar_box_get_file(avatar) != NULL){
         cJSON_AddStringToObject(data, "img", filename);
     }
@@ -94,7 +95,6 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
             if(mx_list_size(members) > 0) {
                 GtkListBox* chat_list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "chat-list"));
                 add_members_to_chat(chat, uchat);
-
                 gtk_list_box_prepend(chat_list, GTK_WIDGET(uchat_chat_box_new(chat)));
                 mx_push_back(&(uchat->user->chats), chat);
             }

@@ -1,8 +1,7 @@
 #ifndef UCHAT_CHAT_BOX_H
 #define UCHAT_CHAT_BOX_H
 
-#include <gtk/gtk.h>
-#include "models/chat.h"
+#include "uchat.h"
 
 G_BEGIN_DECLS
 
@@ -36,6 +35,12 @@ uchat_chat_box_set_time(UchatChatBox* self, const gchar* time);
 
 const gchar *
 uchat_chat_box_get_time(UchatChatBox* self);
+
+void
+uchat_chat_box_set_avatar(UchatChatBox* self, const gchar* path);
+
+const gchar *
+uchat_chat_box_get_avatar(UchatChatBox* self);
 
 G_END_DECLS
 

@@ -40,12 +40,11 @@
                                 <property name="orientation">vertical</property>
                                 <property name="spacing">20</property>
                                 <property name="vexpand">true</property>
-                                <property name="height-request">650</property>
+                                <property name="height-request">450</property>
                                 <property name="margin-top">20</property>
                                 <property name="margin-bottom">20</property>
                                 <property name="margin-start">15</property>
                                 <property name="margin-end">15</property>
-                                <property name="name">name</property>
                             </object>
                         </child>
                     </object>

@@ -19,6 +19,7 @@ struct s_chat_member {
     int chat_id;
     int user_id;
     int role;
+    const char* avatar;
     const char* username;
 };
 

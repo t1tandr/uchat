@@ -13,22 +13,22 @@
     color: #fff;
 }
 
-.title-login-and-register{
+.title-login-and-register {
     font-size: 20px;
 }
 
-#welcome-slide{
+#welcome-slide {
     background-image: url(../img/welcome_slide.png);
     background-size: contain;
     background-position: center;
 }
 
-.title-login-and-register{
+.title-login-and-register {
     font-size: 20px;
 }
 
 #login-page {
-    background-color: rgb(133, 3, 165);
+    background-color: rgb(89, 9, 114);
     background-size: contain;
     background-position: center;
 }
@@ -78,10 +78,10 @@ entry {
     animation: reveal 0.5s forwards;
 }
 
-#homepage{
+#homepage {
     background-color: rgb(45, 30, 64);
 }
-#menu-options{
+#menu-options {
     background-color: @bg-color;
 }
 
@@ -92,12 +92,12 @@ entry {
     background-size: cover;
 }
 
-.side-bar-btn{
+.side-bar-btn {
     background-color: @purple-button-bg;
     color: white;
 }
 
-.side-bar-btn:hover{
+.side-bar-btn:hover {
     background-color: @purple-button-bg-hover;
 }
 
@@ -124,7 +124,7 @@ entry {
     border-radius: 50%;
 }
 
-#entry_for_biography{
+#entry_for_biography {
     background-color: rgb(206, 210, 214);
     border: 1px solid @purple-button-bg;
     color: black;
@@ -132,14 +132,14 @@ entry {
 }
 
 /* UchatBox */
-#uchat-box-bg{
+#uchat-box-bg {
     background-color: rgb(206, 210, 214);
     border: 1px solid @purple-button-bg;
     color: @bg-color;
     border-radius: 5px;
 }
 
-#uchat-box-bg:hover{
+#uchat-box-bg:hover {
     background-color: rgb(190, 194, 199);
     border: 1px solid @purple-button-bg;
 }
@@ -149,52 +149,52 @@ entry {
     font-weight: 700;
 }
 
-#uchat-box-button{
+#uchat-box-button {
     background-color: @purple-button-bg;
 }
 
-#uchat-box-last-message{
+#uchat-box-last-message {
     font-size: 16px;
     font-weight: 400;
 }
 
 /* MessageBox */
 
-#message-box-header{
+#message-box-header {
     background-color: rgb(206, 210, 214);
     color: @bg-color;
 }
 
-#message-box-name{
+#message-box-name {
     font-size: 20px;
     font-weight: 700;
 }
 
-#message-box-numbers{
+#message-box-numbers {
     font-size: 16px;
     font-weight: 400;
 }
 
-.userbox-chat-name{
+.userbox-chat-name {
     font-size: 18px;
     font-weight: 700;
 }
 
-.userbox-chat-description{
+.userbox-chat-description {
     font-size: 16px;
     font-weight: 400;
 }
 
-#userbox-chat-member-name{
+#userbox-chat-member-name {
     font-size: 16px;
     font-weight: 600;
 }
 
-.image_message{
+.image-message {
     background-color: rgba(0, 0, 0, 0);
 }
 
-#after-save-window{
+#after-save-window {
     background-color: rgb(74, 75, 74);
     border-radius: 5px;
 }
@@ -215,4 +215,8 @@ entry {
 
 #start-label {
     font-size: 32px;
+}
+
+.message-username {
+    font-weight: 500;
 }

@@ -9,7 +9,5 @@ void create_session_file(const char* filename, cJSON* obj) {
     }
 
     int n = fprintf(file, "%s", buffer);
-
-    printf("%d\n", n);
 }
 

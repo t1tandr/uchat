@@ -1,7 +1,6 @@
 #ifndef UCHAT_MESSAGE_BOX_H
 #define UCHAT_MESSAGE_BOX_H
 
-#include <gtk/gtk.h>
 #include "uchat.h"
 
 G_BEGIN_DECLS

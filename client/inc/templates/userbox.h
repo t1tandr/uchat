@@ -1,8 +1,7 @@
 #ifndef UCHAT_USER_BOX_H
 #define UCHAT_USER_BOX_H
 
-#include <gtk/gtk.h>
-#include "models/user.h"
+#include "uchat.h"
 
 G_BEGIN_DECLS
 
@@ -24,6 +23,12 @@ uchat_user_box_set_username(UchatUserBox* self, const gchar* username);
 
 const gchar *
 uchat_user_box_get_username(UchatUserBox* self);
+
+void
+uchat_user_box_set_avatar(UchatUserBox* self, const gchar* path);
+
+const gchar *
+uchat_user_box_get_avatar(UchatUserBox* self);
 
 G_END_DECLS
 

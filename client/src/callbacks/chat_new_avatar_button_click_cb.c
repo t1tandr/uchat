@@ -7,7 +7,7 @@ static void on_save_response_cb(GtkDialog *self, int response, gpointer user_dat
 
         g_autoptr(GFile) file = gtk_file_chooser_get_file(chooser);
 
-        uchat_avatar_box_set_file(avatar, file);
+        uchat_avatar_box_set_file(avatar, g_file_get_path(file));
     }
 
     gtk_window_destroy(GTK_WINDOW(self));

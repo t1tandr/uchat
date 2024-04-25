@@ -3,7 +3,6 @@
     <template class="UchatUserBox" parent="GtkWidget">
         <child>
             <object class="GtkBox">
-                
                 <property name="spacing">20</property>
                 <property name="margin-start">5</property>
                 <property name="margin-bottom">5</property>
@@ -13,7 +12,7 @@
                     <object class="GtkFixed">
                         <property name="height-request">50</property>
                         <child>
-                            <object class="UchatAvatarBox">
+                            <object class="UchatAvatarBox" id="avatar">
                                 <property name="width-request">50</property>
                                 <property name="height-request">50</property>
                                 <property name="size">50</property>

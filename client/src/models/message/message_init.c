@@ -14,6 +14,7 @@ t_message* message_init(void) {
     msg->content = NULL;
     msg->time = NULL;
     msg->author = NULL;
+    msg->avatar = NULL;
 
     return msg;
 }

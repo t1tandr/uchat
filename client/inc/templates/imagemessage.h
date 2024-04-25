@@ -1,7 +1,6 @@
 #ifndef UCHAT_IMAGE_MESSAGE_H
 #define UCHAT_IMAGE_MESSAGE_H
 
-#include <gtk/gtk.h>
 #include "uchat.h"
 
 G_BEGIN_DECLS
@@ -26,7 +25,7 @@ GFile*
 uchat_image_message_get_image(UchatImageMessage* self);
 
 const gchar *
-uchat_message_box_get_timee(UchatImageMessage* self);
+uchat_image_message_get_time(UchatImageMessage* self);
 
 void
 uchat_image_message_set_time(UchatImageMessage* self, const gchar* time);

@@ -11,6 +11,10 @@ t_chat* chat_parse_from_json(cJSON* json) {
     chat->name = strdup(cJSON_GetObjectItemCaseSensitive(json, "name")->valuestring);
     chat->created_at = strdup(cJSON_GetObjectItemCaseSensitive(json, "created_at")->valuestring);
 
+    if (cJSON_HasObjectItem(json, "img")) {
+        chat->img = strdup(cJSON_GetObjectItemCaseSensitive(json, "img")->valuestring);
+    }
+
     return chat;
 }
 

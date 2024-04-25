@@ -17,7 +17,7 @@
                             <object class="GtkFixed">
                                 <property name="hexpand">true</property>
                                 <child>
-                                    <object class="UchatAvatarBox">
+                                    <object class="UchatAvatarBox" id="avatar">
                                         <property name="width-request">70</property>
                                         <property name="height-request">70</property>
                                         <property name="size">70</property>
@@ -56,13 +56,6 @@
                             <object class="GtkCenterBox">
 
                                 <property name="orientation">vertical</property>
-                                <!-- <child type="start">
-                                    <object class="GtkButton" id="delete">
-                                        <property name="label">×</property>
-                                        <property name="name">chat-delete-button</property>
-                                        <property name="visibility">false</property>
-                                    </object>
-                                </child> -->
                                 <child type="end">
                                     <object class="GtkLabel" id="time">
                                         <property name="label">time</property>

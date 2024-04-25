@@ -26,6 +26,7 @@ struct s_message {
     const char* content;
     const char* author;
     const char* time;
+    const char* avatar;
 };
 
 t_message* message_init(void);
