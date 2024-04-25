@@ -11,9 +11,13 @@ cJSON *create_chat_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock_fd
     char *img = NULL;
 
     if (cJSON_HasObjectItem(data, "img")) {
-        char *new_img_base64 = cJSON_GetObjectItem(data, "img")->valuestring;
-        img = create_image(new_img_base64);
+        img = cJSON_GetObjectItem(data, "img")->valuestring;
     }
+
+    // if (cJSON_HasObjectItem(data, "img")) {
+    //     char *new_img_base64 = cJSON_GetObjectItem(data, "img")->valuestring;
+    //     img = create_image(new_img_base64);
+    // }
 
     sql = sqlite3_mprintf(
         "INSERT INTO chats (name, img) VALUES (%Q, %Q) RETURNING *;",

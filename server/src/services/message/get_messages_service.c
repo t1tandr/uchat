@@ -49,18 +49,19 @@ cJSON *get_messages_service(int chat_id, cJSON *headers, sqlite3 *db, int sock_f
         cJSON *message = stmt_to_message_json(stmt);
 
         cJSON_AddStringToObject(message, "username", (const char *) sqlite3_column_text(stmt, 8));
+        cJSON_AddStringToObject(message, "avatar", (const char *) sqlite3_column_text(stmt, 10));
 
-        char *type = cJSON_GetObjectItem(message, "type")->valuestring;
+        // char *type = cJSON_GetObjectItem(message, "type")->valuestring;
 
-        if (strcmp(type, "photo") == 0) {
-            char *image_id = cJSON_GetObjectItem(message, "content")->valuestring;
-            long size;
-            unsigned char *image = get_image(image_id, &size);
+        // if (strcmp(type, "photo") == 0) {
+        //     char *image_id = cJSON_GetObjectItem(message, "content")->valuestring;
+        //     long size;
+        //     unsigned char *image = get_image(image_id, &size);
 
-            char *base64 = g_base64_encode(image, size);
+        //     char *base64 = g_base64_encode(image, size);
 
-            cJSON_ReplaceItemInObject(message, "content", cJSON_CreateString(base64));
-        }
+        //     cJSON_ReplaceItemInObject(message, "content", cJSON_CreateString(base64));
+        // }
 
         cJSON_AddItemToArray(messages, message);
     }

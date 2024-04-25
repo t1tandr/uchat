@@ -15,9 +15,9 @@ cJSON *create_message_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock
         return NULL;
     }
 
-    if (strcmp(type, "photo") == 0) {
-        content = create_image(content);
-    }
+    // if (strcmp(type, "photo") == 0) {
+    //     content = create_image(content);
+    // }
 
     sqlite3_stmt *stmt;
     char *sql;
@@ -47,15 +47,15 @@ cJSON *create_message_service(cJSON *data, cJSON *headers, sqlite3 *db, int sock
 
     cJSON_AddStringToObject(message, "username", mx_strdup(username));
     
-    if (strcmp(type, "photo") == 0) {
-        char *image_id = cJSON_GetObjectItem(message, "content")->valuestring;
-        long size;
-        unsigned char *image = get_image(image_id, &size);
+    // if (strcmp(type, "photo") == 0) {
+    //     char *image_id = cJSON_GetObjectItem(message, "content")->valuestring;
+    //     long size;
+    //     unsigned char *image = get_image(image_id, &size);
 
-        char *base64 = g_base64_encode(image, size);
+    //     char *base64 = g_base64_encode(image, size);
 
-        cJSON_ReplaceItemInObject(message, "content", cJSON_CreateString(base64));
-    }
+    //     cJSON_ReplaceItemInObject(message, "content", cJSON_CreateString(base64));
+    // }
 
     cJSON_Delete(user);
     cJSON_Delete(chat_members);

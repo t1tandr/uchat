@@ -11,24 +11,24 @@ cJSON *update_chat_by_id_service(int chat_id, cJSON *data, cJSON *headers, sqlit
         return NULL;
     }
 
-    char *img;
+    // char *img;
 
-    if (cJSON_HasObjectItem(data, "img")) {
-        cJSON *chat = get_chat_by_id_service(user_id, db, sock_fd);
-        if (chat == NULL) {
-            return NULL;
-        }
+    // if (cJSON_HasObjectItem(data, "img")) {
+    //     cJSON *chat = get_chat_by_id_service(user_id, db, sock_fd);
+    //     if (chat == NULL) {
+    //         return NULL;
+    //     }
 
-        if (cJSON_HasObjectItem(chat, "img")) {
-            char *old_photo_id = cJSON_GetObjectItem(chat, "img")->valuestring;
-            delete_image(old_photo_id);
-        }
+    //     if (cJSON_HasObjectItem(chat, "img")) {
+    //         char *old_photo_id = cJSON_GetObjectItem(chat, "img")->valuestring;
+    //         delete_image(old_photo_id);
+    //     }
 
-        char *new_img_base64 = cJSON_GetObjectItem(data, "img")->valuestring;
-        img = create_image(new_img_base64);
+    //     char *new_img_base64 = cJSON_GetObjectItem(data, "img")->valuestring;
+    //     img = create_image(new_img_base64);
 
-        cJSON_Delete(chat);
-    }
+    //     cJSON_Delete(chat);
+    // }
 
     sqlite3_stmt *stmt;
     char sql[1024];
@@ -61,7 +61,7 @@ cJSON *update_chat_by_id_service(int chat_id, cJSON *data, cJSON *headers, sqlit
     }
 
     if (cJSON_HasObjectItem(data, "img")) {
-        sqlite3_bind_text(stmt, param_index++, img, -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, param_index++, cJSON_GetObjectItem(data, "img")->valuestring, -1, SQLITE_TRANSIENT);
     }
 
     if (cJSON_HasObjectItem(data, "link")) {

@@ -11,24 +11,24 @@ cJSON *update_user_by_id_service(int user_id, cJSON *data, cJSON *headers, sqlit
     sqlite3_stmt *stmt;
     char sql[1024];
 
-    char *avatar;
+    // char *avatar;
 
-    if (cJSON_HasObjectItem(data, "avatar")) {
-        cJSON *user = get_user_by_id_service(user_id, db, sock_fd);
-        if (user == NULL) {
-            return NULL;
-        }
+    // if (cJSON_HasObjectItem(data, "avatar")) {
+    //     cJSON *user = get_user_by_id_service(user_id, db, sock_fd);
+    //     if (user == NULL) {
+    //         return NULL;
+    //     }
 
-        if (cJSON_HasObjectItem(user, "avatar")) {
-            char *old_photo_id = cJSON_GetObjectItem(user, "avatar")->valuestring;
-            delete_image(old_photo_id);
-        }
+    //     if (cJSON_HasObjectItem(user, "avatar")) {
+    //         char *old_photo_id = cJSON_GetObjectItem(user, "avatar")->valuestring;
+    //         delete_image(old_photo_id);
+    //     }
 
-        char *new_avatar_base64 = cJSON_GetObjectItem(data, "avatar")->valuestring;
-        avatar = create_image(new_avatar_base64);
+    //     char *new_avatar_base64 = cJSON_GetObjectItem(data, "avatar")->valuestring;
+    //     avatar = create_image(new_avatar_base64);
 
-        cJSON_Delete(user);
-    }
+    //     cJSON_Delete(user);
+    // }
 
     strcpy(sql, "UPDATE users SET ");
 
@@ -70,7 +70,7 @@ cJSON *update_user_by_id_service(int user_id, cJSON *data, cJSON *headers, sqlit
     }
 
     if (cJSON_HasObjectItem(data, "avatar")) {
-        sqlite3_bind_text(stmt, param_index++, avatar, -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, param_index++, cJSON_GetObjectItem(data, "avatar")->valuestring, -1, SQLITE_TRANSIENT);
     }
 
     if (cJSON_HasObjectItem(data, "bio")) {
