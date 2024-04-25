@@ -56,47 +56,47 @@ uchat_image_message_new(t_message* message, bool own) {
     gtk_widget_set_halign(GTK_WIDGET(obj), own ? GTK_ALIGN_END : GTK_ALIGN_START);
     gtk_widget_set_halign(GTK_WIDGET(obj->image), own ? GTK_ALIGN_END : GTK_ALIGN_START);
 
-    // cJSON* request = NULL;
-    // cJSON* response = NULL;
-    // cJSON* data = NULL;
-    // cJSON* headers = NULL;
-    // const char* path = NULL;
+    cJSON* request = NULL;
+    cJSON* response = NULL;
+    cJSON* data = NULL;
+    cJSON* headers = NULL;
+    const char* path = NULL;
 
-    // headers = cJSON_CreateObject();
-    // cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
+    headers = cJSON_CreateObject();
+    cJSON_AddStringToObject(headers, "Authorization", uchat->user->session);
 
-    // data = cJSON_CreateObject();
-    // request = create_request(METHOD_GET, mx_strjoin("/messages/",mx_itoa(message->chat_id)), data, headers);
+    data = cJSON_CreateObject();
+    request = create_request(METHOD_GET, mx_strjoin("/messages/",mx_itoa(message->chat_id)), data, headers);
 
-    // int status = send_request(uchat->servsock, request);
+    int status = send_request(uchat->servsock, request);
 
-    // if (status != REQUEST_SUCCESS) {
-    //     handle_error(REQUEST_ERROR, "\'GET /messages\'");
-    // }
-    // response = g_async_queue_pop(uchat->responses);
+    if (status != REQUEST_SUCCESS) {
+        handle_error(REQUEST_ERROR, "\'GET /messages\'");
+    }
+    response = g_async_queue_pop(uchat->responses);
 
-    // if (cJSON_HasObjectItem(response, "status")) {
-    //     status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
-    //     mx_printint(80);
-    //     if (status == 200) {
-    //         cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
-    //         unsigned long size;
-    //         mx_printint(84);
-    //         char* image = strdup(cJSON_GetObjectItemCaseSensitive(response_data, "content")->valuestring);
-    //         unsigned char* from_bytes = g_base64_decode(image,&size);
-    //         mx_printint(86);
-    //         char* dir = mx_strjoin("storage/chat", mx_itoa(message->chat_id));
-    //         int result = mkdir(dir, 0777);
-    //         path = mx_strjoin(dir, mx_strjoin("/",mx_itoa(message->id)));
-    //         mx_printint(91);
-    //         bytes_to_file(from_bytes,size,path);
-    //     }
-    //     cJSON_Delete(response);
-    // }
-    // else {
-    //     handle_error(RESPONSE_ERROR, "POST /messages");
-    // }
-    uchat_image_message_set_image(obj, message->content);
+    if (cJSON_HasObjectItem(response, "status")) {
+        status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
+        if (status == 200) {
+            cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
+            for(int i = 0; i < cJSON_GetArraySize(response_data); i++){
+                if(cJSON_GetObjectItemCaseSensitive(response_data, "id")->valueint == message->id){
+                    unsigned long size;
+                    char* image = strdup(cJSON_GetObjectItemCaseSensitive(response_data, "content")->valuestring);
+                    unsigned char* from_bytes = g_base64_decode(image,&size);
+                    char* dir = mx_strjoin("storage/chat", mx_itoa(message->chat_id));
+                    int result = mkdir(dir, 0777);
+                    path = mx_strjoin(dir, mx_strjoin("/",mx_itoa(message->id)));
+                    bytes_to_file(from_bytes,size,path);
+                }
+            }
+        }
+        cJSON_Delete(response);
+    }
+    else {
+        handle_error(RESPONSE_ERROR, "POST /messages");
+    }
+    uchat_image_message_set_image(obj,path);
     uchat_image_message_set_time(obj, strndup(&(message->time[11]), 5));
 
     return obj;
