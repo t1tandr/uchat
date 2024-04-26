@@ -1,7 +1,7 @@
 #include "uchat.h"
 
-static void add_members_to_chat(t_chat* chat, t_uchat* uchat) {
-    for (t_list* i = chat->members; i != NULL; i = i->next) {
+static void add_members_to_chat(t_chat* chat, t_list* members) {
+    for (t_list* i = members; i != NULL; i = i->next) {
         cJSON* request = NULL;
         cJSON* response = NULL;
         cJSON* data = NULL;
@@ -20,7 +20,7 @@ static void add_members_to_chat(t_chat* chat, t_uchat* uchat) {
         int status = send_request(uchat->servsock, request);
 
         if (status != REQUEST_SUCCESS) {
-            handle_error(REQUEST_ERROR, "POST /messages");
+            handle_error(REQUEST_ERROR, "POST /chat-members");
         }
 
         response = g_async_queue_pop(uchat->responses);
@@ -38,7 +38,7 @@ static void add_members_to_chat(t_chat* chat, t_uchat* uchat) {
             cJSON_Delete(response);
         }
         else {
-            handle_error(RESPONSE_ERROR, "POST /messages");
+            handle_error(RESPONSE_ERROR, "POST /chat-members");
         }
     }
 }
@@ -89,15 +89,19 @@ void chat_new_dialog_accept_button_click_cb(GtkButton* self, gpointer user_data)
 
             while ((row = gtk_list_box_get_row_at_index(list, index++)) != NULL) {
                 user_box = UCHAT_USER_BOX(gtk_list_box_row_get_child(row));
-                mx_push_back(&members, uchat_user_box_get_user(user_box));
+                t_user* user = uchat_user_box_get_user(user_box);
+                mx_push_back(&members, user);
             }
 
             if(mx_list_size(members) > 0) {
                 GtkListBox* chat_list = GTK_LIST_BOX(gtk_builder_get_object(uchat->builder, "chat-list"));
-                add_members_to_chat(chat, uchat);
+                add_members_to_chat(chat, members);
                 gtk_list_box_prepend(chat_list, GTK_WIDGET(uchat_chat_box_new(chat)));
                 mx_push_back(&(uchat->user->chats), chat);
             }
+
+            mx_push_back(&members, uchat->user);
+            mx_push_back(&(chat->members), uchat->user);
         }
 
         cJSON_Delete(response);

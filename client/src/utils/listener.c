@@ -58,7 +58,9 @@ void handle_chat_member_response(cJSON* json) {
 
     data = cJSON_CreateObject();
 
-    request = create_request(METHOD_GET, "/chats", data, headers);
+    request = create_request(METHOD_GET, route, data, headers);
+
+    printf("%s\n", cJSON_Print(request));
 
     int status = send_request(uchat->servsock, request);
 
@@ -68,10 +70,12 @@ void handle_chat_member_response(cJSON* json) {
 
     response = g_async_queue_pop(uchat->responses);
 
+    printf("%s\n", cJSON_Print(response));
+
     if (response != NULL && cJSON_HasObjectItem(response, "status")) {
         status = cJSON_GetObjectItemCaseSensitive(response, "status")->valueint;
 
-        if (status == 200) {
+        if (status == 201) {
             cJSON* response_data = cJSON_GetObjectItemCaseSensitive(response, "data");
 
             t_chat* chat = chat_parse_from_json(response_data);
@@ -98,7 +102,7 @@ static void handle_response(cJSON* response) {
     if (cJSON_HasObjectItem(data, "type") && cJSON_HasObjectItem(data, "content")) {
         handle_message_response(data);
     }
-    else if (cJSON_HasObjectItem(data, "role")) {
+    if (cJSON_HasObjectItem(data, "role")) {
         handle_chat_member_response(data);
     }
 }

@@ -36,8 +36,6 @@ void login_button_click_cb(GtkWidget *self, gpointer user_data) {
             uchat->user = get_current_user_from_json(cJSON_GetObjectItemCaseSensitive(response, "data"));
             create_session_file("session.json", cJSON_GetObjectItemCaseSensitive(response, "data"));
 
-            printf("hello\n");
-
             window_switch_child(uchat->builder, "login-page", "homepage");
         }
         else {

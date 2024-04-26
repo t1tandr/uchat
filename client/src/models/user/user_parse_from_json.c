@@ -16,7 +16,7 @@ t_user* user_parse_from_json(cJSON* json) {
     }
 
     if (cJSON_HasObjectItem(json, "avatar")) {
-        user->bio = strdup(cJSON_GetObjectItemCaseSensitive(json, "avatar")->valuestring);
+        user->avatar = strdup(cJSON_GetObjectItemCaseSensitive(json, "avatar")->valuestring);
     }
 
     return user;

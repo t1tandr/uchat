@@ -32,11 +32,11 @@
                                         <property name="halign">start</property>
                                     </object>
                                 </child>
-                                <!-- <child type="end">
+                                <child type="end">
                                     <object class="GtkLabel" id="bio">
                                         <property name="halign">start</property>
                                     </object>
-                                </child> -->
+                                </child>
                             </object>
                         </child>
                     </object>

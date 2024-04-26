@@ -69,11 +69,15 @@
                         <property name="height-request">45</property>
                         <child>
                             <object class="GtkButton">
-                                <property name="label">File</property>
+                                <property name="width-request">20</property>
+                                <property name="height-request">20</property>
+                                <property name="icon-name">mail-attachment</property>
                                 <property name="margin-start">10</property>
                                 <property name="margin-top">10</property>
                                 <property name="margin-bottom">10</property>
-                                <property name="margin-end">15</property>
+                                <style>
+                                    <class name="white-button"/>
+                                </style>
                                 <signal name="clicked" handler="send_file_button_clicked_cb"/>
                             </object>
                         </child>
@@ -113,17 +117,21 @@
                                 </property>
                                 <style>
                                     <class name="round"/>
+                                    <class name="white-button"/>
                                 </style>
                             </object>
                         </child>
                         <child>
                             <object class="GtkButton" id="send-message">
-                                <property name="label">Send</property>
+                                <property name="icon-name">go-next</property>
                                 <property name="margin-start">10</property>
                                 <property name="margin-top">10</property>
                                 <property name="margin-bottom">10</property>
                                 <property name="margin-end">15</property>
                                 <property name="valign">end</property>
+                                <style>
+                                    <class name="white-button"/>
+                                </style>
                                 <signal name="clicked" handler="send_message_button_clicked_cb"/>
                             </object>
                         </child>

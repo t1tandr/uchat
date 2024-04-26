@@ -10,14 +10,11 @@ static void on_open_responsed(GtkDialog *dialog, int response, gpointer user_dat
 
         GtkFileFilter *filter = gtk_file_filter_new();
         gtk_file_filter_set_name(filter, "Image");
-        gtk_file_filter_add_mime_type(filter, "image/png");
+        gtk_file_filter_add_pixbuf_formats(filter);
 
         gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
         g_autoptr(GFile) file = gtk_file_chooser_get_file (chooser);
         const gchar *path = g_file_get_path(file);
-        // long size;
-        // unsigned char* p = file_to_bytes(path, &size);
-        // char* encode = g_base64_encode(p, size);
 
         cJSON* request = NULL;
         cJSON* response = NULL;

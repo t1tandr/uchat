@@ -30,6 +30,12 @@ uchat_user_box_set_avatar(UchatUserBox* self, const gchar* path);
 const gchar *
 uchat_user_box_get_avatar(UchatUserBox* self);
 
+void
+uchat_user_box_set_bio(UchatUserBox* self, const gchar* bio);
+
+const gchar *
+uchat_user_box_get_bio(UchatUserBox* self);
+
 G_END_DECLS
 
 #endif

@@ -108,9 +108,13 @@ void
 uchat_avatar_box_set_file(UchatAvatarBox* self, const gchar* path) {
     if (path != NULL) {
         self->path = g_strdup(path);
-        gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(self->area), draw_from_path, (gpointer) path, NULL);
-        gtk_widget_queue_draw(self->area);
     }
+    else {
+        self->path = g_strdup("/home/ykovtun/Pictures/mario.jpg");
+    }
+
+    gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(self->area), draw_from_path, (gpointer) self->path, NULL);
+    gtk_widget_queue_draw(self->area);
 }
 
 const gchar * 

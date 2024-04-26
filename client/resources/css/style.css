@@ -106,7 +106,8 @@ entry {
 }
 
 .message {
-    background-color: rgb(74, 75, 74);
+    background-color: rgb(255, 255, 255);
+    color: black;
     border-radius: 5px;
 }
 
@@ -119,8 +120,14 @@ entry {
 }
 
 .add-photo-button {
-    background-color: steelblue;
+    background-color: @purple-button-bg;
     color: black;
+    border-radius: 50%;
+}
+
+.add-photo-button:hover {
+    background-color: @purple-button-bg-hover;
+    color: white;
     border-radius: 50%;
 }
 
@@ -192,6 +199,10 @@ entry {
 
 .image-message {
     background-color: rgba(0, 0, 0, 0);
+}
+
+.image-message picture {
+    border-radius: 5px;
 }
 
 #after-save-window {
