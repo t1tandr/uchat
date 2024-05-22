@@ -76,8 +76,7 @@ kill [server-pid]
 [![Screenshot-11.png](https://i.postimg.cc/PqyDRx6m/Screenshot-11.png)](https://postimg.cc/QBBVBXZt)
 
 ## Links
-
-![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)
+Watch the functionality of MonkeyChat! on ![YouTube](https://youtu.be/-SHHMfsEcJI?si=RMPaitTj30Im8iiW)
 
 ## License
 
