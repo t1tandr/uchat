@@ -69,6 +69,11 @@ kill [server-pid]
 * [t1tandr](https://github.com/t1tandr)
 
 ## Screenshots
+[![Screenshot-13.png](https://i.postimg.cc/brWk9BmW/Screenshot-13.png)](https://postimg.cc/n9KXH0bG)
+[![Screenshot-14.png](https://i.postimg.cc/52wL8pLK/Screenshot-14.png)](https://postimg.cc/0zyzsYt7)
+[![Screenshot-11.png](https://i.postimg.cc/PqyDRx6m/Screenshot-11.png)](https://postimg.cc/QBBVBXZt)
+[![Screenshot-10.png](https://i.postimg.cc/tJZVJz95/Screenshot-10.png)](https://postimg.cc/RJm0bK66)
+[![Screenshot-11.png](https://i.postimg.cc/PqyDRx6m/Screenshot-11.png)](https://postimg.cc/QBBVBXZt)
 
 ## Links
 
