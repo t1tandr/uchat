@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding=""?>
+<interface>
+    <template class="UchatMessageBox" parent="GtkWidget">
+        <signal name="realize" handler="message_box_realize_cb"/>
+        <child>
+            <object class="GtkCenterBox">
+                <property name="orientation">vertical</property>
+                <property name="width-request">760</property>
+                <property name="hexpand">true</property>
+                <child type="start">
+                    <object class="GtkBox" id="header">
+                        <property name="orientation">vertical</property>
+                        <property name="hexpand">true</property>
+                        <property name="height-request">100</property>
+                        <property name="name">message-box-header</property>
+                        <child>
+                            <object class="GtkLabel" id="name">
+                                <property name="halign">center</property>
+                                <property name="margin-top">20</property>
+                                <property name="valign">center</property>
+                                <property name="name">message-box-name</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel" id="num_of_members">
+                                <property name="halign">center</property>
+                                <property name="margin-top">20</property>
+                                <property name="valign">center</property>
+                                <property name="name">message-box-numbers</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child type="center">
+                    <object class="GtkScrolledWindow" id="wrapper">
+                        <property name="hscrollbar-policy">never</property>
+                        <property name="vexpand">true</property>
+                        <child>
+                            <object class="GtkBox" id="container">
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">20</property>
+                                <property name="vexpand">true</property>
+                                <property name="height-request">650</property>
+                                <property name="margin-top">20</property>
+                                <property name="margin-bottom">20</property>
+                                <property name="margin-start">15</property>
+                                <property name="margin-end">15</property>
+                                <property name="name">name</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child type="end">
+                    <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="height-request">45</property>
+                        <child>
+                            <object class="GtkButton">
+                                <property name="label">File</property>
+                                <property name="margin-start">10</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="margin-end">15</property>
+                                <signal name="clicked" handler="send_file_button_clicked_cb"/>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkScrolledWindow">
+                                <property name="hscrollbar-policy">never</property>
+                                <property name="vscrollbar-policy">never</property>
+                                <child>
+                                    <object class="GtkTextView" id="textview">
+                                        <property name="top-margin">10</property>
+                                        <property name="bottom-margin">10</property>
+                                        <property name="left-margin">15</property>
+                                        <property name="right-margin">15</property>
+                                        <property name="hexpand">true</property>
+                                        <property name="valign">end</property>
+                                        <property name="margin-top">10</property>
+                                        <property name="margin-bottom">10</property>
+                                        <property name="margin-start">15</property>
+                                        <property name="margin-end">15</property>
+                                        <property name="height-request">35</property>
+                                        <property name="name">message-view</property>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkMenuButton">
+                                <property name="icon-name">face-monkey</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="margin-end">5</property>
+                                <property name="valign">end</property>
+                                <property name="popover">
+                                    <object class="GtkEmojiChooser" id="chooser">
+                                        <property name="position">top</property>
+                                    </object>
+                                </property>
+                                <style>
+                                    <class name="round"/>
+                                </style>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkButton" id="send-message">
+                                <property name="label">Send</property>
+                                <property name="margin-start">10</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="margin-end">15</property>
+                                <property name="valign">end</property>
+                                <signal name="clicked" handler="send_message_button_clicked_cb"/>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>

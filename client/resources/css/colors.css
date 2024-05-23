@@ -1,0 +1,13 @@
+/* Backgrounds */
+@define-color bg-color rgb(45, 30, 64);
+
+/* Buttons */
+@define-color purple-button-bg rgb(106, 44, 185);
+@define-color purple-button-bg-hover rgb(82, 30, 149);
+@define-color hover-bg-white-button rgb(211,211,211);
+
+/* Text */
+@define-color text-transparent-color rgb(38, 63, 81);
+@define-color text-black-color rgb(0, 0, 0);
+@define-color text-semibold-color rgb(86, 86, 86);
+

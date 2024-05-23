@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+    <object class="GtkWindow" id="chat-new-dialog">
+        <property name="width-request">350</property>
+        <property name="height-request">400</property>
+        <property name="resizable">false</property>
+        <property name="decorated">false</property>
+        <property name="modal">true</property>
+        <property name="destroy-with-parent">true</property>
+        <child>
+            <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">10</property>
+                <property name="margin-top">20</property>
+                <property name="margin-bottom">20</property>
+                <property name="margin-start">20</property>
+                <property name="margin-end">20</property>
+                <child>
+                    <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">10</property>
+                        <child>
+                            <object class="GtkBox">
+                                <property name="orientation">horizontal</property>
+                                <property name="spacing">10</property>
+                                <child>
+                                    <object class="GtkOverlay">
+                                        <child>
+                                            <object class="UchatAvatarBox" id="chat-new-avatar">
+                                                <property name="height-request">100</property>
+                                                <property name="width-request">100</property>
+                                                <property name="valign">start</property>
+                                                <property name="size">100</property>
+                                            </object>
+                                        </child>
+                                        <child type="overlay">
+                                            <object class="GtkButton">
+                                                <property name="height-request">5</property>
+                                                <property name="width-request">5</property>
+                                                <property name="valign">end</property>
+                                                <property name="halign">end</property>
+                                                <property name="icon-name">camera-photo</property>
+                                                <signal name="clicked" handler="chat_new_avatar_button_click_cb"/>
+                                                <style>
+                                                    <class name="add-photo-button"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkBox">
+                                        <property name="valign">end</property>
+                                        <child>
+                                            <object class="GtkEntry" id="chat-new-name-entry">
+                                                <property name="placeholder-text">Chat name...</property>
+                                                <property name="width-request">220</property>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">10</property>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="halign">start</property>
+                                <property name="label">Add users</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkSearchEntry" id="chat-new-search-entry">
+                                <property name="placeholder-text">Search...</property>
+                                <signal name="activate" handler="user_search_entry_started_cb"/>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkScrolledWindow">
+                                <property name="height-request">250</property>
+                                <child>
+                                    <object class="GtkListBox" id="new-chat-members-list"/>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkCenterBox">
+                        <property name="orientation">horizontal</property>
+                        <child type="end">
+                            <object class="GtkBox">
+                                <property name="spacing">10</property>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="label">Cancel</property>
+                                        <signal name="clicked" handler="chat_new_dialog_cancel_button_click_cb"/>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="label">Create</property>
+                                        <signal name="clicked" handler="chat_new_dialog_accept_button_click_cb"/>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </object>
+</interface>

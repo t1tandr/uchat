@@ -1,43 +1,63 @@
-CC = clang
-CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic `pkg-config --cflags gtk4`
-LDFLAGS = `pkg-config --libs gtk4`
-INCLUDES = -I$(INC_DIR)
-
 SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = inc
 
-SRC = $(wildcard $(SRC_DIR)/*.c)
-OBJ = $(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(SRC:%.c=%.o))
+LIBS_DIR = ./libs
 
-LIB_DIR = libmx
-LIB = libmx.a
+LIBMX_DIR = $(LIBS_DIR)/libmx
+LIBMX = libmx.a
 
-TARGET = uchat
+LIB_JSON_DIR = $(LIBS_DIR)/cJSON
+LIB_JSON = libcjson.a
+
+LIB_SQLITE_DIR = $(LIBS_DIR)/sqlite3
+LIB_SQLITE = sqlite3.a
+
+LIB_BCRYPT_DIR = $(LIBS_DIR)/libbcrypt
+LIB_BCRYPT = bcrypt.a
+
+SERVER_DIR = server
+CLIENT_DIR = client
+
+SERVER = uchat-server
+CLIENT = uchat
 
 .PHONY: all clean uninstall reinstall
 
-all: $(LIB) $(TARGET)
+all: $(LIBMX) $(LIB_JSON) $(LIB_SQLITE) $(LIB_BCRYPT) $(SERVER) $(CLIENT)
 
-$(LIB):
-	make -C $(LIB_DIR)
+$(LIBMX):
+	make -sC $(LIBMX_DIR)
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(INCLUDES) $^ $(LDFLAGS) -o $@
+$(LIB_JSON):
+	make -sC $(LIB_JSON_DIR)
 
-$(OBJ): $(SRC)
-	mkdir $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $^
-	mv *.o $(OBJ_DIR)
+$(LIB_SQLITE):
+	make -sC $(LIB_SQLITE_DIR)
+
+$(LIB_BCRYPT):
+	make -sC $(LIB_BCRYPT_DIR)
+
+$(SERVER):
+	make -sC $(SERVER_DIR)
+
+$(CLIENT):
+	make -sC $(CLIENT_DIR)
 
 clean:
-	rm -rf $(OBJ_DIR)
-	make -C $(LIB_DIR) clean
+	make -sC $(LIBMX_DIR) clean
+	make -sC $(LIB_JSON_DIR) clean
+	make -sC $(LIB_SQLITE_DIR) clean
+	make -sC $(LIB_BCRYPT_DIR) clean
+	make -sC $(SERVER_DIR) clean
+	make -sC $(CLIENT_DIR) clean
 
-uninstall:
-	rm -f $(TARGET)
-	make -C $(LIB_DIR) uninstall
+uninstall: clean
+	make -sC $(LIBMX_DIR) uninstall
+	make -sC $(LIB_JSON_DIR) clean
+	make -sC $(LIB_SQLITE_DIR) uninstall
+	make -sC $(LIB_BCRYPT_DIR) clean
+	make -sC $(SERVER_DIR) uninstall
+	make -sC $(CLIENT_DIR) uninstall
 
-reinstall: clean uninstall
-	make -C $(LIB_DIR) reinstall
-	make all
+reinstall: uninstall all

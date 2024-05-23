@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+    <object class="GtkBox" id="login-page">
+        <property name="hexpand">true</property>
+        <property name="vexpand">true</property>
+        <property name="visible">true</property>
+        <property name="name">login-page</property>
+        <child>
+            <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">20</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <child>
+                    <object class="GtkRevealer" id="login-revealer">
+                        <property name="transition-type">slide-left</property>
+                        <property name="reveal-child">true</property>
+                        <child>
+                            <object class="GtkBox">
+                                <property name="orientation">horizontal</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                                <property name="spacing">20</property>
+                                <property name="height-request">420</property>
+                                <property name="width-request">300</property>
+                                <style>
+                                    <class name="form-wrapper"/>
+                                </style>
+                                <child>
+                                    <object class="GtkBox" id="login">
+                                        <property name="orientation">vertical</property>
+                                        <property name="hexpand">true</property>
+                                        <property name="vexpand">true</property>
+                                        <property name="spacing">10</property>
+                                        <property name="margin-top">20</property>
+                                        <property name="margin-bottom">20</property>
+                                        <property name="margin-start">40</property>
+                                        <property name="margin-end">40</property>
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="orientation">vertical</property>
+                                                <property name="spacing">10</property>
+                                                <property name="vexpand">true</property>
+                                                <property name="hexpand">true</property>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="label">Welcome to MonkeyChat!</property>
+                                                        <property name="halign">center</property>
+                                                        <style>
+                                                            <class name="title-login-and-register"/>
+                                                        </style>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkSeparator">
+                                                        <property name="orientation">horizontal</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkEntry" id="login-username">
+                                                        <property name="placeholder-text">Enter your login</property>
+                                                        <property name="max-length">32</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkPasswordEntry" id="login-password">
+                                                        <property name="placeholder-text">Enter your password</property>
+                                                        <property name="show-peek-icon">true</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkRevealer" id="login-error-revealer">
+                                                        <property name="transition-type">slide-down</property>
+                                                        <child>
+                                                            <object class="GtkBox">
+                                                                <child>
+                                                                    <object class="GtkLabel">
+                                                                        <property name="label">Wrong username or password!</property>
+                                                                        <property name="halign">start</property>
+                                                                        <style>
+                                                                            <class name="error-label"/>
+                                                                        </style>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkButton">
+                                                        <property name="label">Login</property>
+                                                        <property name="name">login</property>
+                                                        <signal name="clicked" handler="login_button_click_cb"/>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="orientation">vertical</property>
+                                                <property name="spacing">10</property>
+                                                <property name="hexpand">true</property>
+                                                <property name="valign">end</property>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="label">Don't have an account?</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkButton">
+                                                        <property name="label">Sign up</property>
+                                                        <property name="name">signup</property>
+                                                        <signal name="clicked" handler="switch_form_button_click_cb"/>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkBox" id="welcome-slide">
+                        <property name="orientation">vertical</property>
+                        <property name="height-request">420</property>
+                        <property name="width-request">620</property>
+                        <property name="name">welcome-slide</property>
+                        <child>
+                            <object class="GtkLabel">
+                                <!-- <property name="label">MonkeyChat!</property> -->
+                                <property name="halign">start</property>
+                                <property name="margin-top">20</property>
+                                <property name="margin-start">10</property>
+                                <style>
+                                    <class name="description-label"/>
+                                </style>
+                            </object>
+                        </child>
+                        <!-- <child>
+                            <object class="GtkTextView">
+                                <property name="buffer">buffer</property>
+                                <property name="editable">false</property>
+                                <property name="hexpand">true</property>
+                                <property name="margin-top">20</property>
+                                <property name="margin-bottom">20</property>
+                                <property name="margin-start">10</property>
+                                <property name="margin-end">10</property>
+                                <property name="wrap-mode">word</property>
+                                <property name="cursor-visible">false</property>
+                                <style>
+                                    <class name="description"/>
+                                </style>
+                            </object>
+                        </child> -->
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkRevealer" id="register-revealer">
+                        <property name="transition-type">slide-left</property>
+                        <child>
+                            <object class="GtkBox">
+                                <property name="orientation">horizontal</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                                <property name="spacing">20</property>
+                                <property name="height-request">420</property>
+                                <property name="width-request">300</property>
+                                <style>
+                                    <class name="form-wrapper"/>
+                                </style>
+                                <child>
+                                    <object class="GtkBox" id="register">
+                                        <property name="orientation">vertical</property>
+                                        <property name="hexpand">true</property>
+                                        <property name="vexpand">true</property>
+                                        <property name="spacing">10</property>
+                                        <property name="margin-top">20</property>
+                                        <property name="margin-bottom">20</property>
+                                        <property name="margin-start">40</property>
+                                        <property name="margin-end">40</property>
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="orientation">vertical</property>
+                                                <property name="spacing">10</property>
+                                                <property name="vexpand">true</property>
+                                                <property name="hexpand">true</property>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="label">MonkeyChat!</property>
+                                                        <style>
+                                                            <class name="title-login-and-register"/>
+                                                        </style>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkSeparator">
+                                                        <property name="orientation">horizontal</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkEntry" id="register-username">
+                                                        <property name="placeholder-text">Username</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkRevealer" id="username-is-taken-revealer">
+                                                        <property name="transition-type">slide-down</property>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="label">Username is already taken!</property>
+                                                                <property name="halign">start</property>
+                                                                <style>
+                                                                    <class name="error-label"/>
+                                                                </style>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkEntry" id="register-name">
+                                                        <property name="placeholder-text">Name</property>
+                                                        <property name="margin-bottom">10</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkPasswordEntry" id="register-password">
+                                                        <property name="placeholder-text">Password</property>
+                                                        <signal name="changed" handler="password_entry_changed_cb"/>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkRevealer" id="password-reqs-revealer">
+                                                        <property name="transition-type">slide-down</property>
+                                                        <child>
+                                                            <object class="GtkBox" id="password-requirements">
+                                                                <property name="orientation">vertical</property>
+                                                                <child>
+                                                                    <object class="GtkLabel" id="password-length">
+                                                                        <property name="label">✔ Contains at least 8 characters</property>
+                                                                        <property name="halign">start</property>
+                                                                    </object>
+                                                                </child>
+                                                                <child>
+                                                                    <object class="GtkLabel" id="password-digit">
+                                                                        <property name="label">✔ Contains a digit</property>
+                                                                        <property name="halign">start</property>
+                                                                    </object>
+                                                                </child>
+                                                                <child>
+                                                                    <object class="GtkLabel" id="password-lower">
+                                                                        <property name="label">✔ Contains a lowercase letter</property>
+                                                                        <property name="halign">start</property>
+                                                                    </object>
+                                                                </child>
+                                                                <child>
+                                                                    <object class="GtkLabel" id="password-upper">
+                                                                        <property name="label">✔ Contains an uppercase letter</property>
+                                                                        <property name="halign">start</property>
+                                                                    </object>
+                                                                </child>
+                                                                <child>
+                                                                    <object class="GtkLabel" id="password-special">
+                                                                        <property name="label">✔ Contains a special symbol</property>
+                                                                        <property name="halign">start</property>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkPasswordEntry" id="register-password-confirm">
+                                                        <property name="placeholder-text">Confirm password</property>
+                                                        <property name="show-peek-icon">true</property>
+                                                        <signal name="changed" handler="password_confirm_entry_changed_cb"/>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkRevealer" id="password-unmatch-revealer">
+                                                        <property name="transition-type">slide-down</property>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="label">Passwords must match!</property>
+                                                                <property name="halign">start</property>
+                                                                <style>
+                                                                    <class name="error-label"/>
+                                                                </style>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkButton">
+                                                        <property name="label">Register</property>
+                                                        <property name="name">login</property>
+                                                        <signal name="clicked" handler="register_button_click_cb"/>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="orientation">vertical</property>
+                                                <property name="spacing">10</property>
+                                                <property name="hexpand">true</property>
+                                                <property name="valign">end</property>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="label">Already have an account?</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkButton">
+                                                        <property name="label">Sign in</property>
+                                                        <property name="name">signup</property>
+                                                        <signal name="clicked" handler="switch_form_button_click_cb"/>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child> 
+    </object>
+    <!-- <object class="GtkTextBuffer" id="buffer">
+        <property name="text">Lorem ipsum</property>
+    </object> -->
+</interface>

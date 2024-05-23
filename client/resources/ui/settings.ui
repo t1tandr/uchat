@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+        <object class ="GtkScrolledWindow" id="settings">
+            <property name="vexpand">true</property>
+            <property name="height-request">675</property>
+            <property name="width-request">870</property>
+            <child>
+                <object class="GtkBox" id="settings-box">
+                    <property name="orientation">vertical</property>
+                    <property name="hexpand">true</property>
+                    <property name="name">settings-menu</property>   
+                    <child>
+                    <object class="GtkFixed">
+                        <child>
+                            <object class="GtkBox" id="box_for_image_in_settings">
+                                <property name="height-request">100</property>
+                                <property name="margin-start">30</property>
+                                <property name="margin-top">75</property>
+                                <property name="width-request">100</property>
+                                <property name="name">box_for_image</property>
+                                <property name="overflow">hidden</property>
+                                <child>
+                                    <object class="UchatAvatarBox" id="settings-avatar">
+                                        <property name="width-request">136</property>
+                                        <property name="height-request">136</property>
+                                        <property name="size">136</property>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="margin-start">30</property>
+                                <property name="height-request">75</property>
+                                <property name="width-request">230</property>
+                                <property name="label">Settings</property>
+                                <property name="name">settings_name_in_set_menu</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkButton">
+                                <property name="height-request">10</property>
+                                <property name="label">Change color</property>
+                                <property name="margin-start">190</property>
+                                <property name="margin-top">98</property>
+                                <property name="width-request">130</property>
+                                <property name="name">Change</property>
+                                <!-- <signal name="clicked" handler="open_color_chooser"/> -->
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkButton">
+                                <property name="height-request">10</property>
+                                <property name="label">Change avatar</property>
+                                <property name="margin-start">190</property>
+                                <property name="margin-top">151</property>
+                                <property name="width-request">130</property>
+                                <property name="name">Change</property>
+                                <signal name="clicked" handler="open_file_chooser"/>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkButton">
+                                <property name="height-request">50</property>
+                                <property name="label">Back</property>
+                                <property name="margin-start">50</property>
+                                <property name="margin-top">825</property>
+                                <property name="width-request">120</property>
+                                <property name="name">button_in_setting</property>
+                                <signal name="clicked" handler="return_from_settings_button_click_cb"/>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="height-request">50</property>
+                                <property name="margin-start">30</property>
+                                <property name="margin-top">225</property>
+                                <property name="width-request">120</property>
+                                <property name="label">Username:</property>
+                                <property name="name">names_in_setting</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkEntry" id = "settings-get-username">
+                                <property name="margin-start">50</property>
+                                <property name="margin-top">275</property>
+                                <property name="width-request">300</property>
+                                <property name="name">entry_in_setting</property>
+                                <property name="max-length">32</property>
+                                <attributes>
+                                    <attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
+                                </attributes>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkRevealer" id="username-is-taken-revealer-in-settings">
+                                <property name="transition-type">slide-down</property>
+                                <property name="margin-start">50</property>
+                                <property name="margin-top">315</property>
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="label">Username is already taken!</property>
+                                        <property name="halign">start</property>
+                                        <style>
+                                            <class name="error-label"/>
+                                        </style>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="height-request">50</property>
+                                <property name="margin-start">20</property>
+                                <property name="margin-top">325</property>
+                                <property name="width-request">120</property>
+                                <property name="label">Name:</property>
+                                <property name="name">names_in_setting</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkEntry" id = "settings-get-name">
+                                <property name="margin-start">50</property>
+                                <property name="margin-top">375</property>
+                                <property name="width-request">300</property>
+                                <property name="name">entry_in_setting</property>
+                                <property name="max-length">32</property>
+                                <attributes>
+                                    <attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
+                                </attributes>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="height-request">50</property>
+                                <property name="margin-start">30</property>
+                                <property name="margin-top">425</property>
+                                <property name="width-request">120</property>
+                                <property name="label">Biography:</property>
+                                <property name="name">names_in_setting</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class ="GtkScrolledWindow">
+                                <property name="vexpand">true</property>
+                                <property name="height-request">150</property>
+                                <property name="margin-start">50</property>
+                                <property name="margin-top">475</property>
+                                <property name="width-request">300</property>
+                                <child>
+                                    <object class="GtkTextView" id ="settings-get-biography">
+                                        <property name="name">entry_for_biography</property>
+                                        <property name="wrap-mode">3</property>
+                                        <property name="top-margin">5</property>
+                                        <property name="right-margin">5</property>
+                                        <property name="left-margin">10</property>
+                                        <property name="bottom-margin">10</property>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="label">Password:</property>
+                                <property name="height-request">50</property>
+                                <property name="margin-start">30</property>
+                                <property name="margin-top">625</property>
+                                <property name="width-request">120</property>
+                                <property name="name">names_in_setting</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkPasswordEntry" id="settings-get-password">
+                                <property name="placeholder-text">New password...</property>
+                                <property name="margin-start">50</property>
+                                <property name="margin-top">675</property>
+                                <property name="name">entry_in_setting</property>
+                                <property name="width-request">300</property>
+
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkPasswordEntry" id="settings-get-password-confrim">
+                                <property name="placeholder-text">Repeat new password...</property>
+                                <property name="show-peek-icon">true</property>
+                                <property name="margin-start">50</property>
+                                <property name="margin-top">750</property>
+                                <property name="width-request">300</property>
+                                <property name="name">entry_in_setting</property>
+                                <signal name="changed" handler="password_confirm_entry_changed_in_settings_cb"/>
+                            </object>
+                        </child>
+                         <child>
+                            <object class="GtkRevealer" id="password-unmatch-revealer-in-settings">
+                                <property name="transition-type">slide-down</property>
+                                <property name="margin-start">50</property>
+                                <property name="margin-top">790</property>
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="label">Passwords must match!</property>
+                                        <property name="halign">start</property>
+                                        <style>
+                                            <class name="error-label"/>
+                                        </style>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkButton">
+                                <property name="height-request">50</property>
+                                <property name="label">Save</property>
+                                <property name="margin-start">200</property>
+                                <property name="margin-top">825</property>
+                                <property name="width-request">150</property>
+                                <property name="name">button_in_setting</property>
+                                <signal name="clicked" handler="save_button_click_cb"/>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkBox">
+                                <property name="height-request">25</property>
+                                <property name="margin-top">870</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </object>
+</interface>

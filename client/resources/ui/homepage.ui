@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+        <object class="GtkBox" id="homepage">
+        <property name="name">homepage</property>
+        <property name="orientation">horizontal</property>
+        <child>
+            <object class="GtkOverlay">   
+                <child>
+                    <object class="GtkBox" id="sidebar">
+                        <property name="orientation">vertical</property>
+                        <property name="width-request">330</property>
+                        <property name="vexpand">true</property>
+                        <property name="hexpand">true</property>
+                        <child>
+                            <object class="GtkBox" id="header">
+                                <property name="orientation">horizontal</property>
+                                <property name="spacing">10</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="margin-start">10</property>
+                                <property name="margin-end">10</property>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon-name">go-home</property>
+                                        <signal name="clicked" handler="menu_button_click_cb"/>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkSearchEntry" id="chat-search">
+                                        <property name="hexpand">true</property>
+                                        <signal name="search-changed" handler="chat_search_entry_changed_cb"/>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon-name">contact-new</property>
+                                        <signal name="clicked" handler="chat_new_button_click_cb"/>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkScrolledWindow">
+                                <property name="vexpand">true</property>
+                                <property name="hscrollbar-policy">never</property>
+                                <child>
+                                    <object class="GtkListBox" id="chat-list">
+                                        <property name="show-separators">true</property>
+                                        <signal name="realize" handler="chat_list_realize_cb"/>
+                                        <signal name="row-selected" handler="chat_list_row_selected_cb"/>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child type="overlay">
+                    <object class="GtkBox" id="sidebar-box">
+                        <property name="halign">start</property>
+                        <property name="valign">start</property>
+                        <property name="width-request">330</property>
+                        <property name="height-request">675</property>
+                        <property name="visible">false</property>
+                        <property name="name">revealer</property>
+                        <child>
+                            <object class="GtkCenterBox">
+                                <property name="orientation">vertical</property>
+                                <property name="margin-top">20</property>
+                                <property name="margin-bottom">20</property>
+                                <property name="margin-start">20</property>
+                                <property name="margin-end">20</property>
+                                <property name="hexpand">true</property>
+                                <child type="start">
+                                    <object class="GtkBox">
+                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">10</property>
+                                        <child>
+                                            <object class="GtkCenterBox">
+                                                <child type="start">
+                                                    <object class="GtkLabel">
+                                                        <property name="label">Profile</property>
+                                                        <property name="valign">center</property>
+                                                    </object>
+                                                </child>
+                                                <child type="end">
+                                                    <object class="GtkButton">
+                                                        <style>
+                                                            <class name="side-bar-btn"/>
+                                                        </style>
+                                                        <property name="icon-name">go-previous</property>
+                                                        <signal name="clicked" handler="menu_back_button_click_cb"/>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkSeparator">
+                                                <property name="orientation">horizontal</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="orientation">horizontal</property>
+                                                <property name="hexpand">false</property>
+                                                <property name="margin-top">20</property>
+                                                <property name="margin-start">90</property>
+                                                <child>
+                                                    <object class="UchatAvatarBox" id="sidebar-avatar">
+                                                        <property name="width-request">100</property>
+                                                        <property name="height-request">100</property>
+                                                        <property name="size">100</property>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkButton">
+                                                <property name="label">Settings</property>
+                                                <property name="margin-top">5</property>
+                                                <style>
+                                                    <class name="side-bar-btn"/>
+                                                </style>
+                                                <signal name="clicked" handler="settings_button_click_cb"/>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkButton">
+                                                <property name="label">Sign out</property>
+                                                <property name="margin-top">5</property>
+                                                <style>
+                                                    <class name="side-bar-btn"/>
+                                                </style>
+                                                <signal name="clicked" handler="logout_button_click_cb"/>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                                <child type="end">
+                                    <object class="GtkLabel">
+                                        <property name="label">MonkeyChat! © 2024 Ogurci Team</property>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child> 
+            </object>
+        </child>
+        <child>
+            <object class="GtkNotebook" id="message-container">
+                <property name="show-tabs">false</property>
+                <child>
+                    <object class="GtkFixed" id="start-messaging">
+                        <property name="width-request">870</property>
+                        <property name="height-request">675</property>
+                        <property name="vexpand">true</property>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="margin-top">370</property>
+                                <property name="margin-start">205</property>
+                                <property name="label">Select chat to start</property>
+                                <property name="name">start-label</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="margin-top">395</property>
+                                <property name="margin-start">495</property>
+                                <property name="label">messaging!</property>
+                                <property name="name">start-label</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkPicture">
+                                <property name="margin-top">7</property>
+                                <property name="margin-start">255</property>
+                                <property name="height-request">480</property>
+                                <property name="width-request">480</property>
+                                <property name="paintable">../img/monkey.png</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </object>
+</interface>

@@ -6,5 +6,13 @@
 !Makefile
 !README.md
 !.gitignore
-!*.xml
+!*.ui
 !*.css
+!*.png
+!*.jpg
+!*.theme
+!*.xml
+!LICENSE
+!*.S
+
+server/*.png

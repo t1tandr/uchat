@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <template class="UchatChatBox" parent="GtkWidget">
+        <signal name="realize" handler="chat_box_realize_cb"/>
+        <child>
+            <object class="GtkBox">
+                <property name="margin-start">10</property>
+                <property name="margin-bottom">10</property>
+                <property name="margin-top">10</property>
+                <property name="margin-end">20</property>
+                <child>
+                    <object class="GtkCenterBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="height-request">80</property>
+                        <property name="hexpand">true</property>
+                        <child type="start">
+                            <object class="GtkFixed">
+                                <property name="hexpand">true</property>
+                                <child>
+                                    <object class="UchatAvatarBox">
+                                        <property name="width-request">70</property>
+                                        <property name="height-request">70</property>
+                                        <property name="size">70</property>
+                                        <property name="margin-top">5</property>
+                                        <style>
+                                            <class name="avatar"/>
+                                        </style>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkCenterBox">
+                                        <property name="orientation">vertical</property>
+                                        <property name="margin-top">5</property>
+                                        <property name="margin-start">80</property>
+                                        <property name="width-request">100</property>
+                                        <property name="height-request">80</property>
+                                        <child type="start">
+                                            <object class="GtkLabel" id="name">
+                                                <property name="name">uchat-box-name</property>
+                                                <property name="halign">start</property>
+                                                <property name="max-width-chars">15</property>
+                                                <property name="label">name</property>
+                                            </object>
+                                        </child>
+                                        <child type="end">
+                                            <object class="GtkLabel" id="message">
+                                                <property name="name">uchat-box-last-message</property>
+                                                <property name="halign">start</property>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child type="end">
+                            <object class="GtkCenterBox">
+
+                                <property name="orientation">vertical</property>
+                                <!-- <child type="start">
+                                    <object class="GtkButton" id="delete">
+                                        <property name="label">×</property>
+                                        <property name="name">chat-delete-button</property>
+                                        <property name="visibility">false</property>
+                                    </object>
+                                </child> -->
+                                <child type="end">
+                                    <object class="GtkLabel" id="time">
+                                        <property name="label">time</property>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>

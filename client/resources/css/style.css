@@ -1,0 +1,218 @@
+@import url("colors.css");
+
+#after-register-window{
+    background-image: url(../img/gorilla.jpg);
+    background-size: contain;
+    background-position: center;
+    border-radius: 20px;
+}
+
+#signup {
+    background-color: @purple-button-bg;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.title-login-and-register{
+    font-size: 20px;
+}
+
+#welcome-slide{
+    background-image: url(../img/welcome_slide.png);
+    background-size: contain;
+    background-position: center;
+}
+
+.title-login-and-register{
+    font-size: 20px;
+}
+
+#login-page {
+    background-color: rgb(133, 3, 165);
+    background-size: contain;
+    background-position: center;
+}
+
+#login {
+    background-color: @purple-button-bg;
+    border-radius: 3px;
+    color: #fff;
+}
+
+#signup:hover {
+    color: #fff;
+    background-color: @purple-button-bg-hover;
+    color: #fff;
+}
+
+#login:hover {
+    color: #fff;
+    background-color: @purple-button-bg-hover;
+}
+
+.form-wrapper {
+    color: #000;
+    background-color: rgba(190, 190, 190, .9);
+    border-radius: 3px;
+    border: 1px solid rgba(50, 51, 53, 0.3);
+    box-shadow: 5px 5px 5px black;
+}
+
+.form-wrapper entry {
+    border-radius: 3px;
+}
+
+entry {
+    background-color: rgb(206, 210, 214);
+    border: 1px solid @purple-button-bg;
+    color: black;
+}
+
+.error-label {
+    color: red;
+}
+
+#revealer {
+    background-color: @bg-color;
+    color: white;
+    animation: reveal 0.5s forwards;
+}
+
+#homepage{
+    background-color: rgb(45, 30, 64);
+}
+#menu-options{
+    background-color: @bg-color;
+}
+
+.avatar {
+    background-color: #fff;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+}
+
+.side-bar-btn{
+    background-color: @purple-button-bg;
+    color: white;
+}
+
+.side-bar-btn:hover{
+    background-color: @purple-button-bg-hover;
+}
+
+#name {
+    background-color:rgb(70, 68, 68);
+}
+
+.message {
+    background-color: rgb(74, 75, 74);
+    border-radius: 5px;
+}
+
+.description {
+    font-size: 20px;
+}
+
+.description-label {
+    font-size: 32px;
+}
+
+.add-photo-button {
+    background-color: steelblue;
+    color: black;
+    border-radius: 50%;
+}
+
+#entry_for_biography{
+    background-color: rgb(206, 210, 214);
+    border: 1px solid @purple-button-bg;
+    color: black;
+    border-radius: 5px;
+}
+
+/* UchatBox */
+#uchat-box-bg{
+    background-color: rgb(206, 210, 214);
+    border: 1px solid @purple-button-bg;
+    color: @bg-color;
+    border-radius: 5px;
+}
+
+#uchat-box-bg:hover{
+    background-color: rgb(190, 194, 199);
+    border: 1px solid @purple-button-bg;
+}
+
+#uchat-box-name {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+#uchat-box-button{
+    background-color: @purple-button-bg;
+}
+
+#uchat-box-last-message{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* MessageBox */
+
+#message-box-header{
+    background-color: rgb(206, 210, 214);
+    color: @bg-color;
+}
+
+#message-box-name{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#message-box-numbers{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.userbox-chat-name{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.userbox-chat-description{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#userbox-chat-member-name{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.image_message{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#after-save-window{
+    background-color: rgb(74, 75, 74);
+    border-radius: 5px;
+}
+
+.round .image-button {
+    border-radius: 50%;
+}
+
+#message-view.view {
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 1);
+    color: black;
+}
+
+#chat-delete-button {
+    border-radius: 50%;
+}
+
+#start-label {
+    font-size: 32px;
+}
